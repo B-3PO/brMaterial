@@ -1,3 +1,7 @@
+/**
+ * @ngdoc module
+ * @name sideContent
+ */
 angular
   .module('brMaterial')
   .directive('brSideContent', brSideContentDirective);
@@ -5,28 +9,34 @@ angular
 
 
 /**
+  * @ngdoc directive
   * @name brSideContent
-  * @module brSideContent
+  * @module sideContent
   *
   *
   * @description
-  * <br-side-content> is a side panel that will auto hide on touch devices and when the screen is too smalle.
-  * you can call it to open using the service
+  * `<br-side-content>` is a side panel that will auto hide on mobile devices and when the screen is too small.
+  * You can open it using the `$brContentService`
   *
-  * @param {number} [br-width] - the widthed used when open and there is enough screen space
-	* @param {string} [br-component-id] - the name used when calling the content from $brSideContent service
-	* @param {boolean} [br-is-locked-open] - tells the side content to stay open or not. you can use $brMedia service to control this for mobile devices
-  * @param {CSS} [br-side-content-right] - tells the side content stick to the right side
-  * @param {CSS} [br-side-content-left] - tells the side content stick to the left side
-  * @param {CSS} [br-border-right] - shows border on right
-  * @param {CSS} [br-border-left] - shows border on left
+  * @param {number=} br-width - The width used when open and there is enough screen space
+	* @param {string=} br-component-id - The name used when calling the content from `$brSideContent` service
+	* @param {boolean=} br-is-locked-open - Tells the side content to stay open or not. you can use `$brMedia` service to control this for mobile devices
   *
-  * @example
-  * <br-side-content class="br-side-content-right br-border-left" br-is-locked-open="$brMedia('md')" br-component-id="menuConfigSideContent" br-width="400">
+  * @usage
+  * ### Class Names
+  * - br-side-content-right - tells the side content stick to the right side
+  * - br-side-content-left - tells the side content stick to the left side
+  * - br-border-right - shows border on right
+  * - br-border-left - shows border on left
   *
+  * <hljs lang="html">
+  *   <br-side-content class="br-side-content-right br-border-left" br-is-locked-open="$brMedia('md')" br-component-id="sideContentId" br-width="400">
+  *     // content does here
+  *    </br-side-content>
+  * </hljs>
   */
-brSideContentDirective.$inject = ['$brTheme', '$q', '$parse', '$window','$brMedia'];
-function brSideContentDirective($brTheme, $q, $parse, $window, $brMedia) {
+brSideContentDirective.$inject = ['$brTheme', '$q', '$parse', '$window', '$brMedia', '$animate', '$document', '$brUtil', '$brConstant'];
+function brSideContentDirective($brTheme, $q, $parse, $window, $brMedia, $animate, $document, $brUtil, $brConstant) {
   var directive = {
     restrict: 'E',
     scope: {
@@ -59,15 +69,16 @@ function brSideContentDirective($brTheme, $q, $parse, $window, $brMedia) {
 
 
       if(brWidth === true) {
+        brWidth = attrs.brWidth.replace('px', '');
         angular.element($window).bind('resize', resize);
         scope.$on('$destroy', function () {
           angular.element($window).off('resize', resize);
         });
 
-        if(attrs.brWidth < ($window.innerWidth - 23)) {
-          element.css('width', attrs.brWidth + 'px');
-          element.css('min-width', attrs.brWidth + 'px');
-          element.css('max-width', attrs.brWidth + 'px');
+        if(brWidth < ($window.innerWidth - 23)) {
+          element.css('width', brWidth + 'px');
+          element.css('min-width', brWidth + 'px');
+          element.css('max-width', brWidth + 'px');
         }
       }
 
@@ -78,6 +89,7 @@ function brSideContentDirective($brTheme, $q, $parse, $window, $brMedia) {
       };
 
 
+      scope.disableLockedOpen = false;
       scope.$watch(isLocked, updateIsLocked);
       scope.$watch('isOpen', updateIsOpen);
       element.on('$destroy', sideContentCtrl.destroy);
@@ -87,17 +99,23 @@ function brSideContentDirective($brTheme, $q, $parse, $window, $brMedia) {
 
 
       function resize () {
-        if (attrs.brWidth >= ($window.innerWidth - 24)) {
+        if (brWidth >= ($window.innerWidth - 24)) {
           element.attr('style', '');
         } else {
-          element.css('width', attrs.brWidth + 'px');
-          element.css('min-width', attrs.brWidth + 'px');
-          element.css('max-width', attrs.brWidth + 'px');
+          element.css('width', brWidth + 'px');
+          element.css('min-width', brWidth + 'px');
+          element.css('max-width', brWidth + 'px');
         }
       }
 
 
-      function updateIsLocked(isLocked, oldValue){
+      function updateIsLocked(isLocked){
+        if (scope.disableLockedOpen === true) {
+          scope.isLockedOpen = false;
+          element.removeClass('br-locked-open');
+          return;
+        }
+
         scope.isLockedOpen = isLocked;
         element.toggleClass('br-locked-open', !isLocked);
       }
@@ -209,11 +227,13 @@ function brSideContentDirective($brTheme, $q, $parse, $window, $brMedia) {
 
     vm.isOpen = function () { return !!$scope.isOpen; };
     vm.isLockedOpen = function () { return !!$scope.isLockedOpen; };
+    vm.hide = function () { $element.addClass('br-side-content-hide'); };
+    vm.show = function () { $element.removeClass('br-side-content-hide'); };
     vm.open = function () { return vm.$toggleOpen(true); };
     vm.close = function () { return vm.$toggleOpen( false ); };
     vm.toggle = function () { return vm.$toggleOpen( !$scope.isOpen ); };
     vm.$toggleOpen = function(value) { return $q.when($scope.isOpen = value); };
-    vm.addBackdrop = function (clickCallback) { $brBackdrop.addBackdrop($element, $scope, clickCallback); };
+    vm.addBackdrop = function (clickCallback) { $brBackdrop.add($element, $scope, clickCallback); };
     vm.removeBackdrop = function () { $brBackdrop.remove(); };
 
     vm.focusElement = function (el) {

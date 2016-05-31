@@ -7,26 +7,29 @@ var MAX_ELEMENT_SIZE = 1533917;
 
 
 /**
+ * @ngdoc directive
  * @name brInfiniteRepeatContainer
- * @module brInfiniteRepeatContainer
+ * @module infinteRepeat
  *
+ * @param {number=} br-min-width - Set the minimum width of the inner element, this will allow horizontal scrolling
  *
  * @description
- * <br-infiinite-repeat-container> This is the wrapping element needed for [br-ifinite-repeat]
+ * `<br-infiinite-repeat-container>` is the wrapping element needed for `[br-ifinite-repeat]`
  *
- *
- * @example
+ * @usage
+ * <hljs lang="html">
  * <br-infinite-repeat-container>
  * 	<div br-inifinte-repeat="item in list">
  * 		{{item.name}}
  * 	</div>
  * </br-infinite-repeat-container>
+ * </hljs>
  */
 function brInfiniteRepeatContainer() {
   var directive = {
     template: getTemplate,
     compile: compile,
-    controller: ['$scope', '$element', '$attrs', '$$rAF', '$parse', '$window', controller]
+    controller: ['$scope', '$element', '$attrs', '$parse', '$$rAF', '$window', '$brUtil', controller]
   };
   return directive;
 
@@ -49,7 +52,7 @@ function brInfiniteRepeatContainer() {
 
 
 
-  function controller($scope, $element, $attrs, $$rAF, $parse, $window) {
+  function controller($scope, $element, $attrs, $parse, $$rAF, $window, $brUtil) {
     /* jshint validthis: true */
     var vm = this;
 
@@ -64,6 +67,11 @@ function brInfiniteRepeatContainer() {
     var scroller = $element[0].querySelector('.br-infinite-repeat-scroller');
     var offsetter = scroller.querySelector('.br-infinite-repeat-offsetter');
     var sizer = scroller.querySelector('.br-infinite-repeat-sizer');
+    var isCardChild = $brUtil.getClosest($element, 'br-expanded-content') !== null;
+
+    var isHeight = $element.css('height') || undefined;
+    var isAutoHeight = $attrs.brAutoHeight !== undefined;
+    var updateAutoHeightThrottle = $$rAF.throttle(updateAutoHeight);
 
 
     vm.getSize = getSize;
@@ -73,7 +81,7 @@ function brInfiniteRepeatContainer() {
     vm.resetScroll = resetScroll;
     vm.setScrollTop = setScrollTop;
     vm.setTransform = setTransform;
-
+    vm.updateAutoHeight = checkAutoHeight;
 
 
     if ($attrs.brMinWidth !== undefined) {
@@ -92,6 +100,31 @@ function brInfiniteRepeatContainer() {
     $scope.$watch(function () { return $element.css('height'); }, function (data) {
       updateSize();
     });
+
+
+
+    if (isHeight === undefined && $attrs.brAutoHeight !== undefined) {
+      updateAutoHeightThrottle();
+
+      $scope.$watch(function () { return $element[0].offsetHeight; }, function (data){
+        updateAutoHeightThrottle();
+      });
+    }
+
+    function updateAutoHeight() {
+      var rect = $element[0].getBoundingClientRect();
+      var innerHeight = $window.innerHeight;
+      if (isCardChild === true) {
+        innerHeight -= 30;
+      }
+      $element.css('height', (innerHeight - rect.top) + 'px');
+    }
+
+    function checkAutoHeight() {
+      if (isAutoHeight) {
+        updateAutoHeightThrottle();
+      }
+    }
 
 
 
@@ -133,6 +166,9 @@ function brInfiniteRepeatContainer() {
     // --- Private ----
 
     function updateSize() {
+      if (isAutoHeight === true) {
+        updateAutoHeightThrottle();
+      }
       size = $element[0].clientHeight;
       if (typeof updateRepeat === 'function') { updateRepeat(); }
     }

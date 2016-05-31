@@ -1,0 +1,48 @@
+<div ng-controller="AppCtrl" ng-cloak>
+  <section>
+    <div class="section-label">Row Selection (max 2)</div>
+
+    <div style="padding: 18px">
+      <br-checkbox ng-model="toggleSelect">Toggle Select</br-checkbox>
+    </div>
+
+    <br-list ng-model="selected" br-toggle-select="toggleSelect" br-max-selection="2">
+      <br-item br-select="item" br-row-select ng-repeat="item in list">
+        <br-item-content>
+          <div flex class="br-item-title">{{item.name}}</div>
+          <div layout="row" layout-fill class="br-item-sub-title">
+            <div style="padding-right: 20px;"><b>Email:</b> {{item.email}}</div>
+            <div><b>Phone:</b> {{item.phone}}</div>
+          </div>
+        </br-item-content>
+      </br-item>
+    </br-list>
+
+    <div style="padding: 18px">
+      <h5>Selected Names</h5>
+      <div ng-repeat="select in selected" style="font-size: 13px;">{{select.name}}</div>
+    </div>
+  </section>
+
+
+  <section>
+    <div class="section-label">Checkbox Select only (no max)</div>
+
+    <br-list ng-model="selected2">
+      <br-item br-select="item" ng-repeat="item in list">
+        <br-item-content>
+          <div flex class="br-item-title">{{item.name}}</div>
+          <div layout="row" layout-fill class="br-item-sub-title">
+            <div style="padding-right: 20px;"><b>Email:</b> {{item.email}}</div>
+            <div><b>Phone:</b> {{item.phone}}</div>
+          </div>
+        </br-item-content>
+      </br-item>
+    </br-list>
+
+    <div style="padding: 18px">
+      <h5>Selected Names</h5>
+      <div ng-repeat="select in selected2" style="font-size: 13px;">{{select.name}}</div>
+    </div>
+  </section>
+</div>

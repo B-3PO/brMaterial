@@ -3,6 +3,7 @@ button.br-button::-moz-focus-inner {
 }
 
 .br-button {
+  backface-visibility: hidden;
   border-radius: 3px;
   box-sizing: border-box;
   color: currentColor;

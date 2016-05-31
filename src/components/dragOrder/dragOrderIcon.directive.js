@@ -4,21 +4,34 @@ angular
 
 
 /**
+ * @ngdoc directive
  * @name brDragIcon
- * @module brDragIcon
- *
- * @requires brDragOrder
- *
+ * @module dragOrder
  *
  * @description
- * The <br-drag-icon> is an element that goes in the repeated elemtn, that will instantly initiate drag reorder on click and hold
+ * The `<br-drag-icon>` is an element that goes in the repeated element, that will instantly initiate drag reorder on click and hold
  *
+ * @usage
+ * ### Controller
+ * <hljs lang="js">
+ * angular.controller('MyCtrl', function($scope) {
+ *   $scope.users = [
+ *     { ordinal: 1, name: 'Bob' },
+ *     { ordinal: 2, name: 'Alice' },
+ *     { ordinal: 3, name: 'Steve' }
+ *   ];
+ * });
+ * </hljs>
  *
- * @example
- * <div ng-repeat="item in list | orderBy:'item.ordinal'" br-drag-order="">
+ * ### HTML
+ * Append `<br-drag-icon>` to an element with `[br-drag-order]` to have a place to click
+ * that will instantaneously trigger the dragging
+ * <hljs lang="html">
+ *  <div ng-repeat="item in list | orderBy:'item.ordinal'" br-drag-order="">
  *    <br-drag-icon></br-drag-icon>
- * </div>
- *
+ *    {{item}}
+ *  </div>
+ * </hljs>
  */
 brDragIconDirective.$inject = ['$brGesture'];
 function brDragIconDirective($brGesture) {

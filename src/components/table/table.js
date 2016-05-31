@@ -66,7 +66,7 @@ function tableDirective($brUtil, $brTheme, $parse) {
 
   function postLink(scope, element, attrs, ctrls) {
     var tableController = ctrls[0];
-    var ngModelCtrl = ctrls[1];
+    var ngModelCtrl = ctrls[1] || $brUtil.fakeNgModel();
 
     var headElement = angular.element(element[0].querySelector('br-head'));
     var bodyElement = angular.element(element[0].querySelector('br-body'));
@@ -75,20 +75,24 @@ function tableDirective($brUtil, $brTheme, $parse) {
 
     tableController.init(ngModelCtrl, attrs.ngModel);
 
-    // set the header width
-    scope.$watch(function () {
-      return element[0].scrollWidth;
-    }, function (data) {
+    if (attrs.brWidth || attrs.width) {
+      // set the header width
+      scope.$watch(function () {
+        return element[0].scrollWidth;
+      }, function (data) {
 
-      // if scroll area exists
-      if (data <= element[0].offsetWidth) {
-        headElement.css('width', (element[0].offsetWidth - $brUtil.scrollbarWidth) + 'px');
-        bodyElement.css('width', (element[0].offsetWidth - $brUtil.scrollbarWidth) + 'px');
-      } else {
-        headElement.css('width', data + 'px');
-        bodyElement.css('width', data + 'px');
-      }
-    });
+        // if scroll area exists
+        if (data <= element[0].offsetWidth) {
+          headElement.css('width', (element[0].offsetWidth - $brUtil.scrollbarWidth) + 'px');
+          bodyElement.css('width', (element[0].offsetWidth - $brUtil.scrollbarWidth) + 'px');
+        } else {
+          headElement.css('width', data + 'px');
+          bodyElement.css('width', data + 'px');
+        }
+      });
+    } else {
+      headElement.css('width', '100%');
+    }
 
 
 
@@ -227,7 +231,7 @@ function tableDirective($brUtil, $brTheme, $parse) {
         };
       } else {
         delete ngModel.$validators['br-multiple'];
-        ngModel.$render = renderSingular;
+        // ngModel.$render = renderSingular;
       }
 
 
@@ -372,7 +376,10 @@ function thDirective($brUtil) {
     function sort(ev) {
       element.toggleClass('br-asc', asc);
       element.toggleClass('br-desc', !asc);
-      tableCtrl.setSort(sortBy, asc);
+
+      scope.$apply(function () {
+        tableCtrl.setSort(sortBy, asc);
+      });
       asc = !asc;
     }
   }

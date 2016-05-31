@@ -1,0 +1,513 @@
+<div layout="column" id="main-container">
+
+  <div class="top-bar">
+    <div class="top-bar-fix" layout="row">
+      <br-icon br-font-icon="dehaze" br-color="#EEE" ng-if="vm.hideNav" br-size="24" class="menu-icon" ng-class="vm.navOpen === true ? 'icon-nav-open' : ''" ng-click="vm.toggleNav();"></br-icon>
+      <br-icon br-font-icon="arrow_back" br-color="#EEE" ng-if="vm.hideNav" br-size="24" class="menu-icon-open" ng-class="vm.navOpen === true ? 'icon-nav-open' : ''" ng-click="vm.toggleNav();"></br-icon>
+      <img src='images/logo_bar.png' height="40px" />
+
+      <!-- spacer -->
+      <div flex></div>
+
+      <div class="top-link-container" ng-if="!vm.hideNav">
+        <span>Help</span>
+        <span>My Account</span>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <div flex layout="row">
+
+    <!-- example side bar nav menu -->
+    <div>
+      <br-side-content br-is-locked-open="vm.hideNav" class="br-side-content-left menu-container" br-component-id="navSideContent" br-width="220">
+        <div ng-if="vm.hideNav" class="nav-close">
+          <br-icon br-font-icon="close" br-color="#EEE" ng-if="vm.hideNav" br-size="28" ng-click="vm.toggleNav();"></br-icon>
+        </div>
+
+        <div ng-style="vm.pageHeight" class="nav-container">
+          <br-expander>
+            <br-expander-header>Title</br-expander-header>
+            <br-expander-content>
+              <br-button>test one</br-button>
+              <br-button>test two</br-button>
+            </br-expander-content>
+          </br-expander>
+
+          <div class="menu-fake">
+            <img src="images/side_bar.png" width="220" height="611" />
+          </div>
+
+          <div ng-if="vm.hideNav" class="condensed-links">
+            <div class="help">Help</div>
+            <div>My Account</div>
+          </div>
+        </div>
+      </br-side-content>
+    </div>
+
+
+
+
+
+
+
+
+    <!-- Content: 1 -->
+
+    <div flex class="page-container" ng-if="vm.example === '1'">
+      <h2>New Page Title</h2>
+      <h3>The Subtitle</h3>
+
+      <div layout="column" class="form-container">
+        <form name="theForm">
+
+          <div layout="row" layout-wrap>
+            <br-input flex>
+              <label>That Name</label>
+              <input name="thatname" ng-model="vm.thatName" placeholder="Enter Name" required br-x />
+              <div ng-messages="theForm.thatname.$error">
+                <div ng-message="required">This is Required</div>
+              </div>
+            </br-input>
+
+            <br-input flex>
+              <label>That Email</label>
+              <input type="email" name="thatemail" ng-model="vm.thatEmail" placeholder="Enter Email" required />
+              <div ng-messages="theForm.thatemail.$error">
+                <div ng-message="required">This is Required</div>
+                <div ng-message="email">Must be valid email</div>
+              </div>
+            </br-input>
+          </div>
+
+
+          <div layout="row" layout-wrap>
+            <br-input flex>
+              <label>Those Digits</label>
+              <input type="number" name="thatnumber" ng-model="vm.thatNumber" placeholder="Enter Phone" />
+              <div ng-messages="theForm.thatnumber.$error">
+                <div ng-message="number">Must be a number</div>
+              </div>
+            </br-input>
+
+            <!-- <br-input flex class="br-box">
+              <label>That Website</label>
+              <input ng-model="vm.thatWebsite" />
+            </br-input> -->
+
+            <br-select flex>
+              <label>Best State</label>
+              <br-select-menu ng-model="vm.advancedSelected" placeholder="Select...">
+              <!-- <br-option-group> -->
+                <br-option ng-value="item" ng-repeat="item in ['Texas', 'Pensylvania']">{{item}}</br-option>
+              <!-- </br-option-group> -->
+              </br-select-menu>
+            </br-select>
+          </div>
+
+
+          <div layout="row" layout-wrap>
+            <br-input flex>
+              <label>Yo b-date</label>
+              <input type="date" name="yobirthdate" ng-model="vm.yoBirthdate" placeholder="Enter Birthdate" required/>
+              <div ng-messages="theForm.yobirthdate.$error">
+                <div ng-message="required">This is Required</div>
+              </div>
+            </br-input>
+
+            <br-input flex>
+              <label>Not Password</label>
+              <input type="password" name="notpassword" ng-model="vm.notPassword" placeholder="test" ng-minlength="6" />
+              <div ng-messages="theForm.yobirthdate.$error">
+                <div ng-message="minlength">Minimum of 6 characters</div>
+              </div>
+            </br-input>
+          </div>
+
+
+        </form>
+      </div>
+
+
+
+      <div class="sticky-footer" ng-style="vm.fixedFooterStyle">
+        <div class="sticky-footer-container" layout="row">
+          <div flex></div>
+          <br-button class="br-raised">Cancel</br-button>
+          <br-button class="br-raised br-accent" ng-disabled="theForm.$invalid">Save Stuff</br-button>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+
+
+    <!-- Content: 2 -->
+
+    <div flex class="page-container" ng-if="vm.example === '2'">
+      <h2>Table Example</h2>
+
+      <div layout="row" class="filter-bar">
+        <br-icon br-font-icon="search" style="line-height: 53px; padding-left: 12px; "></br-icon>
+        <input flex type="search" ng-model="vm.tableFilter" placeholder="Search..." />
+
+        <br-button class="br-accent br-raised" ng-click="vm.addPerson($event);"><br-icon br-font-icon="add"></br-icon>Add Person</br-button>
+      </div>
+
+      <br-table>
+        <br-head>
+          <br-th br-sort-by="first">Name</br-th>
+          <br-th br-sort-by="phone">Phone</br-th>
+          <br-th br-sort-by="email" min-width="240px">Email</br-th>
+          <br-th br-sort-by="age">Age</br-th>
+        </br-head>
+
+        <br-body br-item="item" br-data="vm.tableData" br-filter="vm.tableFilter">
+          <br-tr>
+            <br-td>{{item.first + ' ' + item.last}}</br-td>
+
+            <br-td style="cursor: pointer;">
+              {{item.last}}
+            </br-td>
+
+            <br-td>{{item.email}}</br-td>
+            <br-td>{{item.age}}</br-td>
+          </br-tr>
+        </br-body>
+      </br-table>
+    </div>
+
+
+
+
+
+
+
+    <!-- Content: 3 -->
+
+    <div flex class="page-container" ng-if="vm.example === '3'">
+      <h2>List Inline Example</h2>
+
+      <div layout="row" class="filter-bar">
+        <br-icon br-font-icon="search" style="line-height: 53px; padding-left: 12px; "></br-icon>
+        <input flex type="search" ng-model="vm.tableFilter" placeholder="Search..." />
+        <br-button class="br-accent br-circle br-small" ng-click="vm.addPerson($event);" style="margin-right: 12px;"><br-icon br-font-icon="add"></br-icon></br-button>
+      </div>
+
+      <br-table>
+        <br-head>
+          <br-th br-sort-by="first">Name</br-th>
+          <br-th br-sort-by="phone">Phone</br-th>
+          <br-th br-sort-by="email" min-width="240px">Email</br-th>
+          <br-th br-sort-by="age">Age</br-th>
+          <br-th></br-th>
+        </br-head>
+
+        <br-body br-item="item" br-data="vm.tableData" br-filter="vm.tableFilter">
+          <br-tr ng-class="item.isEdit === true ? 'tr-highlight' : ''">
+            <br-td>
+              <div ng-if="!item.isEdit">{{item.first + ' ' + item.last}}</div>
+              <div ng-if="item.isEdit" layout="row" layout-wrap>
+                <input flex class="table-input" ng-model="item.first" />
+                <input flex class="table-input" ng-model="item.last" />
+              </div>
+            </br-td>
+            <br-td>
+              <div ng-if="!item.isEdit">{{item.phone}}</div>
+              <div ng-if="item.isEdit" layout="row" layout-wrap>
+                <input class="table-input" ng-model="item.phone" />
+              </div>
+            </br-td>
+            <br-td>
+              <div ng-if="!item.isEdit">{{item.email}}</div>
+              <div ng-if="item.isEdit" layout="row" layout-wrap>
+                <input class="table-input" ng-model="item.email" />
+              </div>
+            </br-td>
+            <br-td>
+              <div ng-if="!item.isEdit">{{item.age}}</div>
+              <div ng-if="item.isEdit" layout="row" layout-wrap>
+                <input class="table-input" ng-model="item.age" />
+              </div>
+            </br-td>
+            <br-td layout="row" layout-align="start center">
+              <br-button ng-if="!item.isEdit" class="br-primary br-circle br-small" ng-click="item.isEdit = !item.isEdit;"><br-icon br-font-icon="edit"></br-icon></br-button>
+              <div ng-if="item.isEdit">
+                <br-button class="br-warn br-circle br-small" ng-click="item.isEdit = !item.isEdit;"><br-icon br-font-icon="close"></br-icon></br-button>
+                <br-button class="br-accent br-circle br-small" ng-click="item.isEdit = !item.isEdit;"><br-icon br-font-icon="check"></br-icon></br-button>
+              </div>
+            </br-td>
+          </br-tr>
+        </br-body>
+      </br-table>
+
+    </div>
+
+
+
+
+
+
+    <!-- Content: 4 -->
+
+    <div flex class="page-container" ng-if="vm.example === '4'">
+      <h2>Side Content</h2>
+
+      <div layout="row" class="filter-bar">
+        <br-icon br-font-icon="search" style="line-height: 53px; padding-left: 12px; "></br-icon>
+        <input flex type="search" ng-model="vm.listFilter" placeholder="Search..." />
+
+        <br-button class="br-accent br-raised" ng-click="vm.addPerson($event);"><br-icon br-font-icon="add"></br-icon>Add Person</br-button>
+      </div>
+
+      <br-list>
+        <br-item ng-repeat="item in vm.tableData | filter:vm.listFilter" style="cursor: pointer;" ng-click="vm.selectPerson(item);">
+          <br-item-content class="br-fill">
+            <div flex class="br-item-title">{{item.first + ' ' + item.last}}</div>
+            <div layout="row" layout-fill class="br-item-sub-title">
+              <div flex class="list-label">{{item.email}}</div>
+              <div flex class="list-label">{{item.phone}}</div>
+            </div>
+          </br-item-content>
+        </br-item>
+      </br-list>
+    </div>
+
+
+    <br-side-content ng-if="vm.example === '4'" br-is-locked-open="vm.hideNav" class="br-side-content-right" style="border-left: 1px solid #ddd;" br-component-id="peopleSideContent" br-width="420px">
+      <div ng-style="vm.pageHeight">
+        <h4 ng-if="!vm.selectedPerson" style="padding-left: 20px; padding-top: 20px;">Select Person</h4>
+
+        <div ng-if="vm.selectedPerson" layout="column">
+          <br-subheader>
+            <div layout="row" layout-align="center">
+              <h5 flex style="padding-left: 6px;">Select Category</h5>
+              <br-button class="br-warn br-raised" ng-click="vm.cancelEdit()">Cancel</br-button>
+              <br-button class="br-accent br-raised" ng-disabled="personform.$invalid" ng-click="vm.cancelEdit();">Save</br-button>
+            </div>
+          </br-subheader>
+
+          <br-button class="br-accent br-raised" ng-click="vm.addPerson($event);">Add Venu</br-button>
+
+          <div style="padding: 10px;">
+            <form name="personform">
+              <br-input class="br-fill">
+                <label>First</label>
+                <input name="first" ng-model="vm.selectedPerson.first" required />
+                <div ng-messages="personform.first.$error">
+                  <div ng-message="required">This is Required</div>
+                </div>
+              </br-input>
+
+              <br-input class="br-fill">
+                <label>Last</label>
+                <input name="last" ng-model="vm.selectedPerson.last" required />
+                <div ng-messages="personform.last.$error">
+                  <div ng-message="required">This is Required</div>
+                </div>
+              </br-input>
+
+              <br-input class="br-fill">
+                <label>Phone</label>
+                <input type="number" name="phone" ng-model="vm.selectedPerson.phone" required />
+                <div ng-messages="personform.phone.$error">
+                  <div ng-message="required">This is Required</div>
+                </div>
+              </br-input>
+
+              <br-input class="br-fill">
+                <label>Email</label>
+                <input name="email" ng-model="vm.selectedPerson.email" required />
+                <div ng-messages="personform.email.$error">
+                  <div ng-message="required">This is Required</div>
+                </div>
+              </br-input>
+
+              <br-input class="br-fill">
+                <label>Age</label>
+                <input type="number" name="age" ng-model="vm.selectedPerson.age" required />
+                <div ng-messages="personform.age.$error">
+                  <div ng-message="required">This is Required</div>
+                </div>
+              </br-input>
+            </form>
+          </div>
+        </div>
+      </div>
+    </br-side-content>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<style>
+.list-label {
+  padding-right: 12px;
+}
+.list-label span {
+  color: #888;
+  font-size: 12px;
+  padding-right: 4px;
+}
+.tr-highlight {
+  background: rgba(223, 240, 255, 0.5);
+}
+
+.table-input {
+  border: 1px solid #EEE;
+  padding: 6px;
+  width: 100%;
+}
+
+.filter-bar {
+  height: 50px;
+  background: #fbfbfb;
+  border-bottom: 1px solid #EEE;
+}
+
+.filter-bar input {
+  outline: none;
+  border: none;
+  background: transparent;
+}
+
+.page-container {
+  position: relative;
+  padding: 20px;
+}
+
+.top-bar {
+  position: relative;
+  background: #323A47;
+  width: 100%;
+  height: 40px;
+  z-index: 300;
+}
+
+.top-bar-fix {
+  position: fixed;
+  background: #323A47;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 40px;
+}
+
+.menu-icon {
+  padding-left: 12px;
+  line-height: 40px;
+  transition: transform linear 0.2s,
+              opacity linear 0.18s;
+  transform: rotate(0deg) scale(1);
+  transform-origin: 20px 24px;
+  opacity: 1;
+}
+
+.menu-icon.icon-nav-open {
+  transform: rotate(-180deg) scale(0.5);
+  opacity: 0;
+}
+
+.menu-icon-open {
+  position: absolute;
+  left: 0;
+  padding-left: 12px;
+  line-height: 40px;
+  transition: transform linear 0.2s,
+              opacity linear 0.18s;
+  transform: rotate(180deg) scale(0.5);
+  opacity: 0;
+  transform-origin: 20px 24px;
+}
+
+.menu-icon-open.icon-nav-open {
+  transform: rotate(0deg) scale(1);
+  opacity: 1;
+}
+
+.top-link-container {
+  color: #ccc;
+  line-height: 40px;
+  font-size: 13px;
+}
+
+.top-link-container span {
+  padding-right: 12px;
+}
+
+.nav-close {
+  height: 40px;
+  background-color: #364151;
+}
+
+.nav-close br-icon {
+  padding-left: 12px;
+  line-height: 40px;
+}
+
+.nav-container {
+  background-color: #364151;
+}
+
+.menu-fake {
+  width: 220px;
+  height: 540px;
+  overflow: hidden
+}
+
+.condensed-links {
+  color: #EEE;
+}
+
+.condensed-links > div {
+  padding-left: 12px;
+}
+
+.condensed-links .help {
+  padding-bottom: 6px;
+}
+
+.form-container {
+  /*max-width: 600px;*/
+}
+
+.form-container br-input {
+  min-width: 180px;
+}
+
+.form-container br-select {
+  min-width: 180px;
+}
+
+.sticky-footer {
+  position: fixed;
+  z-index: 299;
+  bottom: 0;
+  left: 0;
+  right:0;
+  height: 48px;
+}
+
+.sticky-footer-container {
+  background: #fbfbfb;
+  border-top: 1px solid #CCC;
+  width: 100%;
+  height: 100%;
+  /*box-shadow: 0px -2px 4px 0 rgba(0, 0, 0, 0.12);*/
+}
+</style>

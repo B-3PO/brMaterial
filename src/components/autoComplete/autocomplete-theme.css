@@ -1,0 +1,9 @@
+br-autocomplete.br-THEME_NAME-theme .br-autocomplete-container {
+  background-color: '{{foreground-light-4}}';
+  border-color: '{{foreground-light-1}}';
+}
+
+br-autocomplete.br-THEME_NAME-theme .br-autocomplete-repeater{
+	background-color: '{{foreground-light-4}}';
+  color:'{{font-default}}';
+}

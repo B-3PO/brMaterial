@@ -1,3 +1,7 @@
+/**
+ * @ngdoc module
+ * @name input
+ */
 angular.module('brMaterial')
 	.directive('brInput', brInputDirective)
 	.directive('label', labelDirective)
@@ -9,23 +13,23 @@ angular.module('brMaterial')
 
 
 /**
+ * @ngdoc directive
  * @name brInput
- * @module brInput
- *
+ * @module input
  *
  * @description
- * The <br-input> container that holds the input, label, and error messages
+ * The `<br-input>` container holds inputs, labels, and ngMessages
  *
- *
- * @example
+ * @usage
+ * <hljs lang="html">
  * <br-input>
  * 	<label>Input Label</label>
- * 	<input ng-model="theModel" placeholder="The Placeholder" name="thInputName" required></input>
+ * 	<input ng-model="theModel" placeholder="The Placeholder" name="thInputName" required />
  * 	<div ng-messages="theFormName.thInputName.$error">
- *	 <div ng-message="required">This is required</div>
+ *    <div ng-message="required">This is required</div>
  * 	</div>
  * </br-input>
- *
+ * </hljs>
  */
 brInputDirective.$inject = ['$brTheme'];
 function brInputDirective ($brTheme) {
@@ -61,6 +65,14 @@ function brInputDirective ($brTheme) {
 			$element.toggleClass('br-input-invalid', !!isInvalid);
 		};
 
+    vm.setHasLabel = function () {
+      // $element.addClass('br-has-label');
+    };
+
+    vm.setHasPlaceholder = function () {
+      $element.addClass('br-has-placeholder');
+    };
+
 		vm.clearValueHook = function (func) {
 			vm.clearValue = func;
 		};
@@ -82,27 +94,6 @@ function brInputDirective ($brTheme) {
 
 
 
-/**
- * @name label
- * @module label
- *
- * @required brInput
- *
- * @description
- * The <label> element sits inside of the <br-input> container. this will shrink or grow depending on if there is input value
- *
- *
- * @example
- * <br-input>
- * 	<label>Input Label</label>
- * 	<input ng-model="theModel" placeholder="The Placeholder" name="thInputName" required></input>
- * 	<div ng-messages="theFormName.thInputName.$error">
- *	 <div ng-message="required">This is required</div>
- * 	</ng-messges>
- * </br-input>
- *
- */
-
 function labelDirective () {
 	var directive = {
 		restrict: 'E',
@@ -116,6 +107,7 @@ function labelDirective () {
 	function link(scope, element, attrs, containerCtrl){
 		if (!containerCtrl) return;
 
+    containerCtrl.setHasLabel();
 		containerCtrl.label = element;
 
 		scope.$on('$destroy', function() {
@@ -144,8 +136,11 @@ function inputTextareaDirective ($brUtil, $window, $$rAF) {
 		var ngModelCtrl = ctrls[1] || $brUtil.fakeNgModel();
 		var isReadonly = angular.isDefined(attr.readonly);
 
-		if ( !containerCtrl ) return;
-		containerCtrl.input = element;
+    if (!containerCtrl) {
+      if (attr.brNoStyle === undefined && attr.type !== "checkbox") { element.addClass('br-input br-input-standard'); }
+      return;
+    }
+    containerCtrl.input = element;
 
 		containerCtrl.clearValueHook(function () {
 			ngModelCtrl.$setViewValue('');
@@ -269,12 +264,7 @@ function placeholderDirective () {
 
 	function postLink (scope, element, attr, inputContainer) {
 		if (!inputContainer) return;
-
-		var placeholderText = attr.placeholder;
-		element.removeAttr('placeholder');
-
-		inputContainer.input.addClass('br-has-placeholder');
-		element.parent().append('<div class="br-placeholder">' + placeholderText + '</div>');
+		inputContainer.setHasPlaceholder();
 	}
 }
 
@@ -282,19 +272,20 @@ function placeholderDirective () {
 
 
 /**
+* @ngdoc directive
 * @name brX
-* @module brX
-*
-* @required brInput
+* @module input
 *
 * @description
-* The [br-x] element is an attribute of the <br-input> directive. this will show an x if there is input value. When clicked on it will clear the value
+* The '[br-x]' directive is an attribute of the `<input>` directive. This will show an x if there is input value. When clicked on it will clear the value
 *
-* @example
-* <br-input br-x></br-input>
-*
+* @usage
+* <hljs lang="html">
+* <br-input>
+* 	<input ng-model="theModel" placeholder="Enter Text" br-x />
+* </br-input>
+* </hljs>
 */
-
 xDirective.$inject = ['$compile'];
 function xDirective ($compile) {
 	var directive = {

@@ -1,0 +1,17 @@
+<div ng-controller="AppCtrl" ng-cloak>
+  <section>
+    <div class="section-label">Basic</div>
+
+    <br-list>
+      <br-item br-row-select ng-repeat="item in list">
+        <br-item-content>
+          <div flex class="br-item-title">{{item.name}}</div>
+          <div layout="row" layout-fill class="br-item-sub-title">
+            <div style="padding-right: 20px;"><b>Email:</b> {{item.email}}</div>
+            <div><b>Phone:</b> {{item.phone}}</div>
+          </div>
+        </br-item-content>
+      </br-item>
+    </br-list>
+  </section>
+</div>

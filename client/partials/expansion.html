@@ -1,0 +1,92 @@
+<br-expansion-card>
+  <br-collapsed-content>
+    <div layout="column">
+      <div class="expand-header">Location</div>
+      <div class="expand-title">{{vm.location.name}}</div>
+      <div layout="row">
+        <div class="expand-sub">{{vm.location.city}}, {{vm.location.state}}</div>
+        <div class="expand-active" ng-class="vm.location.active ? '' : 'red-text'">{{vm.location.active ? 'Active' : 'Inactive'}}</div>
+      </div>
+    </div>
+  </br-collapsed-content>
+
+  <br-expanded-content>
+    <h5>Location</h5>
+    <div ng-if="vm.loadingLocation === true" layout="row" layout-align="center center">
+      <br-spinner class="br-primary"></br-spinner>
+    </div>
+
+    <div ng-if="vm.loadingLocation === false" class="br-expander-load">
+      <h2>{{vm.location.name}}</h2>
+      <h3>Edit you fool!</h3>
+
+      <div style="padding-top:24px;"></div>
+
+      <div layout="column">
+        <form name="locform">
+          <div layout="row">
+            <br-input style="width: 100%; max-width: 320px;">
+              <label>Venue Name</label>
+              <input name="name" ng-model="vm.location.name" required/>
+              <div ng-messages="locform.name.$error">
+                <div ng-message="requried">Required</div>
+              </div>
+            </br-input>
+          </div>
+
+          <div layout="row">
+            <br-input flex>
+              <label>Venue City</label>
+              <input name="city" ng-model="vm.location.city" required/>
+              <div ng-messages="locform.city.$error">
+                <div ng-message="requried">Required</div>
+              </div>
+            </br-input>
+
+            <br-input flex>
+              <label>Venue State</label>
+              <input name="state" ng-model="vm.location.state" required/>
+              <div ng-messages="locform.state.$error">
+                <div ng-message="requried">Required</div>
+              </div>
+            </br-input>
+          </div>
+
+
+          <div layout="row">
+            <br-input flex>
+              <label>Venue Phone</label>
+              <input name="phone" ng-model="vm.location.phone" required/>
+              <div ng-messages="locform.phone.$error">
+                <div ng-message="requried">Required</div>
+              </div>
+            </br-input>
+
+            <br-input flex>
+              <label>Venue Email</label>
+              <input name="email" ng-model="vm.location.email" required/>
+              <div ng-messages="locform.email.$error">
+                <div ng-message="requried">Required</div>
+              </div>
+            </br-input>
+          </div>
+
+          <br-checkbox ng-model="vm.location.active">Active</br-checkbox>
+        </form>
+
+
+
+        <div>
+          <h5>Menus</h5>
+          <br-list>
+            <br-item ng-repeat="menu in vm.location.menus" ng-click="vm.openMenu(menu)" style="cursor: pointer;">
+              <br-item-content>
+                <div>{{menu.name}}</div>
+              </br-item-content>
+            </br-item>
+          </br-list>
+        </div>
+      </div>
+    </div>
+  </br-expanded-content>
+</br-expansion-card>

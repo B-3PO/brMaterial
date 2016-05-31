@@ -1,6 +1,53 @@
+input[type="checkbox"]:not([br-no-style]) {
+  appearance: none;
+  outline: none;
+  margin: 10px;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 2px;
+  transition: background 0.5s,
+              color 0.5s,
+              border 0.5s;
+}
+
+input[type="checkbox"]:not([br-no-style]).ng-not-empty {
+  border: none;
+}
+
+input[type="checkbox"]:not([br-no-style]).ng-not-empty:after {
+  box-sizing: border-box;
+  transform: rotate(45deg);
+  position: absolute;
+  left: 6.66667px;
+  top: 2.22222px;
+  display: table;
+  width: 6.66667px;
+  height: 13.33333px;
+  border-width: 2px;
+  border-style: solid;
+  border-top: 0;
+  border-left: 0;
+  content: '';
+}
+
+
+input[type="checkbox"]:not([br-no-style]) + label {
+  font-size: 13px;
+  box-sizing: border-box;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  white-space: normal;
+  user-select: text;
+  margin-right: 30px;
+}
+
+
 br-checkbox {
   box-sizing: border-box;
-  display: inline-block;
   margin-bottom: 16px;
   white-space: nowrap;
   cursor: pointer;
@@ -8,7 +55,8 @@ br-checkbox {
   user-select: none;
   position: relative;
   min-width: 20px;
-  min-height: 20px;
+  min-height: 24px;
+  line-height: 24px;
   margin-left: inherit;
   margin-right: 16px;
 }
@@ -33,7 +81,7 @@ br-checkbox .br-container {
   display: inline-block;
   width: 20px;
   height: 20px;
-  left: 0;
+  left: 4px;
   right: auto;
 }
 
@@ -50,8 +98,10 @@ br-checkbox .br-container:before {
   top: 0;
   right: 0;
   bottom: 0;
-  transition: all 0.5s;
   width: auto;
+  transition: background 0.5s,
+              color 0.5s,
+              border 0.5s;
 }
 
 br-checkbox .br-container:after {
@@ -104,6 +154,7 @@ br-checkbox.br-checked .br-icon:after {
 }
 
 br-checkbox .br-label {
+  font-size: 13px;
   box-sizing: border-box;
   position: relative;
   display: inline-block;

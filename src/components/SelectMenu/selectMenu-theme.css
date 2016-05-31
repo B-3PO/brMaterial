@@ -5,15 +5,16 @@
   color: '{{font-default}}';
 }
 .br-select.br-THEME_NAME-theme .br-select-menu-content {
-  border-color: '{{background-2}}';
+  border-color: '{{foreground-dark-4}}';
 }
 .br-select.br-THEME_NAME-theme.br-select-focused .br-select-menu-content {
   border-color: '{{primary-default}}';
 }
 
 .br-select.br-THEME_NAME-theme br-select-menu[disabled] .br-select-menu-content {
-  color: '{{font-light-3}}';
-  border-color: '{{background-default}}';
+  color: '{{foreground-light-2}}';
+  border-color: transparent;
+  background-image: linear-gradient(to right, '{{foreground-light-3}}' 0%, '{{foreground-light-3}}' 33%, transparent 0%);
 }
 
 

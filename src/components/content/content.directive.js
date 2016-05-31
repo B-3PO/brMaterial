@@ -1,3 +1,9 @@
+/**
+ * @ngdoc module
+ * @name content
+ * @description
+ * content
+ */
 angular
   .module('brMaterial')
   .directive('brContent', brContentDirective);
@@ -5,25 +11,43 @@ angular
 
 
 /**
+ * @ngdoc directive
  * @name brContent
- * @module brContent
+ * @module content
  *
  *
  * @description
- * The <br-content> is a gerneal container, this is used to wrap sticky headers, tables, or any set of scrolling elements
+ * The `<br-content>` is a general container, this is used to wrap sticky headers, tables, or any set of scrolling elements
  *
+ * @param {boolean=} br-auto-height - If this exits `<br-content>` will automatically fill the avalable viewable space and set its height propery
+ * @param {boolean=} br-scroll-fix - Stop scrolling from continuing to the next element with scroll
+ * @param {boolean=} br-scroll-y - Sets the overflow for scrolling vertically
+ * @param {boolean=} br-scroll-x - Sets the overflow for scrolling horizontally
  *
- * @param {boolean} [br-auto-height] - if this exits the brcontent will automatically fill the avalable viewable space and set its height propery
- * @param {boolean} [br-scroll-fix] - stop scrolling from continuing to the next element with scroll
+ * @usage
+ * ### Basic
+ * You can wrap anything with `<br-content>` to create a scrollable container.
  *
- *
- * @example
- * <br-content br-auto-height>
+ * <hljs lang="html">
+ * <br-content style="height: 400px;" br-scroll-y>
+ *  <!-- html goes here -->
  * </br-content>
+ * </hljs>
  *
+ * ### Sticky Haaders
+ * If You place `<br-subheader>` inside of `<br-content>` they will act as sticky headers
+ * <hljs lang="html">
+ *
+ * <br-content style="height: 400px;" br-scroll-y>
+ *  <br-subheader>Title</br-subheader>
+ *  <!-- html goes here -->
+ *  <br-subheader>Title 2</br-subheader>
+ *  <!-- html goes here -->
+ * </br-content>
+ * </hljs>
  */
-brContentDirective.$inject = ['$brTheme', '$window', '$$rAF'];
-function brContentDirective ($brTheme, $window, $$rAF) {
+brContentDirective.$inject = ['$brTheme', '$window', '$$rAF', '$brUtil'];
+function brContentDirective ($brTheme, $window, $$rAF, $brUtil) {
   var directive = {
     restrict: 'E',
     link: link,
@@ -48,6 +72,7 @@ function brContentDirective ($brTheme, $window, $$rAF) {
       }
 
     } else if (height === undefined && isAutoHeight === true) {
+      var isCardChild = $brUtil.getClosest(element, 'br-expanded-content') !== null;
       var debouncedUpdateAll = $$rAF.throttle(updateAll);
       debouncedUpdateAll();
 
@@ -66,13 +91,18 @@ function brContentDirective ($brTheme, $window, $$rAF) {
 
 
 
-    function updateAll () {
+    function updateAll() {
       var rect = element[0].getBoundingClientRect();
-      element.css('height', ($window.innerHeight - rect.y) + 'px');
+      var innerHeight = $window.innerHeight;
+      if (isCardChild === true) {
+        innerHeight -= 30;
+      }
+
+      element.css('height', (innerHeight - rect.top) + 'px');
     }
 
 
-    function getOverflowParent () {
+    function getOverflowParent() {
       var parent = element.parent();
 
       while (parent !== undefined && hasComputedStyleValue('overflowY', parent[0]) === false) {

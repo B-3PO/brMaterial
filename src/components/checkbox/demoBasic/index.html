@@ -1,0 +1,30 @@
+<div ng-controller="AppCtrl" ng-cloak>
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Componet</div>
+    <br-checkbox ng-model="check1">Check: {{ check1 }}</br-checkbox>
+    <br-checkbox class="br-primary" ng-model="check2">Primary: {{ check2 }}</br-checkbox>
+    <br-checkbox class="br-accent" ng-model="check3">Accent: {{ check3 }}</br-checkbox>
+    <br-checkbox class="br-warn" ng-model="check4">Warn: {{ check4 }}</br-checkbox>
+  </section>
+
+
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Standard HTML input checkbox</div>
+
+
+    <input type="checkbox" name="normalcheck" ng-model="check1"/>
+    <label for="normalcheck">Normal</label>
+
+    <input type="checkbox" name="primarycheck" class="br-primary" ng-model="check2"/>
+    <label for="primarycheck">Primary</label>
+
+    <input type="checkbox" name="Accentcheck" class="br-accent" ng-model="check3"/>
+    <label for="Accentcheck">Accent</label>
+
+    <input type="checkbox" name="warnCheck" class="br-warn" ng-model="check4"/>
+    <label for="warnCheck">Warn</label>
+
+    <input type="checkbox" name="noOverride" br-no-style class="br-primary" ng-model="check4"/>
+    <label for="noOverride">No Style</label>
+  </section>
+</div>

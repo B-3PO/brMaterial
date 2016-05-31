@@ -1,0 +1,52 @@
+br-toast {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  bottom: 8px;
+  left: 8px;
+  min-height: 48px;
+  line-height: 48px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 3px;
+  background: #333;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.4s linear;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+br-toast.br-active {
+  opacity: 1;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 200ms;
+  transform: translateY(0);
+}
+
+br-toast.br-leave {
+  opacity: 1;
+  transition: all 0.4s cubic-bezier(0.55, 0, 0.55, 0.2);
+  transition-duration: 200ms;
+  transform: translateY(0);
+}
+
+.br-toast-message {
+  color: #EEE;
+}
+
+
+.br-toast-close {
+  display: block;
+  flex: 1;
+  padding-left: 12px;
+  cursor: pointer;
+}
+.br-toast-close:before {
+  color: #EEE;
+  font-family: 'brMaterialIcons';
+  font-size: 18px;
+  font-weight: 600;
+  display: block;
+  content: '\e5cd';
+  position: relative;
+}

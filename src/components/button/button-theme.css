@@ -21,6 +21,10 @@ a.br-button.br-THEME_NAME-theme.br-circle:not([disabled]):not(.br-mobile):hover,
 	background-color: '{{background-default}}';
 }
 
+.br-button .br-icon.br-THEME_NAME-theme {
+  color: inherit;
+}
+
 
 
 
@@ -30,8 +34,13 @@ a.br-button.br-THEME_NAME-theme.br-circle:not([disabled]):not(.br-mobile):hover,
 
 a.br-button.br-THEME_NAME-theme.br-raised,
 .br-button.br-THEME_NAME-theme.br-raised {
-  color: '{{background-light-5}}';
-  background: none;
+  color: #fbfbfb;
+  background: '{{background-3}}';
+}
+
+a.br-button.br-THEME_NAME-theme.br-raised:not([disabled]):not(.br-mobile):hover,
+.br-button.br-THEME_NAME-theme.br-raised:not([disabled]):not(.br-mobile):hover {
+	background-color: '{{background-2}}';
 }
 
 .br-button.br-THEME_NAME-theme[disabled] .br-icon {
@@ -74,7 +83,7 @@ a.br-button.br-THEME_NAME-theme.br-primary:not([disabled]),
 a.br-button.br-THEME_NAME-theme.br-primary.br-raised:not([disabled]),
 .br-button.br-THEME_NAME-theme.br-primary.br-raised:not([disabled]) {
   color: '{{primary-light-6}}';
-  background: none;
+  background: '{{primary-light-1}}';
 }
 
 a.br-button.br-THEME_NAME-theme.br-primary.br-raised.br-circle:not([disabled]),
@@ -131,7 +140,7 @@ a.br-button.br-THEME_NAME-theme.br-accent:not([disabled]),
 a.br-button.br-THEME_NAME-theme.br-accent.br-raised:not([disabled]),
 .br-button.br-THEME_NAME-theme.br-accent.br-raised:not([disabled]) {
   color: '{{accent-light-6}}';
-  background: none;
+  background: '{{accent-light-1}}';
 }
 
 a.br-button.br-THEME_NAME-theme.br-accent.br-raised.br-circle:not([disabled]),
@@ -191,7 +200,7 @@ a.br-button.br-THEME_NAME-theme.br-warn:not([disabled]),
 a.br-button.br-THEME_NAME-theme.br-warn.br-raised:not([disabled]),
 .br-button.br-THEME_NAME-theme.br-warn.br-raised:not([disabled]) {
   color: '{{warn-light-6}}';
-  background: none;
+  background: '{{warn-light-1}}';
 }
 
 a.br-button.br-THEME_NAME-theme.br-warn.br-raised.br-circle:not([disabled]),

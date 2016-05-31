@@ -1,0 +1,9 @@
+<div class="top-bar-container" layout="row" layout-align="start center">
+  <br-icon br-font-icon="dehaze" br-color="#EEE" ng-if="vm.hideNav" br-size="24" class="menu-icon" ng-class="vm.navOpen === true ? 'icon-nav-open' : ''" ng-click="vm.toggleNav();"></br-icon>
+  <br-icon br-font-icon="arrow_back" br-color="#EEE" ng-if="vm.hideNav" br-size="24" class="menu-icon-open" ng-class="vm.navOpen === true ? 'icon-nav-open' : ''" ng-click="vm.toggleNav();"></br-icon>
+  <img src="https://cdn.bypassmobile.com/images/logo-top-bar.png" width="25px" height="26px" />
+  <div ng-if="!vm.hideButtons" class="top-bar-title">Bypass Real Material</div>
+
+  <!-- spacer -->
+  <div flex></div>
+</div>

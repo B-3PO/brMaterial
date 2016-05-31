@@ -1,19 +1,19 @@
-br-input textarea,
-br-input input[type="text"],
-br-input input[type="password"],
-br-input input[type="datetime"],
-br-input input[type="datetime-local"],
-br-input input[type="date"],
-br-input input[type="month"],
-br-input input[type="time"],
-br-input input[type="week"],
-br-input input[type="number"],
-br-input input[type="email"],
-br-input input[type="url"],
-br-input input[type="search"],
-br-input input[type="tel"],
-br-input input[type="color"],
-br-input input[type="file"] {
+.br-input textarea,
+.br-input input[type="text"],
+.br-input input[type="password"],
+.br-input input[type="datetime"],
+.br-input input[type="datetime-local"],
+.br-input input[type="date"],
+.br-input input[type="month"],
+.br-input input[type="time"],
+.br-input input[type="week"],
+.br-input input[type="number"],
+.br-input input[type="email"],
+.br-input input[type="url"],
+.br-input input[type="search"],
+.br-input input[type="tel"],
+.br-input input[type="color"],
+.br-input input[type="file"] {
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -23,26 +23,38 @@ br-input {
   display: inline-block;
   position: relative;
   padding: 2px;
-  margin: 18px 0;
+  margin: 18px 0 6px;
   vertical-align: middle;
 }
 
-br-input .br-input {
+.br-input {
   order: 2;
   display: block;
   margin-top: 0;
   background: 0 0;
-  padding: 2px 2px 1px;
-  border-width: 0 0 1px;
+  padding: 13px 6px 1px;
+  border-width: 1px;
   line-height: 26px;
-  height: 30px;
+  height: 42px;
   -ms-flex-preferred-size: 26px;
-  border-radius: 0;
+  border-radius: 3px;
   border-style: solid;
   width: 100%;
+  min-width: 140px;
   box-sizing: border-box;
   float: left;
   box-shadow: none;
+  transition: border cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
+}
+
+.br-input-standard {
+  line-height: 42px;
+  padding: 0 6px 0;
+  width: initial;
+}
+
+br-input:not(.br-has-label) .br-input {
+  padding: 3px 6px 1px;
 }
 
 br-input.br-fill {
@@ -61,11 +73,15 @@ br-input textarea {
   overflow: hidden;
 }
 
+.br-input-standard + label,
 br-input label {
+  font-size: 14px;
+  font-weight: 700;
+
   line-height: initial;
   position: absolute;
-  left: 0px;
-  top: -15px;
+  left: 0;
+  top: -43px;
   order: 1;
   pointer-events: none;
   -webkit-font-smoothing: antialiased;
@@ -73,49 +89,26 @@ br-input label {
   z-index: 1;
   transform: translate3d(0, 24px, 0) scale(1);
   transform-origin: left top;
-  transition: transform cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
+  transition: color cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
 }
 
-br-input .br-input[disabled] {
+.br-input-standard + label {
+  position: absolute;
+  top: initial;
+  left: initial;
+  transform: translate(0, -21px);
+}
+
+.br-input[disabled] {
   background-position: 0 bottom;
   background-size: 3px 1px;
   background-repeat: repeat-x;
 }
 
-br-input .br-input:focus {
+.br-input:focus {
   outline: none;
   box-shadow: none;
 }
-
-
-br-input.br-input-focused label, br-input.br-input-has-value label, br-input.br-input-is-date label {
-  transform: translate3d(0, 4px, 0) scale(0.75);
-}
-
-br-input.br-box.br-input-focused label, br-input.br-box.br-input-has-value label, br-input.br-input-is-date label {
-  transform: translate3d(0, 22px, 0) scale(0.75);
-}
-
-br-input.br-input-focused:not(.br-box) .br-input, br-input .br-input.ng-invalid.ng-dirty {
-  padding-bottom: 0px;
-  border-width: 0 0 2px 0;
-}
-
-br-input.br-small.br-input-focused:not(.br-box) .br-input, br-input.br-small .br-input.ng-invalid.ng-dirty {
-  padding-bottom: 2px;
-  border-width: 0 0 2px 0;
-}
-
-br-input.br-box.br-input-focused .br-input, br-input.br-box .br-input.ng-invalid.ng-dirty {
-  border-style: solid;
-  border-width: 1px 1px 1px 1px;
-}
-
-br-input.br-box.br-small.br-input-focused .br-input, br-input.br-box .br-input.ng-invalid.ng-dirty {
-  padding-bottom: 3px;
-}
-
-
 
 
 
@@ -131,6 +124,7 @@ br-input [x-ng-messages] {
   order: 4;
   overflow: hidden;
   clear: left;
+  height: 24px;
 }
 
 br-input ng-message,
@@ -204,6 +198,11 @@ br-input.br-no-padding {
   padding:0;
 }
 
+br-input.br-no-spacing,
+br-input.br-no-margin {
+  margin: 0 0 6px;
+}
+
 
 
 
@@ -213,7 +212,7 @@ br-input .br-x {
   opacity: 0;
 
   position: absolute;
-  top: -9px;
+  top: -4px;
   right: 0;
 
   transform: translate3d(0, 18px, 0) scale(1);

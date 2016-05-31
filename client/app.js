@@ -24,10 +24,15 @@ function configApp($routeProvider, $brThemeProvider) {
     controller: 'HomeController',
     controllerAs: 'vm'
   }).
-  when('/1',{
-    templateUrl: 'partials/home.html',
-    controller: 'HomeController',
-    controllerAs: 'vm'
+  when('/example',{
+    templateUrl: 'partials/example.html',
+    controller: 'ExampleController',
+    controllerAs: 'vm',
+    resolve: {
+      example: ['$route', function ($route) {
+        return $route.current.params.v || '1';
+      }]
+    }
   }).
   otherwise({
     redirectTo: '/'

@@ -1,22 +1,31 @@
+/**
+ * @ngdoc module
+ * @name backdrop
+ * @description
+ * backdrop
+ */
 angular
   .module('brMaterial')
   .factory('$brBackdrop', brBackdropService);
 
 
 /**
+ * @ngdoc service
  * @name $brBackdrop
- * @module $brBackdrop
- *
+ * @module backdrop
  *
  * @description
- * The $brBackdrop service will add abackdrop to any element you give it. it will also call a function when the backdrop is clicked
+ * The `$brBackdrop` service will add a backdrop to any element you give it. it will also call a function when the backdrop is clicked
  *
- *
- * @example
- * $brBackdrop.add(element, scope, clickCallback);
- * $brBackdrop.addSideContent(element, scope, clickCallback);
- * $brBackdrop.remove();
- *
+ * @usage
+ * <hljs lang="js">
+ * angular.controller('MyCtrl', function($scope, $element, $brBackdrop) {
+ *   $brBackdrop.add($element, $scope, function () {
+ *     console.log('click callback');
+ *     $brBackdrop.remove();
+ *   });
+ * });
+ * </hljs>
  */
 brBackdropService.$inject = ['$compile', '$animate'];
 function brBackdropService ($compile, $animate) {
@@ -37,36 +46,37 @@ function brBackdropService ($compile, $animate) {
 
 
   /**
-   * @name add
+   * @ngdoc method
+   * @name $brBackdrop#add
    * @function
    *
    * @description
-   * The add function will add abackdrop to any element you give it. it will also call a function when the backdrop is clicked
+   * The add function will add a backdrop to any element you give it. it will also call a function when the backdrop is clicked
    *
-   * @param {elemnt} element - the element to place the backdrop behind
-   * @param {scope} scope - the scope to tie the backdrop to
-   * @param {function} clickCallback - the function to call when backdrop is clicked
+   * @param {elemnt} element - An element to place the backdrop behind
+   * @param {scope} scope - A scope to tie the backdrop to
+   * @param {function=} clickCallback - A function to call when backdrop is clicked
    */
   function add (element, scope, clickCallback) {
     if(!isValidAdd(element, scope, clickCallback)) return;
 
     backdrop = $compile('<br-backdrop class="br-click-catcher ng-enter">')(scope);
-    element.addClass('br-side-content-wrapped');
     createAndAdd(element, scope, clickCallback);
+    element.addClass('br-backdrop-content-wrapper');
 
-    wrapper = angular.element('<div></div>');
-    element.after(wrapper);
-    wrapper.prepend(element);
+    // wrapper = angular.element('<div class="br-backdrop-content-wrapper" style="overflow: inherit;"></div>');
+    // element.after(wrapper);
+    // wrapper.prepend(element);
   }
 
 
   /**
-   * @name remove
+    * @ngdoc method
+   * @name $brBackdrop#remove
    * @function
    *
    * @description
    * The remove function will remove the current backdrop
-   *
    */
   function remove () {
     if(!backdrop) return;

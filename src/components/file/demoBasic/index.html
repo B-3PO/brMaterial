@@ -1,0 +1,15 @@
+<div ng-controller="AppCtrl" ng-cloak>
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Styles</div>
+
+    <br-file ng-model="selectedFile" ng-change="onFileSelect()" br-file-name="filename">Browse Files</br-file>
+    <br-file ng-model="selectedFile" ng-change="onFileSelect()" br-file-name="filename" ng-disabled="true">Browse Disabled</br-file>
+    <br-file ng-model="selectedFile" ng-change="onImageSelect()" br-file-types=".jpg,.png,.gif" br-file-name="filename" class="br-primary br-raised">Browse Image</br-file>
+    <br-file ng-model="selectedFile" ng-change="onFileSelect()" br-file-name="filename" class="br-accent br-circle br-raised"><br-icon br-font-icon="attach_file"></br-icon></br-file>
+  </section>
+
+  <section layout="row" layout-align="center center">
+    <div class="section-label">Select Image above</div>
+    <img ng-src="{{loadedImage}}" />
+  </section>
+</div>

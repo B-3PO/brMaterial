@@ -1,0 +1,79 @@
+top-bar {
+  display: block;
+  position: fixed;
+  z-index: 998;
+  width: 100%;
+}
+
+top-bar br-menu > .br-button {
+  color: #DDD !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  line-height: 40px;
+}
+
+top-bar br-menu > .br-button.br-orange-theme {
+  color: #FFF !important;
+}
+
+
+.top-bar-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+
+  padding-left: 12px;
+  /*padding-right: 12px;*/
+
+  background: #323a48;
+
+  /*
+    997 is the z-index of the side content when it has a backdrop
+    this will prevent the side nav menu from overlapping the top bar
+  */
+  z-index: 998;
+}
+
+
+.menu-icon {
+  padding-right: 12px;
+  transition: transform linear 0.2s,
+              opacity linear 0.18s;
+  transform: rotate(0deg) scale(1);
+  opacity: 1;
+}
+
+.menu-icon.icon-nav-open {
+  transform: rotate(-180deg) scale(0.5);
+  opacity: 0;
+}
+
+.menu-icon-open {
+  position: absolute;
+  left: 0;
+  padding-left: 12px;
+  padding-top: 7px;
+  transition: transform linear 0.2s,
+              opacity linear 0.18s;
+  transform: rotate(180deg) scale(0.5);
+  opacity: 0;
+}
+
+.menu-icon-open.icon-nav-open {
+  transform: rotate(0deg) scale(1);
+  opacity: 1;
+}
+
+
+/* TODO REMOVE this is temp to demonstrate search */
+.temp-search {
+  padding: 7px;
+  border: none;
+}
+
+.top-bar-title {
+  color: #DDD;
+  padding-left: 12px;
+}

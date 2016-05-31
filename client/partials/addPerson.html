@@ -1,0 +1,62 @@
+<div style="padding: 20px;">
+  <div layout="row" layout-align="center center">
+    <h3>Add Person</h3>
+    <div flex></div>
+    <div>
+      <br-button class="br-warn br-no-margin" ng-click="$cancel()">Cancel</br-button>
+      <br-button class="br-accent br-no-margin" ng-disabled="personForm.$invalid === true || selectionInvalid === true" ng-click="complete(person);">
+        Save
+        <br-tooltip ng-if="selectionInvalid === true">You must select required options</br-tooltip>
+      </br-button>
+    </div>
+  </div>
+
+  <div>
+    <form name="personForm">
+
+      <br-input class="br-fill">
+        <label>First</label>
+        <input name="first" ng-model="person.first" required />
+        <div ng-messages="personForm.first.$error">
+          <div ng-message="required">Required</div>
+        </div>
+      </br-input>
+
+      <br-input class="br-fill">
+        <label>Last</label>
+        <input name="last" ng-model="person.last" required />
+        <div ng-messages="personForm.last.$error">
+          <div ng-message="required">Required</div>
+        </div>
+      </br-input>
+
+      <br-input class="br-fill">
+        <label>Phone</label>
+        <input type="number" name="phone" ng-model="person.phone" required />
+        <div ng-messages="personForm.phone.$error">
+          <div ng-message="required">Required</div>
+        </div>
+      </br-input>
+
+
+      <br-input class="br-fill">
+        <label>email</label>
+        <input type="email" name="email" ng-model="person.email" required />
+        <div ng-messages="personForm.email.$error">
+          <div ng-message="required">Required</div>
+          <div ng-message="email">Invalid Email</div>
+        </div>
+      </br-input>
+
+      <br-input class="br-fill">
+        <label>Age</label>
+        <input type="number" name="age" ng-model="person.age" required />
+        <div ng-messages="personForm.age.$error">
+          <div ng-message="required">Required</div>
+        </div>
+      </br-input>
+
+    </form>
+  </div>
+
+</div>

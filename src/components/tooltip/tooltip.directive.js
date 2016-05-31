@@ -1,3 +1,7 @@
+/**
+ * @ngdoc module
+ * @name tooltip
+ */
 angular
   .module('brMaterial')
   .directive('brTooltip', brTooltipDirective);
@@ -6,22 +10,31 @@ angular
 
 
 /**
+  * @ngdoc directive
   * @name brTooltip
-  * @module brTooltip
-  *
+  * @module tooltip
   *
   * @description
-  * The <br-ttooltip> directive can attact to any element. just place it inside of the element you want it to ativate on
+  * The `<br-ttooltip>` directive can attact to any element. just place it inside of the element you want it to ativate on
   *
   *
-  * @param {boolean} [br-visible] - show/hide tooltip
-  * @param {number} [br-delay=300] - delay for hidding the tooltip in millaseconds.
-  * @param {boolean} [br-autohide=true] - automatically hide on mouse exit
-  * @param {string} [br-position] - use "top", "left", "right" to change the position of the tooltip
+  * @param {boolean=} [br-visible] - show/hide tooltip
+  * @param {number=} [br-delay=300] - delay for hidding the tooltip in millaseconds.
+  * @param {boolean=} [br-autohide=true] - DEFAULT: true. automatically hide on mouse exit
+  * @param {string=} [br-position] - use "top", "left", "right" to change the position of the tooltip
   *
-  * @example
-  * <br-tooltip br-position="top">Tooltip Title</br-tooltip>
+  * - "right top"
+  * - "left top"
+  * - "right bottom"
+  * - "left bottom"
   *
+  * @usage
+  * <hljs lang="html">
+  * <br-button>
+  *   Button Label
+  *   <br-tooltip>Tooltip Title</br-tooltip>
+  * </br-button>
+  * </hljs>
   */
 
 brTooltipDirective.$inject = ['$brTheme', '$$rAF', '$brUtil', '$animate', '$q', '$timeout', '$window', '$rootElement', '$document'];
@@ -52,7 +65,6 @@ function brTooltipDirective ($brTheme, $$rAF, $brUtil, $animate, $q, $timeout, $
     var background = angular.element(element[0].getElementsByClassName('br-background')[0]);
     var content = angular.element(element[0].getElementsByClassName('br-content')[0]);
     var direction = attr.brPosition;
-    // var direction;
     var current = getNearestContentElement();
     var tooltipParent = angular.element(current || document.body);
     var debouncedOnResize = $$rAF.throttle(function () { if (scope.visible) positionTooltip(); });
@@ -65,25 +77,69 @@ function brTooltipDirective ($brTheme, $$rAF, $brUtil, $animate, $q, $timeout, $
 
 
 
-    function setDefaults () {
+    function setDefaults() {
       if (!angular.isDefined(attr.brDelay)) scope.delay = TOOLTIP_SHOW_DELAY;
     }
 
-    function manipulateElement () {
+    function manipulateElement() {
       element.detach();
       element.attr('role', 'tooltip');
     }
 
-    function bindEvents () {
+
+    function bindEvents() {
       var mouseActive = false;
-      var enterHandler = function() {
-        parent.on('blur mouseleave touchend touchcancel', leaveHandler );
+
+      var ngWindow = angular.element($window);
+
+      if (parent[0] && 'MutationObserver' in $window) {
+        var attributeObserver = new MutationObserver(function(mutations) {
+          if (mutations.some(function (mutation) {
+              return (mutation.attributeName === 'disabled' && parent[0].disabled);
+            })) {
+              $timeout(function() {
+                setVisible(false);
+              }, 0);
+          }
+        });
+
+        attributeObserver.observe(parent[0], { attributes: true});
+      }
+
+      // Store whether the element was focused when the window loses focus.
+      var windowBlurHandler = function() {
+        elementFocusedOnWindowBlur = document.activeElement === parent[0];
+      };
+      var elementFocusedOnWindowBlur = false;
+
+      function windowScrollHandler() {
+        setVisible(false);
+      }
+
+      ngWindow.on('blur', windowBlurHandler);
+      ngWindow.on('resize', debouncedOnResize);
+      document.addEventListener('scroll', windowScrollHandler, true);
+      scope.$on('$destroy', function() {
+        ngWindow.off('blur', windowBlurHandler);
+        ngWindow.off('resize', debouncedOnResize);
+        document.removeEventListener('scroll', windowScrollHandler, true);
+        if (attributeObserver !== undefined) { attributeObserver.disconnect(); }
+      });
+
+      var enterHandler = function(e) {
+        // Prevent the tooltip from showing when the window is receiving focus.
+        if (e.type === 'focus' && elementFocusedOnWindowBlur) {
+          elementFocusedOnWindowBlur = false;
+          return;
+        }
+        parent.on('blur mouseleave touchend touchcancel', leaveHandler);
         setVisible(true);
       };
       var leaveHandler = function () {
         var autohide = scope.hasOwnProperty('autohide') ? scope.autohide : attr.hasOwnProperty('brAutohide');
-        if (autohide || mouseActive || ($document[0].activeElement !== parent[0]) ) {
-          parent.off('blur mouseleave touchend touchcancel', leaveHandler );
+        if (autohide || mouseActive || ($document[0].activeElement !== parent[0])) {
+          parent.off('blur mouseleave touchend touchcancel', leaveHandler);
+          parent.triggerHandler("blur");
           setVisible(false);
         }
         mouseActive = false;
@@ -91,11 +147,9 @@ function brTooltipDirective ($brTheme, $$rAF, $brUtil, $animate, $q, $timeout, $
 
       // to avoid `synthetic clicks` we listen to mousedown instead of `click`
       parent.on('mousedown', function() { mouseActive = true; });
-      parent.on('focus mouseenter touchstart', enterHandler );
-
-
-      angular.element($window).on('resize', debouncedOnResize);
+      parent.on('focus mouseenter touchstart', enterHandler);
     }
+
 
     function configureWatchers () {
       scope.$on('$destroy', function() {
@@ -129,11 +183,12 @@ function brTooltipDirective ($brTheme, $$rAF, $brUtil, $animate, $q, $timeout, $
 
     function getParentWithPointerEvents () {
       var parent = element.parent();
-      while (parent && hasComputedStyleValue('pointer-events','none', parent[0])) {
+      while (hasComputedStyleValue('pointer-events', 'none', parent)) {
         parent = parent.parent();
       }
       return parent;
     }
+
 
 
     function getNearestContentElement () {
@@ -145,12 +200,14 @@ function brTooltipDirective ($brTheme, $$rAF, $brUtil, $animate, $q, $timeout, $
     }
 
     function hasComputedStyleValue(key, value, target) {
-      key    = attr.$normalize(key);
-      target = target || element[0];
+      var hasValue = false;
 
-      var computedStyles = $window.getComputedStyle(target);
+      if ( target && target.length  ) {
+        var computedStyles = $window.getComputedStyle(target[0]);
+        hasValue = angular.isDefined(computedStyles[key]) && (value ? computedStyles[key] == value : true);
+      }
 
-      return angular.isDefined(computedStyles[key]) && (computedStyles[key] == value);
+      return hasValue;
     }
 
 

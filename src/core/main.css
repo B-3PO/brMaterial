@@ -28,6 +28,10 @@ body {
   user-select: none;
 }
 
+.br-no-event {
+  pointer-events: none;
+}
+
 button, select, html, textarea, input {
   /*font-family: 'Roboto', 'Helvetica Neue', sans-serif;*/
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -52,36 +56,41 @@ input[type=search] {
 
 
 h1, h2, h3, h4, h5, h6 {
- line-height: 62px;
+ line-height: 58px;
  margin: 0;
 }
 
 h1 {
   font-size: 36px;
-  font-weight: bold;
+  /*font-weight: bold;*/
 }
 
 h2 {
   font-size: 28px;
-  font-weight: bold;
+  font-weight: 300;
+  /*font-weight: bold;*/
 }
 
 h3 {
-  font-size: 24px;
-  font-weight: 400;
+  line-height: 48px;
+  font-size: 21px;
+  font-weight: 300;
 }
 
 h4 {
+  line-height: 48px;
   font-size: 20px;
   font-weight: 400;
 }
 
 h5 {
+  line-height: 48px;
   font-size: 18px;
   font-weight: 400;
 }
 
 h6 {
+  line-height: 48px;
   font-size: 16px;
   font-weight: 400;
 }

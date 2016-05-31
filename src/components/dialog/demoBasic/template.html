@@ -1,0 +1,28 @@
+<div layout="column" style="padding: 20px;">
+  <h2>Templated Dialog</h2>
+
+  <div style="padding-bottom: 32px; padding-top:12px;">
+    This is a templated dialog. you can attached scope, locals, and controllers to it. Have fun!
+  </div>
+
+  <div layout="row" flex>
+    <br-input>
+      <label>Enter Some Text</label>
+      <input ng-model="vm.text" />
+    </br-input>
+
+    <br-select flex>
+      <label>Select Some Things</label>
+      <br-select-menu ng-model="vm.selected" placeholder="Select...">
+        <br-option-group label="Stuff">
+          <br-option ng-value="item" ng-repeat="item in vm.list">{{item.label}}</br-option>
+        </br-option-group>
+      </br-select-menu>
+    </br-select>
+  </div>
+
+  <div layout="row" layout-align="center center">
+    <br-button class="br-warn" ng-click="$cancel()">Click Some</br-button>
+    <br-button class="br-primary" ng-click="$continue()">Buttons</br-button>
+  </div>
+</div>

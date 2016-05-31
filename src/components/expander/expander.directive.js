@@ -1,167 +1,150 @@
+/**
+ * @ngdoc module
+ * @name expander
+ */
 angular
   .module('brMaterial')
   .directive('brExpander', expanderDirective)
+  .directive('brExpanderHeader', expanderHeaderDirective)
   .directive('brExpanderContent', expanderContentDirective);
 
 
 
 
 /**
+  * @ngdoc directive
   * @name brExpander
-  * @module brExpander
-  *
+  * @module expander
   *
   * @description
-  * The <br-expander> is a container that opens and closes
+  * The `<br-expander>` is a container that opens and closes
   *
+  * @param {boolean=} br-width - Set expander width
+  * @param {boolean=} br-height - Set epander height, this will set scrolling in y
+  * @param {boolean=} br-open - Bound value for opening and closing
+  * @param {string=} br-component-id - Name that can be used with the `$brExpander` service
   *
-  * @param {boolean} [br-width] - set width
-  * @param {boolean} [br-height] - set height value. this will set scrolling in y
-  * @param {boolean} [br-open] - bound value for opening and closing
+  * @usage
+  * You can controll the expander in 3 ways.
+  * - The `<br-expander-header>` element will automatically expand when clicked
+  * - The `[br-open]` attribute will listen for changes
+  * - The `$brExpander` service has functions to control the expander based on its `[br-component-id]` name
   *
+  * <hljs lang="js">
+  *   angular.controller('MyCtrl', function ($scope, $brExpander) {
+  *     $scope.isOpen = false;
+  *     $brExpander('expanderComponentId').open();
+  *     $brExpander('expanderComponentId').close();
+  *     $brExpander('expanderComponentId').toggle();
+  *     $brExpander('expanderComponentId').isOpen();
+  *   });
+  * </hljs>
   *
-  * @example
-  *    <br-expander br-open="isOpen">
+  * <hljs lang="html">
+  *    <br-expander br-open="isOpen" br-component-id="expanderComponentId">
   *      <br-expander-header>Title</br-expander-header>
   *
   *      <br-expander-content>
+  *         <!-- content foes here -->
   *      </br-expander-content>
   *    </br-expander>
-  *
+  * </hljs>
   */
-expanderDirective.$inject = ['$brTheme', '$$rAF'];
-function expanderDirective ($brTheme, $$rAF) {
+expanderDirective.$inject = ['$brTheme', '$parse'];
+function expanderDirective ($brTheme, $parse) {
   var directive = {
     restrict: 'E',
     require: 'brExpander',
-    scope: {
-      brOpen: '='
-    },
-    link: link,
-    controller: ['$scope', controller]
+    compile: compile,
+    controller: ['$element', '$attrs', '$brComponentRegistry', controller]
   };
   return directive;
 
 
-  function controller ($scope) {
-    /* jshint validthis: true */
-    var vm = this;
+  function compile(tElement, tAttrs) {
+    tElement.addClass('br-expander');
 
-    vm.hookFunc = undefined;
-
-    vm.hook = hook;
-    vm.toggle = toggle;
-
-
-    function hook (func) {
-      vm.hookFunc = func;
-      vm.hookFunc($scope.brOpen);
+    var width = tAttrs.brWidth || tAttrs.width;
+    if (width !== undefined) {
+      tElement.css('width', width.replace('px', '') + 'px');
     }
 
-    function toggle (isOpen) {
-      if (typeof vm.hookFunc === 'function') {
-        vm.hookFunc(isOpen);
-      }
+    if (tAttrs.brHide === undefined) {
+      angular.element(tElement[0].querySelector('.br-expander-hide')).attr('ng-if', '$brOpen');
     }
+
+    return postLink;
   }
 
-  function link (scope, element, attr, ctrl) {
-    var isOpen = false;
-
+  function postLink(scope, element, attr, ctrl) {
     $brTheme(element);
-    element.addClass('br-expander');
 
-    var headerElement = element[0].querySelector('br-expander-header') || undefined;
-    var contentElement = element[0].querySelector('br-expander-content') || undefined;
-
-    if (headerElement === undefined || contentElement === undefined) {
-      throw new Error('<br-expander> : Missing valid HTML');
+    // varefy the correct child elements exist
+    var headerElement = element[0].querySelector('br-expander-header');
+    var contentElement = element[0].querySelector('br-expander-content');
+    if (contentElement === null) {
+      throw new Error('<br-expander> : Should contain <br-expander-content>');
     }
 
-    var width = attr.brWidth || attr.width || undefined;
-    var height = attr.brHeight || attr.height || undefined;
-    if (width !== undefined) {
-      element.css('width', width.replace('px', '') + 'px');
-    }
-
-    headerElement = angular.element(headerElement);
-    headerElement.prepend(angular.element('<div class="br-expander-icon"></div>'));
-    headerElement.addClass('br-expander-header');
-
-    contentElement = angular.element(contentElement);
-    contentElement.addClass('br-expander-content');
-    contentElement.css('height', '0');
-    if (height === undefined) {
-      contentElement.css('overflow', 'hidden');
-    }
-
-
-    if (angular.isDefined(attr.brOpen)) {
-      scope.$watch('brOpen', function (data) {
-        toggle(data);
-      });
-    }
-
-
-    headerElement.on('click', eventToggle);
-    scope.$on('$destroy', function () {
-      headerElement.off('click', eventToggle);
-    });
-
-
-    scope.toggle = toggle;
-
-
-
-    function eventToggle () {
-      scope.$apply(function () {
-        toggle();
-      });
-    }
-
-    function toggle (_isOpen) {
-      if (_isOpen === undefined) {
-        _isOpen = scope.brOpen || isOpen;
-      }
-
-      if (_isOpen === false) {
-        isOpen = true;
-        ctrl.toggle(true);
-        element.addClass('br-open');
-        expandContent();
-      } else {
-        isOpen = false;
-        element.removeClass('br-open');
-        contractContent();
-      }
-    }
-
-
-    function expandContent () {
-      if (height !== undefined) {
-        contentElement.css('height', height.replace('px', '') + 'px');
-      } else {
-        setHeight();
-      }
-    }
-
-    var killWatch;
-
-    function setHeight () {
-      contentElement.css('height', contentElement[0].scrollHeight + 'px');
-
-      killWatch = scope.$watch(function () { return contentElement[0].scrollHeight; }, function () {
-        if (contentElement.css('height') !== contentElement[0].scrollHeight + 'px') {
-          contentElement.css('height', contentElement[0].scrollHeight + 'px');
+    if (attr.brOpen !== undefined) {
+      var openGetter = $parse(attr.brOpen);
+      scope.$watch(function () { return openGetter(scope); }, function (open) {
+        if (open === true) {
+          ctrl.open();
+        } else {
+          ctrl.close();
         }
       });
     }
+  }
 
-    function contractContent () {
-      if (typeof killWatch === 'function') { killWatch(); }
 
-      contentElement.css('height', '0');
-      ctrl.toggle(false);
+  function controller($element, $attrs, $brComponentRegistry) {
+    /* jshint validthis: true */
+    var vm = this;
+
+    var _isOpen = false;
+
+    vm.height = $attrs.brHeight || $attrs.height;
+    vm.headerHook = headerHook;
+    vm.contentHook = contentHook;
+
+    vm.open = open;
+    vm.close = close;
+    vm.toggle = headerHook;
+    vm.isOpen = isOpen;
+
+
+    var destroy = $brComponentRegistry.register(vm, $attrs.brComponentId);
+    $element.on('$destroy', destroy);
+
+    function headerHook() {
+      _isOpen = !_isOpen;
+      setState();
+    }
+
+    function contentHook(func) {
+      if (typeof func !== 'function') { return; }
+      vm.contentHook = func;
+    }
+
+    function open() {
+      _isOpen = true;
+      setState();
+    }
+
+    function close() {
+      _isOpen = false;
+      setState();
+    }
+
+    function isOpen() {
+      return _isOpen;
+    }
+
+    function setState() {
+      $element.toggleClass('br-open', _isOpen);
+      vm.contentHook(_isOpen);
     }
   }
 }
@@ -169,12 +152,36 @@ function expanderDirective ($brTheme, $$rAF) {
 
 
 
-function expanderContentDirective () {
+
+function expanderHeaderDirective() {
+  var directive = {
+    restrict: 'E',
+    require: '^?brExpander',
+    link: link
+  };
+  return directive;
+
+
+  function link (scope, element, attr, ctrl) {
+    element.append(angular.element('<div class="br-expander-icon-container"><div class="br-expander-icon"></div></div>'));
+    element.on('click', function () {
+      scope.$apply(function () {
+        ctrl.headerHook();
+      });
+    });
+  }
+}
+
+
+
+
+expanderContentDirective.$inject = ['$timeout', '$document'];
+function expanderContentDirective($timeout, $document) {
   var directive = {
     restrict: 'E',
     require: '^?brExpander',
     template:
-      '<div ng-if="$brOpen" ng-transclude>'+
+      '<div class="br-expander-hide" ng-transclude>'+
       '</div>',
     transclude: true,
     link: link
@@ -183,10 +190,44 @@ function expanderContentDirective () {
 
 
   function link (scope, element, attr, ctrl) {
-    scope.$brOpen = false;
+    var killWatch;
+    var height = ctrl.height === undefined ? undefined : ctrl.height.replace('px', '') + 'px';
 
-    ctrl.hook(function (open) {
+    element.css('height', '0');
+
+
+    ctrl.contentHook(function (open) {
       scope.$brOpen = open;
+
+      $timeout(function () {
+        if (open === true) {
+          expandContent();
+        } else {
+          contractContent();
+        }
+      }, 0);
     });
+
+
+
+    function expandContent() {
+      element.css('height', getHeight());
+      element.css('overflow', 'auto');
+    }
+
+
+    function getHeight() {
+      if (height) {
+        return height;
+      } else {
+        return element[0].scrollHeight + 'px';
+      }
+    }
+
+
+    function contractContent() {
+      if (typeof killWatch === 'function') { killWatch(); }
+      element.css('height', '0');
+    }
   }
 }

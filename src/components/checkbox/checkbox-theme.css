@@ -1,35 +1,19 @@
-/*br-checkbox.br-THEME_NAME-theme .br-ripple {
-  color: '{{accent-600}}';
-}
-
-br-checkbox.br-THEME_NAME-theme.br-checked .br-ripple {
-  color: '{{background-600}}';
-}*/
-
-/*br-checkbox.br-THEME_NAME-theme.br-checked.br-focused .br-container:before {
-  background-color: '{{accent-color-0.26}}';
-}*/
-
-/*br-checkbox.br-THEME_NAME-theme .br-ink-ripple {
-  color: '{{foreground-2}}';
-}*/
-
-/*br-checkbox.br-THEME_NAME-theme.br-checked .br-ink-ripple {
-  color: '{{accent-color-0.87}}';
-}*/
-
+input[type="checkbox"]:not([br-no-style]),
 br-checkbox.br-THEME_NAME-theme .br-icon {
   border-color: '{{background-2}}';
 }
 
+input[type="checkbox"]:not([br-no-style]).ng-not-empty,
 br-checkbox.br-THEME_NAME-theme.br-checked .br-icon {
   background-color: '{{foreground-dark-4}}';
 }
 
+input[type="checkbox"]:not([br-no-style]).ng-not-empty:after,
 br-checkbox.br-THEME_NAME-theme.br-checked .br-icon:after {
   border-color: '{{background-3}}';
 }
 
+input[type="checkbox"]:not([br-no-style]) + label,
 br-checkbox.br-THEME_NAME-theme .br-label {
   color: '{{font-default}}';
 }
@@ -39,26 +23,12 @@ br-checkbox.br-THEME_NAME-theme .br-label {
 
 /* --- Primary --- */
 
-/*br-checkbox.br-THEME_NAME-theme:not([disabled]).br-primary .br-ripple {
-  color: '{{primary-600}}';
-}
-
-br-checkbox.br-THEME_NAME-theme:not([disabled]).br-primary.br-checked .br-ripple {
-  color: '{{background-600}}';
-}
-
-br-checkbox.br-THEME_NAME-theme:not([disabled]).br-primary .br-ink-ripple {
-  color: '{{foreground-2}}';
-}
-
-br-checkbox.br-THEME_NAME-theme:not([disabled]).br-primary.br-checked .br-ink-ripple {
-  color: '{{primary-color-0.87}}';
-}*/
-
+input[type="checkbox"]:not([br-no-style]).br-primary,
 br-checkbox.br-THEME_NAME-theme:not([disabled]).br-primary .br-icon {
   border-color: '{{primary-light-2}}';
 }
 
+input[type="checkbox"]:not([br-no-style]).br-primary.ng-not-empty,
 br-checkbox.br-THEME_NAME-theme:not([disabled]).br-primary.br-checked .br-icon {
   background-color: '{{primary-default}}';
 }
@@ -67,33 +37,21 @@ br-checkbox.br-THEME_NAME-theme:not([disabled]).br-primary.br-checked.br-focused
   background-color: '{{primary-default}}';
 }
 
+input[type="checkbox"]:not([br-no-style]).br-primary.ng-not-empty:after,
 br-checkbox.br-THEME_NAME-theme:not([disabled]).br-primary.br-checked .br-icon:after {
   border-color: '{{primary-light-5}}';
 }
 
 
-/* --- Secondary --- */
 
-/*br-checkbox.br-THEME_NAME-theme:not([disabled]).br-accent .br-ripple {
-  color: '{{accent-600}}';
-}
+/* --- Accent --- */
 
-br-checkbox.br-THEME_NAME-theme:not([disabled]).br-accent.br-checked .br-ripple {
-  color: '{{background-600}}';
-}
-
-br-checkbox.br-THEME_NAME-theme:not([disabled]).br-accent .br-ink-ripple {
-  color: '{{foreground-2}}';
-}
-
-br-checkbox.br-THEME_NAME-theme:not([disabled]).br-accent.br-checked .br-ink-ripple {
-  color: '{{accent-color-0.87}}';
-}*/
-
+input[type="checkbox"]:not([br-no-style]).br-accent,
 br-checkbox.br-THEME_NAME-theme:not([disabled]).br-accent .br-icon {
   border-color: '{{accent-light-2}}';
 }
 
+input[type="checkbox"]:not([br-no-style]).br-accent.ng-not-empty,
 br-checkbox.br-THEME_NAME-theme:not([disabled]).br-accent.br-checked .br-icon {
   background-color: '{{accent-default}}';
 }
@@ -102,32 +60,21 @@ br-checkbox.br-THEME_NAME-theme:not([disabled]).br-accent.br-checked.br-focused 
   background-color: '{{accent-default}}';
 }
 
+input[type="checkbox"]:not([br-no-style]).br-accent.ng-not-empty:after,
 br-checkbox.br-THEME_NAME-theme:not([disabled]).br-accent.br-checked .br-icon:after {
   border-color: '{{accent-light-5}}';
 }
 
 
 
-
 /* --- Warn --- */
 
-/*br-checkbox.br-THEME_NAME-theme:not([disabled]).br-warn .br-ripple {
-  color: '{{warn-600}}';
-}
-
-br-checkbox.br-THEME_NAME-theme:not([disabled]).br-warn .br-ink-ripple {
-  color: '{{foreground-2}}';
-}
-
-br-checkbox.br-THEME_NAME-theme:not([disabled]).br-warn.br-checked .br-ink-ripple {
-  color: '{{warn-color-0.87}}';
-}*/
-
-/* --- Warn --- */
+input[type="checkbox"]:not([br-no-style]).br-warn,
 br-checkbox.br-THEME_NAME-theme:not([disabled]).br-warn .br-icon {
   border-color: '{{warn-light-2}}';
 }
 
+input[type="checkbox"]:not([br-no-style]).br-warn.ng-not-empty,
 br-checkbox.br-THEME_NAME-theme:not([disabled]).br-warn.br-checked .br-icon {
   background-color: '{{warn-default}}';
 }
@@ -136,6 +83,7 @@ br-checkbox.br-THEME_NAME-theme:not([disabled]).br-warn.br-checked.br-focused:no
   background-color: '{{warn-default}}';
 }
 
+input[type="checkbox"]:not([br-no-style]).br-warn.ng-not-empty:after,
 br-checkbox.br-THEME_NAME-theme:not([disabled]).br-warn.br-checked .br-icon:after {
   border-color: '{{warn-light-5}}';
 }
@@ -143,18 +91,22 @@ br-checkbox.br-THEME_NAME-theme:not([disabled]).br-warn.br-checked .br-icon:afte
 
 
 
+input[type="checkbox"][disabled]:not([br-no-style]),
 br-checkbox.br-THEME_NAME-theme[disabled] .br-icon {
   border-color: '{{background-1}}';
 }
 
+input[type="checkbox"][disabled]:not([br-no-style]).ng-not-empty,
 br-checkbox.br-THEME_NAME-theme[disabled].br-checked .br-icon {
   background-color: '{{background-1}}';
 }
 
+input[type="checkbox"][disabled]:not([br-no-style]).ng-not-empty:after,
 br-checkbox.br-THEME_NAME-theme[disabled].br-checked .br-icon:after {
   border-color: '{{background-2}}';
 }
 
+input[type="checkbox"][disabled]:not([br-no-style]) + label,
 br-checkbox.br-THEME_NAME-theme[disabled] .br-label {
   color: '{{font-light-2}}';
 }

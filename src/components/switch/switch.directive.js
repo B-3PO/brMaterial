@@ -1,24 +1,36 @@
+/**
+ * @ngdoc module
+ * @name switch
+ */
 angular
   .module('brMaterial')
   .directive('brSwitch', brSwitchDirective);
 
 
 /**
+  * @ngdoc directive
   * @name brSwitch
-  * @module brSwitch
-  *
+  * @module switch
   *
   * @description
-  * The <br-switch> acts the same as a checkbox. It works with touchdevices for dragging
+  * The `<br-switch>` acts the same as a checkbox. It works with touchdevices for dragging
   *
+  * @param {model=} ng-model - `{@link https://docs.angularjs.org/api/ng/directive/ngModel Angular ngModel}`
+  * @param {boolean=} ng-checked - `{@link https://docs.angularjs.org/api/ng/directive/ngChange Angular ngChecked}`
+  * @param {boolean=} ng-disabled - `{@link https://docs.angularjs.org/api/ng/directive/ngChange Angular ngDisabled}`
+  * @param {function=} ng-change - `{@link https://docs.angularjs.org/api/ng/directive/ngChange Angular ngChange}`
   *
-  * @param {model} [ng-model]
+  * @usage
+  * #### Class Names
+  *  - `br-primary` - Themes primary color
+  *  - `br-accent` - Themes accent color
+  *  - `br-warn` - Themes warn color
   *
-  * @example
+  * <hljs lang="html">
   * <br-switch ng-model="switch1">
 	*		Switch 1: {{switch1}}
 	*	</br-switch>
-  *
+  * </hljs>
   */
 brSwitchDirective.$inject = ['brCheckboxDirective', '$brUtil', '$brTheme', '$brConstant', '$brGesture', '$$rAF'];
 function brSwitchDirective (brCheckboxDirective, $brUtil, $brTheme, $brConstant, $brGesture, $$rAF) {
@@ -32,6 +44,7 @@ function brSwitchDirective (brCheckboxDirective, $brUtil, $brTheme, $brConstant,
 			'<div ng-transclude flex class="br-label"></div>'+
 			'<div class="br-container">' +
 				'<div class="br-bar"></div>' +
+        '<div class="br-check"></div>' +
 				'<div class="br-thumb-container">' +
 					'<div class="br-thumb"></div>' +
 				'</div>'+
@@ -64,7 +77,6 @@ function brSwitchDirective (brCheckboxDirective, $brUtil, $brTheme, $brConstant,
       });
 
 
-      element.off('click');
       $brGesture.register(switchContainer, 'drag');
 			$brGesture.register(switchContainer, 'scroll');
 			switchContainer

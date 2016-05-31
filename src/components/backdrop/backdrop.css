@@ -11,5 +11,9 @@ br-backdrop {
 
 br-backdrop.br-click-catcher {
   position: fixed;
-  z-index: 998;
+  z-index: 996;
+}
+
+.br-backdrop-content-wrapper {
+  z-index: 997;
 }

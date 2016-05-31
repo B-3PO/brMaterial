@@ -1,3 +1,7 @@
+/**
+ * @ngdoc module
+ * @name subHeader
+ */
 angular
   .module('brMaterial')
   .directive('brSubheader', brSubheaderDirective);
@@ -5,21 +9,24 @@ angular
 
 
 /**
+  * @ngdoc directive
   * @name brSubheader
-  * @module brSubheader
-  *
+  * @module subHeader
   *
   * @description
-  * <br-subheader> are sticky headers, they will only be sticky inside of a <br-content> element
+  * `<br-subheader>` are sticky headers, they will only be sticky inside of a `<br-content>` element
   *
+  * @param {boolen=} br-no-sticky - disalbe sticky functionality
   *
-  * @example
-  * <br-subheader>
-  *    // Put stuff here
-  * </br-subheader>
-  *
+  * @usage
+  * <hljs lang="html">
+  * <br-content style="height: 400px">
+  *   <br-subheader>
+  *     // Put stuff here
+  *   </br-subheader>
+  * </br-content>
+  * </hljs>
   */
-
 brSubheaderDirective.$inject = ['$brTheme', '$compile', '$brSticky'];
 function brSubheaderDirective ($brTheme, $compile, $brSticky) {
   var directive = {
@@ -49,11 +56,25 @@ function brSubheaderDirective ($brTheme, $compile, $brSticky) {
         getContent(element).append(clone);
       });
 
-      if (element.hasClass('br-no-sticky') === false) {
+
+      scope.$watch(function () { return element.attr('br-no-sticky'); }, function (data) {
+        if (data !== undefined) {
+          removeSticky();
+        } else {
+          addSticky();
+        }
+      });
+
+
+      function removeSticky() {
+        scope.$broadcast('$removeSticky');
+      }
+
+      function addSticky() {
         transclude(scope, function(clone) {
           var stickyClone = $compile(angular.element(outerHTML))(scope);
           getContent(stickyClone).append(clone);
-          $brSticky(scope, element, stickyClone, angular.isDefined(attrs.brHorizontalScroll));
+          $brSticky(scope, element, stickyClone, attrs.brHorizontalScroll !== undefined);
         });
       }
     };

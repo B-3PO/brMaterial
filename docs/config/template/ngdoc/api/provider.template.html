@@ -1,0 +1,9 @@
+{% extends "api/object.template.html" %}
+
+{% block related_components %}
+  {% if doc.serviceDoc -%}
+  <div flex>
+    <a href="{$ doc.serviceDoc.path $}">- {$ doc.serviceDoc.name $}</a>
+  </div>
+  {%- endif %}
+{% endblock %}

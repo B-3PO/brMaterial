@@ -1,61 +1,76 @@
-.br-expander {
+br-expander {
+  display: flex;
+  flex-direction: column;
+}
+
+
+br-expander-content {
+  display: block;
+  overflow: hidden;
+  opacity: 0;
+  border-width: 0 1px 1px 1px;
+  border-style: solid;
+  transition: height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+              opacity 0.56s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+br-expander.br-no-border br-expander-content,
+br-expander-content.br-no-border {
+  border: none;
+}
+
+br-expander.br-open br-expander-content {
+  overflow-y: hidden;
+  opacity: 1;
+}
+
+br-expander.br-open.br-scroll br-expander-content {
+  overflow-y: auto;
+}
+
+
+br-expander-header {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  line-height: 47px;
+  min-height: 47px;
+  box-shadow: none;
+  cursor: pointer;
+  z-index: 2;
+  transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+br-expander.br-open:not(.br-no-shadow) br-expander-header {
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,.12),0 2px 3px -1px rgba(0,0,0,.14),0 2px 1px -2px rgba(0,0,0,.12);
+}
+
+
+.br-expander-icon-container {
+  display: block;
+  flex: 1;
+  text-align: right;
+  padding-right: 12px;
+}
+
+.br-expander-icon {
   display: inline-block;
 }
 
-.br-expander-header {
-  display: flex;
-  height: 48px;
-  line-height: 48px;
-  padding-right: 16px;
-  font-size: 18px;
-  border-bottom: 1px solid;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-}
-
-.br-expander.br-no-shadow .br-expander-header {
-  box-shadow: none;
-}
-
-
-.br-expander-icon {
-  display: block;
-  -webkit-align-items: flex-start;
-  -ms-flex-align: start;
-  align-items: flex-start;
-  text-align: start;
-  width: 48px;
-  height: 48px;
-  transform: rotate(-90deg);
-  transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.br-expander.br-open .br-expander-icon {
-  transform: rotate(0deg);
-}
-
 .br-expander-icon:after {
+  font-family: 'brMaterialIcons';
+  font-size: 18px;
+  font-weight: 600;
   display: block;
-  content: '\25BC';
+  content: '\e315';
   position: relative;
-  top: 2px;
-  left: 14px;
-  transform: scaleY(.6) scaleX(1);
+  speak: none;
+  transform: rotate(0deg);
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 
-
-.br-expander-content {
-  display: block;
-  overflow: hidden;
-  border-width: 0 1px 1px 1px;
-  border-style: solid;
-  opacity: 0;
-  transition: height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
-              opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.br-expander.br-open .br-expander-content {
-  overflow-y: scroll;
-  opacity: 1;
+br-expander.br-open .br-expander-icon:after {
+  transform: rotate(90deg);
 }

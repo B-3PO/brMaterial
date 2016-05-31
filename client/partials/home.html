@@ -1,310 +1,159 @@
-<div style="position: relative; height: 61px;">
-  <div style="padding: 18px; font-weight: 400; font-size: 22px; color: #FDF6FF; background: #2B252D; position: fixed; width: 100%; z-index: 299;">
-    Br Material 2.0
-  </div>
-</div>
+<br-content br-scroll-y>
+
+<br-input>
+  <label>auto complete</label>
+  <input ng-model="vm.autocomplete" />
+  <br-autocomplete br-data="vm.correspondence" br-filter="vm.autocomplete" ng-model="vm.autoSelected" ng-change="vm.autoSelectChange()"></br-autocomplete>
+</br-input>
 
 
-<h3>Table</h3>
-<div>
+<div style="padding-top: 300px;"></div>
 
-  <br-toolbar>
-    <label>People of the Future</label>
+<br-expansion-card-manager br-auto-expand br-component-id="cardmanager">
 
-    <br-toolbar-controls>
-      <br-button class="br-small br-circle" br-group="searches">
-        <br-icon br-font-icon="filter_list"></br-icon>
-      </br-button>
-      <br-button class="br-small br-circle">
-        <br-icon br-font-icon="add"></br-icon>
-      </br-button>
-    </br-toolbar-controls>
-
-    <br-toolbar-group name="searches">
-      <br-icon br-font-icon="search"></br-icon>
-      <input type="text" ng-model="vm.tableFilter.name" placeholder="Search..."/>
-    </br-toolbar-group>
-  </br-toolbar>
-
-
-  <!-- inner-width="800" -->
-  <br-table height="200" inner-width="600px" multiple ng-model="vm.tableSelected">
-    <br-head>
-      <br-th width="180" br-sort-by="name">Name</br-th>
-      <br-th>jobs</br-th>
-      <br-th br-ellipsis br-sort-by="email" width="80">email</br-th>
-      <br-th>phone</br-th>
-    </br-head>
-
-    <br-body br-item="item" br-data="vm.tableData" br-filter="vm.tableFilter">
-      <br-tr>
-        <br-td>{{item.name}}</br-td>
-
-        <br-td>
-          <div ng-repeat="sub in item.jobs">{{sub}}</div>
-        </br-td>
-
-        <br-td>{{item.email}}</br-td>
-        <br-td>{{item.phone}}</br-td>
-      </br-tr>
-    </br-body>
-  </br-table>
-</div>
-
-
-
-
-<h3>Advanced Select</h3>
-<div>
-  <div style="padding-left: 200px">
-    <br-select>
-      <!-- <label>Menu Items</label> -->
-      <br-select-menu ng-model="vm.advancedSelected" ng-change="vm.advancedSeletChange();" placeholder="Seleect...">
-        <br-select-header>
-          <input type="search" ng-model="vm.selectFilter" placeholder="Search..." />
-        </br-select-header>
-
-        <br-option-group label="Main">
-          <br-option ng-value="item" ng-repeat="item in vm.listList | filter:vm.selectFilter">{{item.name}}</br-option>
-        </br-option-group>
-
-        <br-button class="br-primary" ng-click="vm.selectButtonTest();">Create New</br-button>
-      </br-select-menu>
-    </br-select>
-  </div>
-</div>
-
-
-
-<h3>Select</h3>
-<div>
-  <br-select>
-    <label>People</label>
-    <select ng-disabled="false" ng-model="vm.dummy" ng-options="item.name group by item.email for item in vm.listList">
-    </select>
-  </br-select>
-</div>
-
-
-
-
-<h3>Dialog</h3>
-<div>
-  <br-button class="br-raised br-primary" ng-click="vm.popDialog();">Dialog</br-button>
-  <br-button class="br-raised br-accent" ng-Click="vm.popAlert();">Alert</br-button>
-  <br-button class="br-raised br-warn" ng-Click="vm.popTemplatedDialog();">Templated</br-button>
-</div>
-
-
-
-
-<h3>Buttons</h3>
-<div>
-  <br-button>Button</br-button>
-  <br-button class="br-primary">Primary</br-button>
-  <br-button class="br-accent">accent</br-button>
-  <br-button class="br-warn"><br-icon br-font-icon="edit"></br-icon>Edit</br-button>
-  <br-button class="br-primary br-circle">1</br-button>
-  <br-button class="br-primary br-circle br-small"><br-icon br-font-icon="add"></br-icon></br-button>
-
-  <br-button class="br-raised" style="color: #d0021b">Button</br-button>
-  <br-button class="br-raised br-primary">Primary</br-button>
-  <br-button class="br-raised br-accent">accent</br-button>
-  <br-button class="br-raised br-warn">warn</br-button>
-  <br-button class="br-raised br-primary" disabled="true"><br-icon br-font-icon="wifi"></br-icon>WIFI</br-button>
-  <br-button class="br-raised br-primary br-circle">1</br-button>
-  <br-button class="br-raised br-warn br-circle br-small"><br-icon br-font-icon="cancel"></br-icon></br-button>
-</div>
-
-
-
-
-
-
-<h3>Spinner</h3>
-<div layout="row">
-  <br-spinner class="br-primary" br-value="{{vm.spinnerPercentage}}"></br-spinner>
-  <br-spinner class="br-accent"></br-spinner>
-</div>
-
-
-
-<h3>List</h3>
-<div>
-  {{vm.listSelected}}
-  <br-list ng-model="vm.listSelected" class="br-primary" br-toggle-select="vm.toggleSelect" br-max-selection="2">
-    <br-item br-select="item.order" ng-repeat="item in vm.listList | orderBy:'order'" br-drag-order>
-      <br-item-controls>
-        <br-button class="br-primary br-raised">Edit</br-button>
-      </br-item-controls>
-
-      <br-item-content>
-        <div flex class="br-item-title">{{item.name}}</div>
-        <div layout="row" layout-fill class="br-item-sub-title">
-          <div>{{item.email}}</div>
-          <div>{{item.phone}}</div>
+  <br-expansion-card>
+    <br-collapsed-content>
+      <div layout="column">
+        <div class="expand-header">Venue</div>
+        <div class="expand-title">{{vm.venue.name}}</div>
+        <div layout="row">
+          <div class="expand-sub">{{vm.venue.city}}, {{vm.venue.state}}</div>
+          <div class="expand-active" ng-class="vm.venue.active ? '' : 'red-text'">{{vm.venue.active ? 'Active' : 'Inactive'}}</div>
         </div>
-      </br-item-content>
-    </br-item>
-  </br-list>
-</div>
-
-
-
-<h3>Expander</h3>
-<div>
-  <br-expander class="br-primary" br-width="400px" br-height="300px">
-    <br-expander-header>Title</br-expander-header>
-    <br-expander-content>
-      <div style="height:100px; width: 200px; background: #AAA;" ng-repeat="item in vm.expanderList"></div>
-      <!-- <div style="height: 500px; width: 200px; background: #AAA;"></div> -->
-    </br-expander-content>
-  </br-expander>
-</div>
-
-
-
-
-<h3>Select</h3>
-<div>
-  <br-select>
-    <label>State</label>
-    <select ng-model="vm.selectModel" placeholder="Select..." ng-options="opt.id as opt.name for opt in vm.selectOptions track by opt.id">
-      <!-- <option value="{{opt}}" ng-repeat="opt in vm.selectOptions">{{ opt.name }}</option> -->
-    </select>
-  </br-select>
-
-
-  <div>{{vm.selectModel}}</div>
-</div>
-
-
-<h3>File</h3>
-<div>
-  <br-file class="br-primary" br-file-types=".jpg,.png,.gif" br-file-name="fileNameOne" ng-model="fileOne">Select</br-file>
-  <span>{{fileNameOne}}</span>
-  <br-file class="br-raised br-accent" br-file-types=".jpg,.png,.gif" br-file-name="fileNameTwo" ng-model="fileTwo">What</br-file>
-  <span>{{fileNameTwo}}</span>
-</div>
-
-
-
-<h3>Icons</h3>
-<div>
-  <br-icon br-font-icon="edit"></br-icon>
-  <br-icon br-font-icon="add" class="br-primary"></br-icon>
-  <br-icon br-font-icon="document" class="br-accent" br-size="40"></br-icon>
-</div>
-
-
-
-<h3>Checkbox</h3>
-<div>
-  <br-checkbox ng-model="checkboxOne">Checked: {{checkboxOne}}</br-checkbox>
-  <br-checkbox class="br-primary" ng-model="checkboxTwo">Checked: {{checkboxTwo}}</br-checkbox>
-  <br-checkbox class="br-accent" ng-model="checkboxThree">Checked: {{checkboxThree}}</br-checkbox>
-  <br-checkbox class="br-warn" ng-model="checkboxFour">Checked: {{checkboxFour}}</br-checkbox>
-</div>
-
-
-<h3>Switch</h3>
-<div style="max-width: 200px;">
-  <br-switch ng-model="switchOne">Switched: {{switchOne}}</br-switch>
-  <br-switch class="br-primary" ng-model="switchTwo">Switched: {{switchTwo}}</br-switch>
-  <br-switch class="br-accent" ng-model="switchThree">Switched: {{switchThree}}</br-switch>
-  <br-switch class="br-warn" ng-model="switchFour">Switched: {{switchFour}}</br-switch>
-</div>
-
-
-<h3>Input</h3>
-<div>
-  <form name="theForm">
-    <br-input>
-      <label>Label</label>
-      <input type="text" name="inputOne" ng-model="inputText" required/>
-      <div ng-messages="theForm.inputOne.$error">
-        <div ng-message="required">This is required</div>
       </div>
-    </br-input>
+    </br-collapsed-content>
 
-    <br-input>
-      <label>Count</label>
-      <input type="number" ng-model="minCount" name="minCount" ng-min="10"/>
-      <div ng-messages="theForm.minCount.$error">
-        <div ng-message="min">Minimum of 10</div>
+    <br-expanded-content>
+
+    <br-content br-auto-height>
+      <br-subheader>
+        <h5>Venue</h5>
+      </br-subheader>
+
+      <div ng-if="vm.loadingVenue === true" layout="row" layout-align="center center">
+        <br-spinner class="br-primary"></br-spinner>
       </div>
-    </br-input>
-  </form>
-</div>
+
+      <div ng-if="vm.loadingVenue === false" class="br-expander-load">
+        <h2>{{vm.venue.name}}</h2>
+        <h3>Edit you fool!</h3>
+
+        <div style="padding-top:24px;"></div>
+
+        <div layout="column">
+          <form name="venform">
+            <div layout="row">
+              <br-input style="width: 100%; max-width: 320px;">
+                <label>Venue Name</label>
+                <input name="name" ng-model="vm.venue.name" required/>
+                <div ng-messages="venform.name.$error">
+                  <div ng-message="requried">Required</div>
+                </div>
+              </br-input>
+
+              <br-select>
+                <label>Menu Items</label>
+                <br-select-menu ng-model="vm.advancedSelected" ng-change="vm.advancedSeletChange();" placeholder="Seleect..." multiple>
+                  <br-select-header>
+                    <input type="search" ng-model="vm.selectFilter" placeholder="Search..." />
+                  </br-select-header>
+
+                  <br-option-group label="Main">
+                    <br-option ng-value="item" ng-repeat="item in vm.listList | filter:vm.selectFilter">{{item.name}}</br-option>
+                  </br-option-group>
+
+                  <br-button class="br-primary" ng-click="vm.selectButtonTest();">Create New</br-button>
+                </br-select-menu>
+              </br-select>
+            </div>
+
+            <div layout="row">
+              <br-input flex>
+                <label>Venue City</label>
+                <input name="city" ng-model="vm.venue.city" required/>
+                <div ng-messages="venform.city.$error">
+                  <div ng-message="requried">Required</div>
+                </div>
+              </br-input>
+
+              <br-input flex>
+                <label>Venue State</label>
+                <input name="state" ng-model="vm.venue.state" required/>
+                <div ng-messages="venform.state.$error">
+                  <div ng-message="requried">Required</div>
+                </div>
+              </br-input>
+            </div>
 
 
+            <div layout="row">
+              <br-input flex>
+                <label>Venue Phone</label>
+                <input name="phone" ng-model="vm.venue.phone" required/>
+                <div ng-messages="venform.phone.$error">
+                  <div ng-message="requried">Required</div>
+                </div>
+              </br-input>
 
-<h3>Radio</h3>
-<div>
-  <br-radio-group ng-model="radioGroup1">
-    <br-radio-button value="1">Test</br-radio-button>
-    <br-radio-button value="2" class="br-accent">accent 2</br-radio-button>
-    <br-radio-button value="3" class="br-primary">Primary 3</br-radio-button>
-  </br-radio-group>
-</div>
+              <br-input flex>
+                <label>Venue Email</label>
+                <input name="email" ng-model="vm.venue.email" required/>
+                <div ng-messages="venform.email.$error">
+                  <div ng-message="requried">Required</div>
+                </div>
+              </br-input>
+            </div>
 
+            <br-checkbox ng-model="vm.venue.active">Active</br-checkbox>
+          </form>
+        </div>
 
-
-<h3>Menu</h3>
-<div layout="row">
-  <br-menu>
-    <br-button ng-click="$brOpenMenu($event)" class="br-no-margin br-circle br-small"><br-icon br-font-icon="more_vert"></br-icon></br-button>
-    <br-menu-content>
-      <br-menu-item>
-        <br-button ng-click="vm.menuClick()"><br-icon br-font-icon="edit" br-size="20"></br-icon>Change Image</br-button>
-      </br-menu-item>
-      <br-menu-item>
-        <br-button ng-click="vm.menuClick()"><br-icon br-font-icon="add" br-size="20"></br-icon>Upload Image</br-button>
-      </br-menu-item>
-    </br-menu-content>
-  </br-menu>
-
-  <div style="padding-left: 200px;">
-    <br-menu br-position-mode="right top">
-      <br-button ng-click="$brOpenMenu($event)" class="br-no-margin br-circle br-small"><br-icon br-font-icon="more_vert"></br-icon></br-button>
-      <br-menu-content>
-        <br-menu-item>
-          <br-button ng-click=""><br-icon br-font-icon="edit" br-size="20"></br-icon>Change Image</br-button>
-        </br-menu-item>
-        <br-menu-item>
-          <br-button ng-click=""><br-icon br-font-icon="add" br-size="20"></br-icon>Upload Image</br-button>
-        </br-menu-item>
-      </br-menu-content>
-    </br-menu>
-  </div>
-</div>
-
-
-<h3>Sub Header</h3>
-<div>
-  <br-content style="height: 300px">
-    <br-subheader>
-      <div style="padding: 16px; color: #333; background: #CCC">
-        Sub Header 1
+        <div>
+          <h5>Locations</h5>
+          <br-list>
+            <br-item ng-repeat="location in vm.venue.locations" ng-click="vm.openLocation(location)" style="cursor: pointer;">
+              <br-item-content>
+                <div>{{location.name}}</div>
+              </br-item-content>
+            </br-item>
+          </br-list>
+        </div>
       </div>
-    </br-subheader>
+    </br-content>
+    </br-expanded-content>
+  </br-expansion-card>
 
-    <div style="height: 200px;"></div>
+</br-expansion-card-manager>
+</br-content>
 
-    <br-subheader>
-      <div style="padding: 16px; color: #333; background: #CCC">
-        Sub Header 2
-      </div>
-    </br-subheader>
 
-    <div style="height: 200px;"></div>
+<style>
+  .expand-header {
+    font-size: 13px;
+    color: #999;
+  }
 
-    <br-subheader>
-      <div style="padding: 16px; color: #333; background: #CCC">
-        Sub Header 3
-      </div>
-    </br-subheader>
+  .expand-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #666;
+    padding-bottom: 6px;
+    padding-top: 2px;
+  }
 
-    <div style="height: 200px;"></div>
-  </br-content>
-</div>
+  .expand-sub {
+    font-size: 14px;
+    color: #444;
+  }
+
+  .expand-active {
+    padding-left: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color:rgb(129, 224, 127);
+  }
+
+  .expand-active.red-text {
+    color: rgb(214, 61, 61);
+  }
+</style>

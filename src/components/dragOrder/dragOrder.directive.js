@@ -1,3 +1,10 @@
+/**
+ * @ngdoc module
+ * @name dragOrder
+ * @description
+ * dragOrder
+ */
+
 angular
   .module('brMaterial')
   .directive('brDragOrder', brDragOrderDirective);
@@ -5,27 +12,38 @@ angular
 
 
 /**
+ * @ngdoc directive
  * @name brDragOrder
- * @module brDragOrder
+ * @module dragOrder
  *
- * @requires ng-repeat
- * @requires ordinal filter
- *
- *
- * @param {function} [br-drag-order] - pass in an optinal function the will get called when the order changes
- * @param {boolean} [br-drag-order-allowed] - set if the drag ordering can be done
+ * @param {function=} br-drag-order - Pass in an optinal function the will get called when the order changes
+ * @param {boolean=} br-drag-order-allowed - Set if the drag ordering can be done
  *
  * @description
- * The [br-drag-order] this will use the ng-repeat and its ordinal filter to allow you to click-drag reorder elements
+ * The `[br-drag-order]` this will use the ng-repeat and its ordinal filter to allow you to click-drag reorder elements
  * This will set a new ordinal value between the two items you dragged between.
  * decimals are used for this process.
  * The drag reorder is initiated after holding the element for 500 ms
  *
+ * @usage
+ * ### Controller
+ * <hljs lang="js">
+ * angular.controller('MyCtrl', function($scope) {
+ *   $scope.users = [
+ *     { ordinal: 1, name: 'Bob' },
+ *     { ordinal: 2, name: 'Alice' },
+ *     { ordinal: 3, name: 'Steve' }
+ *   ];
+ * });
+ * </hljs>
  *
- * @example
- * <div ng-repeat="item in list | orderBy:'item.ordinal'" br-drag-order="">
- * </div>
- *
+ * ### HTML
+ * `br-drag-reorder` will use the propery defined by the `orderBy` filter
+ * <hljs lang="html">
+ *  <div ng-repeat="item in list | orderBy:'item.ordinal'" br-drag-order="">
+ *    {{item}}
+ *  </div>
+ * </hljs>
  */
 brDragOrderDirective.$inject = ['$brGesture', '$brConstant', '$brDialog', '$parse'];
 function brDragOrderDirective($brGesture, $brConstant, $brDialog, $parse) {

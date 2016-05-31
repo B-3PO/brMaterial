@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="docsApp">
+  <head>
+    <base href="/">
+    <meta name="viewport" content="initial-scale=1">
+    <title>Bypass Real Material</title>
+
+    <!-- moduleCss:css -->
+    <!-- endinject -->
+
+    <!-- inject:css -->
+    <!-- endinject -->
+
+    <script src="modules/highlight/highlight.pack.js"></script>
+    <!-- bower:js  -->
+    <!-- endinject -->
+
+    <!-- moduleScripts:js -->
+    <!-- endinject  -->
+
+    <!-- appscripts:js -->
+    <!-- endinject  -->
+
+  </head>
+
+  <body>
+    <top-bar></top-bar>
+    <div layout="row" style="height: 100%;">
+      <br-side-content br-is-locked-open="$brMedia('md')" class="br-side-content-left" br-component-id="navMenuSideContent" br-width="220">
+        <nav-menu>
+          <nav-menu-item ng-repeat="item in vm.menu">
+
+            <br-button ng-if="item.url !== undefined" ng-href="#/{{item.url}}">
+              {{item.label}}
+            </br-button>
+
+            <nav-menu-expander ng-if="item.sub !== undefined" label="item.label">
+
+              <div ng-repeat="sub in item.sub">
+                <div ng-if="sub.docs">
+                  <br-button ng-repeat="doc in sub.docs" ng-href="#/{{doc.url}}">{{doc.label}}</br-button>
+                </div>
+
+                <br-button ng-if="!sub.docs" ng-href="#/{{sub.url}}">{{sub.label}}</br-button>
+              </div>
+            </nav-menu-expander>
+
+          </nav-menu-item>
+        </nav-menu>
+      </br-side-content>
+
+      <br-content br-auto-height style="width: 100%;">
+        <div flex style="padding-top: 50px; padding-left: 8px; padding-right: 8px;" ng-view></div>
+      </br-content>
+    </div>
+  </body>
+</html>

@@ -17,6 +17,10 @@ br-item {
 }
 
 
+br-item.ng-leave {
+  transition: none;
+}
+
 br-list.br-no-divider br-item {
   border: none;
 }

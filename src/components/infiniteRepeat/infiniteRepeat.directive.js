@@ -1,3 +1,7 @@
+/**
+ * @ngdoc module
+ * @name infinteRepeat
+ */
 angular
   .module('brMaterial')
   .directive('brInfiniteRepeat', repeateDirective);
@@ -5,26 +9,23 @@ angular
 var NUM_EXTRA = 4;
 
 /**
+ * @ngdoc directive
  * @name brInfiniteRepeat
- * @module brInfiniteRepeat
- *
- * @requires brInfiniteRepeatContainer
- *
- *
- * @param {number} [br-min-width] - set the minimum width of the inner element, this will allow horizontal scrolling
- *
+ * @module infinteRepeat
  *
  * @description
- * [br-infiinite-repeat] is a replacement for ng-repeat that will render only enough items to display in the visible area.
+ * `[br-infiinite-repeat]` is a replacement for ng-repeat that will render only enough items to display in the visible area.
  * The items are then swapped out as you scroll. This should be able to hanlde large amounts of data without creating performace issues
  *
  *
- * @example
+ * @usage
+ * <hljs lang="html">
  * <br-infinite-repeat-container>
  * 	<div br-inifinte-repeat="item in list">
  * 		{{item.name}}
  * 	</div>
  * </br-infinite-repeat-container>
+ * </hljs>
  */
 repeateDirective.$inject = ['$parse', '$document', '$timeout'];
 function repeateDirective ($parse, $document, $timeout) {
@@ -47,7 +48,6 @@ function repeateDirective ($parse, $document, $timeout) {
     var repeatName = match[1];
     var repeatListExpression = $parse(match[2]);
     var extraName = tAttrs.brExtraName && $parse(tAttrs.brExtraName);
-
 
     return function link(scope, element, attrs, ctrl, transclude) {
       var containerCtrl = ctrl[0];
@@ -101,7 +101,6 @@ function repeateDirective ($parse, $document, $timeout) {
         var newStartBlocks_ = [];
         var newEndBlocks_ = [];
 
-
         // If the number of items shrank, scroll up to the top.
         if (items && itemsLength < items.length && containerCtrl.getScrollOffset() !== 0) {
           items = newItems;
@@ -110,6 +109,7 @@ function repeateDirective ($parse, $document, $timeout) {
         }
 
         if (itemsLength_ !== itemsLength) {
+          containerCtrl.updateAutoHeight();
           lengthChanged = true;
           itemsLength = itemsLength_;
         }

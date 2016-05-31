@@ -1,0 +1,19 @@
+<div ng-controller="AppCtrl" ng-cloak>
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Sizes and Colors</div>
+
+    <br-spinner></br-spinner>
+    <br-spinner br-diameter="80" class="br-primary"></br-spinner>
+    <br-spinner br-diameter="40" class="br-accent"></br-spinner>
+    <br-spinner br-diameter="24" class="br-warn"></br-spinner>
+  </section>
+
+
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Percent</div>
+
+    <br-spinner br-value="{{percent}}" br-diameter="60" class="br-primary"></br-spinner>
+
+    <div style="position: absolute; left: 50%; top: 63px; width: 100px; margin-left: -50px; text-align: center;">{{percent}}%</div>
+  </section>
+</div>

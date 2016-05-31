@@ -1,0 +1,329 @@
+<div style="position: relative; height: 61px;">
+  <div style="padding: 18px; font-weight: 400; font-size: 22px; color: #FDF6FF; background: #2B252D; position: fixed; width: 100%; z-index: 299;">
+    Br Material 2.0
+  </div>
+</div>
+
+
+<h3>if</h3>
+<div>
+  <!-- <div layout="column" layout-fill> -->
+  <br-infinite-repeat-container br-min-width="400px" style="height: 300px;">
+    <div layout="row" br-infinite-repeat='item in vm.tableData'>
+      <div>{{item.name}}</div>
+    </div>
+  </br-infinite-repeat-container>
+  <!-- </div> -->
+</div>
+
+
+<h3>Table</h3>
+<div>
+
+  <br-toolbar>
+    <label>People of the Future</label>
+
+    <br-toolbar-controls>
+      <br-button class="br-small br-circle" br-group="searches">
+        <br-icon br-font-icon="filter_list"></br-icon>
+      </br-button>
+      <br-button class="br-small br-circle">
+        <br-icon br-font-icon="add"></br-icon>
+      </br-button>
+    </br-toolbar-controls>
+
+    <br-toolbar-group name="searches">
+      <br-icon br-font-icon="search"></br-icon>
+      <input type="text" ng-model="vm.tableFilter.name" placeholder="Search..."/>
+    </br-toolbar-group>
+  </br-toolbar>
+
+
+  <!-- inner-width="800" -->
+  <br-table height="200" inner-width="600px" multiple ng-model="vm.tableSelected">
+    <br-head>
+      <br-th width="180" br-sort-by="name">Name</br-th>
+      <br-th>jobs</br-th>
+      <br-th br-ellipsis br-sort-by="email" width="80">email</br-th>
+      <br-th>phone</br-th>
+    </br-head>
+
+    <br-body br-item="item" br-data="vm.tableData" br-filter="vm.tableFilter">
+      <br-tr>
+        <br-td>{{item.name}}</br-td>
+
+        <br-td>
+          <div ng-repeat="sub in item.jobs">{{sub}}</div>
+        </br-td>
+
+        <br-td>{{item.email}}</br-td>
+        <br-td>{{item.phone}}</br-td>
+      </br-tr>
+    </br-body>
+  </br-table>
+</div>
+
+
+
+
+<h3>Advanced Select</h3>
+<div>
+  <div style="padding-left: 200px">
+    <br-select>
+      <!-- <label>Menu Items</label> -->
+      <br-select-menu ng-model="vm.advancedSelected" ng-change="vm.advancedSeletChange();" placeholder="Seleect..." multiple>
+        <br-select-header>
+          <input type="search" ng-model="vm.selectFilter" placeholder="Search..." />
+        </br-select-header>
+
+        <br-option-group label="Main">
+          <br-option ng-value="item" ng-repeat="item in vm.listList | filter:vm.selectFilter">{{item.name}}</br-option>
+        </br-option-group>
+
+        <br-button class="br-primary" ng-click="vm.selectButtonTest();">Create New</br-button>
+      </br-select-menu>
+    </br-select>
+  </div>
+</div>
+
+
+
+<h3>Select</h3>
+<div>
+  <br-select>
+    <label>People</label>
+    <select ng-disabled="false" ng-model="vm.dummy" ng-options="item.name group by item.email for item in vm.listList">
+    </select>
+  </br-select>
+</div>
+
+
+
+
+<h3>Dialog</h3>
+<div>
+  <br-button class="br-raised br-primary" ng-click="vm.popDialog($event);">Dialog</br-button>
+  <br-button class="br-raised br-accent" ng-Click="vm.popAlert();">Alert</br-button>
+  <br-button class="br-raised br-warn" ng-Click="vm.popTemplatedDialog();">Templated</br-button>
+</div>
+
+
+
+
+<h3>Buttons</h3>
+<div>
+  <br-button>Button</br-button>
+  <br-button class="br-primary">Primary</br-button>
+  <br-button class="br-accent">accent</br-button>
+  <br-button class="br-warn"><br-icon br-font-icon="edit"></br-icon>Edit</br-button>
+  <br-button class="br-primary br-circle">1</br-button>
+  <br-button class="br-primary br-circle br-small"><br-icon br-font-icon="add"></br-icon></br-button>
+
+  <br-button class="br-raised" style="color: #d0021b">Button</br-button>
+  <br-button class="br-raised br-primary">Primary</br-button>
+  <br-button class="br-raised br-accent">accent</br-button>
+  <br-button class="br-raised br-warn">
+    warn
+    <br-tooltip>Test</br-tooltip>
+  </br-button>
+  <br-button class="br-raised br-primary" disabled="true">
+    <br-icon br-font-icon="wifi"></br-icon>
+    WIFI
+    <br-tooltip>Test</br-tooltip>
+  </br-button>
+  <br-button class="br-raised br-primary br-circle">1</br-button>
+  <br-button class="br-raised br-warn br-circle br-small"><br-icon br-font-icon="cancel"></br-icon></br-button>
+</div>
+
+
+
+
+
+
+<h3>Spinner</h3>
+<div layout="row">
+  <br-spinner class="br-primary" br-value="{{vm.spinnerPercentage}}"></br-spinner>
+  <br-spinner class="br-accent"></br-spinner>
+</div>
+
+
+
+<h3>List</h3>
+<div>
+  {{vm.listSelected}}
+  <br-list ng-model="vm.listSelected"  br-toggle-select="vm.toggleSelect" br-max-selection="2">
+    <br-item br-select="item.order" br-row-select ng-repeat="item in vm.listList | orderBy:'order'" br-drag-order>
+      <br-item-controls>
+        <br-button class="br-primary br-raised">Edit</br-button>
+      </br-item-controls>
+
+      <br-item-content>
+        <div flex class="br-item-title">{{item.name}}</div>
+        <div layout="row" layout-fill class="br-item-sub-title">
+          <div>{{item.email}}</div>
+          <div>{{item.phone}}</div>
+        </div>
+      </br-item-content>
+    </br-item>
+  </br-list>
+</div>
+
+
+
+<h3>Expander</h3>
+<div>
+  <br-expander class="br-primary" br-width="400px" br-height="300px">
+    <br-expander-header>Title</br-expander-header>
+    <br-expander-content>
+      <div style="height:100px; width: 200px; background: #AAA;" ng-repeat="item in vm.expanderList"></div>
+      <!-- <div style="height: 500px; width: 200px; background: #AAA;"></div> -->
+    </br-expander-content>
+  </br-expander>
+</div>
+
+
+
+
+<h3>Select</h3>
+<div>
+  <br-select>
+    <label>State</label>
+    <select ng-model="vm.selectModel" placeholder="Select..." ng-options="opt.id as opt.name for opt in vm.selectOptions track by opt.id">
+      <!-- <option value="{{opt}}" ng-repeat="opt in vm.selectOptions">{{ opt.name }}</option> -->
+    </select>
+  </br-select>
+
+
+  <div>{{vm.selectModel}}</div>
+</div>
+
+
+<h3>File</h3>
+<div>
+  <br-file class="br-primary" br-file-types=".jpg,.png,.gif" br-file-name="fileNameOne" ng-model="fileOne">Select</br-file>
+  <span>{{fileNameOne}}</span>
+  <br-file class="br-raised br-accent" br-file-types=".jpg,.png,.gif" br-file-name="fileNameTwo" ng-model="fileTwo">What</br-file>
+  <span>{{fileNameTwo}}</span>
+</div>
+
+
+
+<h3>Icons</h3>
+<div>
+  <br-icon br-font-icon="edit"></br-icon>
+  <br-icon br-font-icon="add" class="br-primary"></br-icon>
+  <br-icon br-font-icon="document" class="br-accent" br-size="40"></br-icon>
+</div>
+
+
+
+<h3>Checkbox</h3>
+<div>
+  <br-checkbox ng-model="checkboxOne">Checked: {{checkboxOne}}</br-checkbox>
+  <br-checkbox class="br-primary" ng-model="checkboxTwo">Checked: {{checkboxTwo}}</br-checkbox>
+  <br-checkbox class="br-accent" ng-model="checkboxThree">Checked: {{checkboxThree}}</br-checkbox>
+  <br-checkbox class="br-warn" ng-model="checkboxFour">Checked: {{checkboxFour}}</br-checkbox>
+</div>
+
+
+<h3>Switch</h3>
+<div style="max-width: 200px;">
+  <br-switch ng-model="switchOne">Switched: {{switchOne}}</br-switch>
+  <br-switch class="br-primary" ng-model="switchTwo">Switched: {{switchTwo}}</br-switch>
+  <br-switch class="br-accent" ng-model="switchThree">Switched: {{switchThree}}</br-switch>
+  <br-switch class="br-warn" ng-model="switchFour">Switched: {{switchFour}}</br-switch>
+</div>
+
+
+<h3>Input</h3>
+<div>
+  <form name="theForm">
+    <br-input>
+      <label>Label</label>
+      <input type="text" name="inputOne" ng-model="inputText" required/>
+      <div ng-messages="theForm.inputOne.$error">
+        <div ng-message="required">This is required</div>
+      </div>
+    </br-input>
+
+    <br-input>
+      <label>Count</label>
+      <input type="number" ng-model="minCount" name="minCount" ng-min="10"/>
+      <div ng-messages="theForm.minCount.$error">
+        <div ng-message="min">Minimum of 10</div>
+      </div>
+    </br-input>
+  </form>
+</div>
+
+
+
+<h3>Radio</h3>
+<div>
+  <br-radio-group ng-model="radioGroup1">
+    <br-radio-button value="1">Test</br-radio-button>
+    <br-radio-button value="2" class="br-accent">accent 2</br-radio-button>
+    <br-radio-button value="3" class="br-primary">Primary 3</br-radio-button>
+  </br-radio-group>
+</div>
+
+
+
+<h3>Menu</h3>
+<div layout="row">
+  <br-menu>
+    <br-button ng-click="$brOpenMenu($event)" class="br-no-margin br-circle br-small"><br-icon br-font-icon="more_vert"></br-icon></br-button>
+    <br-menu-content>
+      <br-menu-item>
+        <br-button ng-click="vm.menuClick()"><br-icon br-font-icon="edit" br-size="20"></br-icon>Change Image</br-button>
+      </br-menu-item>
+      <br-menu-item>
+        <br-button ng-click="vm.menuClick()"><br-icon br-font-icon="add" br-size="20"></br-icon>Upload Image</br-button>
+      </br-menu-item>
+    </br-menu-content>
+  </br-menu>
+
+  <div style="padding-left: 200px;">
+    <br-menu br-position-mode="right top">
+      <br-button ng-click="$brOpenMenu($event)" class="br-no-margin br-circle br-small"><br-icon br-font-icon="more_vert"></br-icon></br-button>
+      <br-menu-content>
+        <br-menu-item>
+          <br-button ng-click=""><br-icon br-font-icon="edit" br-size="20"></br-icon>Change Image</br-button>
+        </br-menu-item>
+        <br-menu-item>
+          <br-button ng-click=""><br-icon br-font-icon="add" br-size="20"></br-icon>Upload Image</br-button>
+        </br-menu-item>
+      </br-menu-content>
+    </br-menu>
+  </div>
+</div>
+
+
+<h3>Sub Header</h3>
+<div>
+  <br-content style="height: 300px">
+    <br-subheader>
+      <div style="padding: 16px; color: #333; background: #CCC">
+        Sub Header 1
+      </div>
+    </br-subheader>
+
+    <div style="height: 200px;"></div>
+
+    <br-subheader>
+      <div style="padding: 16px; color: #333; background: #CCC">
+        Sub Header 2
+      </div>
+    </br-subheader>
+
+    <div style="height: 200px;"></div>
+
+    <br-subheader>
+      <div style="padding: 16px; color: #333; background: #CCC">
+        Sub Header 3
+      </div>
+    </br-subheader>
+
+    <div style="height: 200px;"></div>
+  </br-content>
+</div>

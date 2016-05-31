@@ -4,10 +4,10 @@ angular
 
 
 brStickyService.$inject = ['$document', '$$rAF', '$brUtil', '$timeout', '$brConstant'];
-function brStickyService ($document, $$rAF, $brUtil, $timeout, $brConstant) {
+function brStickyService($document, $$rAF, $brUtil, $timeout, $brConstant) {
   var browserStickySupport = checkStickySupport();
 
-  return function registerStickyElement (scope, element, stickyClone, horizontalScroll) {
+  return function registerStickyElement(scope, element, stickyClone, horizontalScroll) {
     horizontalScroll = horizontalScroll || false;
     var contentCtrl = element.controller('brContent');
     if (!contentCtrl) return;
@@ -27,13 +27,14 @@ function brStickyService ($document, $$rAF, $brUtil, $timeout, $brConstant) {
 
       var deregister = $$sticky.add(element, stickyClone || element.clone());
       scope.$on('$destroy', deregister);
+      scope.$on('$removeSticky', deregister);
     }
   };
 
 
 
 
-  function setupSticky (contentCtrl, horizontalScroll) {
+  function setupSticky(contentCtrl, horizontalScroll) {
     var contentEl = contentCtrl.$element;
     var debouncedRefreshElements = $$rAF.throttle(refreshElements);
     var debouncedScroll = $$rAF.throttle(onScroll);
@@ -57,8 +58,12 @@ function brStickyService ($document, $$rAF, $brUtil, $timeout, $brConstant) {
 
 
 
-    function add (element, stickyClone) {
+    function add(element, stickyClone) {
       stickyClone.addClass('br-sticky-clone');
+
+      if ($brUtil.getClosest(element, 'br-expanded-content') !== null) {
+        stickyClone.addClass('br-card-header');
+      }
 
       var item = {
         element: element,
@@ -84,7 +89,7 @@ function brStickyService ($document, $$rAF, $brUtil, $timeout, $brConstant) {
     }
 
 
-    function refreshElements () {
+    function refreshElements() {
       var item;
       var i;
       var currentScrollTop = contentEl.prop('scrollTop');
@@ -105,7 +110,7 @@ function brStickyService ($document, $$rAF, $brUtil, $timeout, $brConstant) {
     }
 
 
-    function refreshPosition (item) {
+    function refreshPosition(item) {
       var current = item.element[0];
 
       item.top = 0;
@@ -118,11 +123,11 @@ function brStickyService ($document, $$rAF, $brUtil, $timeout, $brConstant) {
       }
 
       item.height = item.element.prop('offsetHeight');
-      item.clone.css('margin-left', item.left + 'px');
+      // item.clone.css('margin-left', item.left + 'px');
     }
 
 
-    function onScroll () {
+    function onScroll() {
       var scrollTop = contentEl.prop('scrollTop');
       var isScrollingDown = scrollTop > (onScroll.prevScrollTop || 0);
 
@@ -173,7 +178,7 @@ function brStickyService ($document, $$rAF, $brUtil, $timeout, $brConstant) {
 
 
 
-    function setCurrentItem (item) {
+    function setCurrentItem(item) {
       if (self.current === item) { return; }
 
       if (self.current) {
@@ -195,7 +200,7 @@ function brStickyService ($document, $$rAF, $brUtil, $timeout, $brConstant) {
     }
 
 
-    function setStickyState (item, state) {
+    function setStickyState(item, state) {
       if (!item || item.state === state) { return; }
 
       if (item.state) {
@@ -209,7 +214,7 @@ function brStickyService ($document, $$rAF, $brUtil, $timeout, $brConstant) {
     }
 
 
-    function translate (item, amount) {
+    function translate(item, amount) {
       if (!item) { return; }
 
       if (amount === null || amount === undefined) {
@@ -221,7 +226,7 @@ function brStickyService ($document, $$rAF, $brUtil, $timeout, $brConstant) {
         item.translateY = amount;
         item.clone.css(
           $brConstant.CSS.TRANSFORM,
-          'translate3d(' + item.left + 'px,' + amount + 'px,0)'
+          'translate3d(0,' + amount + 'px,0)'
         );
       }
     }
@@ -253,7 +258,7 @@ function brStickyService ($document, $$rAF, $brUtil, $timeout, $brConstant) {
 
 
 
-  function setupAugmentedScrollEvents (element) {
+  function setupAugmentedScrollEvents(element) {
     var SCROLL_END_DELAY = 200;
     var isScrolling;
     var lastScrollTime;

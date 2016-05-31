@@ -1,3 +1,7 @@
+/**
+ * @ngdoc module
+ * @name spinner
+ */
 angular
   .module('brMaterial')
   .directive('brSpinner', spinnerDirective);
@@ -5,20 +9,26 @@ angular
 
 
 /**
+  * @ngdoc directive
   * @name brSpinner
-  * @module brSpinner
-  *
+  * @module spinner
   *
   * @description
-  * <br-spinner> is a animated spinner that can be used with or without a percentage
+  * `<br-spinner>` is a animated spinner that can be used with or without a percentage
   *
-  * @param {number} [br-diameter=50] - the percentage (0-100) used to scale the spinner based on 100px
+  * @param {number=} br-diameter - Used to scale the spinner based on 100px
+  * @param {number=} br-value - the percentage (0-100)
   *
-  * @example
+  * @usage
+  * #### Class Names
+  *  - `br-primary` - Themes primary color
+  *  - `br-accent` - Themes accent color
+  *  - `br-warn` - Themes warn color
+  *
+  * <hljs lang="html">
   * <br-spinner br-diameter="40"></br-spinner>
-  *
+  * </hljs>
   */
-
 spinnerDirective.$inject = ['$brTheme', '$brUtil'];
 function spinnerDirective ($brTheme, $brUtil) {
   var DEFAULT_SCALING = 0.5;

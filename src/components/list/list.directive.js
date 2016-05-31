@@ -1,3 +1,7 @@
+/**
+ * @ngdoc module
+ * @name list
+ */
 angular
   .module('brMaterial')
   .directive('brList', listDirective)
@@ -7,26 +11,22 @@ angular
 
 
 /**
+ * @ngdoc directive
  * @name brList
- * @module brList
- *
+ * @module list
  *
  * @description
- * The <br-list> contains a list of brItems
+ * The `<br-list>` contains a list of items
  *
+ * @param {model=} ng-model - Used to manage selected items
+ * @param {function=} ng-change - `{@link https://docs.angularjs.org/api/ng/directive/ngChange Angular ngChange}`
+ * @param {Number=} br-max-select - The maximum number of items allowed to be selected
+ * @param {Boolean=} br-toggle-selection - Shows and hides checkboxes
  *
- *
- * @param {Array} [ng-model] - a list of values based on your specified key on [br-select]
- * @param {Number} [br-max-select] - the maximum number of items allowed to be selected
- * @param {Boolean} [br-toggle-selection] - shows and hides checkboxes
- *
- *
- * @example
+ * @usage
+ * <hljs lang="html">
  * <br-list ng-model="theModel" br-max-select="1" br-toggle-select="theBoolValue">
  *  <br-item br-select="item.key" ng-repeat="item in list">
- *    <br-item-controls>
- *      <br-button class="br-primary br-raised">Edit</br-button>
- *    <br-item-controls>
  *    <br-item-content>
  *      <div flex class="br-item-title">{{item.title}}</div>
  *      <div layout="row" layout-fill class="br-item-sub-title">
@@ -36,6 +36,7 @@ angular
  *    </br-item-content>
  *  </br-item>
  * </br-list>
+ * </hljs>
  */
 listDirective.$inject = ['$brTheme', '$brUtil', '$brMobile'];
 function listDirective ($brTheme, $brUtil, $brMobile) {
@@ -82,7 +83,7 @@ function listDirective ($brTheme, $brUtil, $brMobile) {
   }
 
 
-  function controller ($scope, $element) {
+  function controller($scope, $element) {
     /* jshint validthis: true */
     var vm = this;
 
@@ -101,12 +102,12 @@ function listDirective ($brTheme, $brUtil, $brMobile) {
 
 
 
-    function init (ngModelCtrl_) {
+    function init(ngModelCtrl_) {
       vm.ngModelCtrl = ngModelCtrl_;
       vm.ngModelCtrl.$render = render;
     }
 
-    function render () {
+    function render() {
       var viewValue = vm.ngModelCtrl.$viewValue || [];
 
       vm.itemRenderFuncs.forEach(function (itemRender) {
@@ -114,7 +115,7 @@ function listDirective ($brTheme, $brUtil, $brMobile) {
       });
     }
 
-    function checkValue (value) {
+    function checkValue(value) {
       var viewValue = vm.ngModelCtrl.$viewValue || [];
 
       // filter out model if the length is greater that max selection
@@ -131,12 +132,12 @@ function listDirective ($brTheme, $brUtil, $brMobile) {
     }
 
 
-    function add (renderFunc) {
+    function add(renderFunc) {
       vm.itemRenderFuncs.push(renderFunc);
       renderFunc();
     }
 
-    function remove (renderFunc) {
+    function remove(renderFunc) {
       var index = vm.itemRenderFuncs.indexOf(renderFunc);
       if (index !== -1) {
         vm.itemRenderFuncs.splice(index, 1);
@@ -144,7 +145,7 @@ function listDirective ($brTheme, $brUtil, $brMobile) {
     }
 
 
-    function addViewValue (value, eventType) {
+    function addViewValue(value, eventType) {
       var viewValue = vm.ngModelCtrl.$viewValue || [];
 
       viewValue.push(value);
@@ -157,7 +158,7 @@ function listDirective ($brTheme, $brUtil, $brMobile) {
       }
     }
 
-    function removeViewValue (value, eventType) {
+    function removeViewValue(value, eventType) {
       var viewValue = vm.ngModelCtrl.$viewValue || [];
       var index = viewValue.indexOf(value);
 
@@ -187,6 +188,83 @@ function listDirective ($brTheme, $brUtil, $brMobile) {
 
 
 
+/**
+ * @ngdoc directive
+ * @name brItem
+ * @module list
+ *
+ * @description
+ * The `<br-item>` is the containing element for list items
+ *
+ * @param {string=} ng-repeat - `{@link https://docs.angularjs.org/api/ng/directive/ngRepeat Angular ngRepeat}`
+ * @param {Number=} br-select - the value to use for selections
+ *
+ * @usage
+ * <hljs lang="html">
+ * <br-list ng-model="theModel" br-max-select="1" br-toggle-select="theBoolValue">
+ *  <br-item br-select="item.key" ng-repeat="item in list">
+ *    <br-item-content>
+ *      <div flex class="br-item-title">{{item.title}}</div>
+ *      <div layout="row" layout-fill class="br-item-sub-title">
+ *        <div>{{item.info}}</div>
+ *        <div>{{item.other}}</div>
+ *      </div>
+ *    </br-item-content>
+ *  </br-item>
+ * </br-list>
+ * </hljs>
+ */
+
+ /**
+  * @ngdoc directive
+  * @name brItemContent
+  * @module list
+  *
+  * @description
+  * The `<br-item-content>` is the container for any content you want to display
+  *
+  * @usage
+  * <hljs lang="html">
+  * <br-list ng-model="theModel" br-max-select="1" br-toggle-select="theBoolValue">
+  *  <br-item br-select="item.key" ng-repeat="item in list">
+  *    <br-item-content>
+  *      <div flex class="br-item-title">{{item.title}}</div>
+  *      <div layout="row" layout-fill class="br-item-sub-title">
+  *        <div>{{item.info}}</div>
+  *        <div>{{item.other}}</div>
+  *      </div>
+  *    </br-item-content>
+  *  </br-item>
+  * </br-list>
+  * </hljs>
+  */
+
+ /**
+  * @ngdoc directive
+  * @name brItemControls
+  * @module list
+  *
+  * @description
+  * The `<br-item-controls>` is an optional element to contain mobile hidden controls that show on swipe
+  *
+  * @usage
+  * <hljs lang="html">
+  * <br-list ng-model="theModel" br-max-select="1" br-toggle-select="theBoolValue">
+  *  <br-item br-select="item.key" ng-repeat="item in list">
+  *    <br-item-controls>
+  *      <br-button class="br-primary br-raised">Edit</br-button>
+  *    <br-item-controls>
+  *    <br-item-content>
+  *      <div flex class="br-item-title">{{item.title}}</div>
+  *      <div layout="row" layout-fill class="br-item-sub-title">
+  *        <div>{{item.info}}</div>
+  *        <div>{{item.other}}</div>
+  *      </div>
+  *    </br-item-content>
+  *  </br-item>
+  * </br-list>
+  * </hljs>
+  */
 itemDirective.$inject = ['$compile', '$brGesture', '$$rAF', '$brDialog', '$timeout'];
 function itemDirective ($compile, $brGesture, $$rAF, $brDialog, $timeout) {
   var directive = {
@@ -221,6 +299,7 @@ function itemDirective ($compile, $brGesture, $$rAF, $brDialog, $timeout) {
     });
 
     return function link (scope, element, attr, listController) {
+      if (listController === null) { return; }
       var selectTemplate;
       var maxWidth;
       var controlsWidth;
@@ -235,6 +314,13 @@ function itemDirective ($compile, $brGesture, $$rAF, $brDialog, $timeout) {
       scope.blockDrag = blockDrag;
       scope.unblockDrag = unblockDrag;
 
+      console.log(attr.brShowControlsClick);
+      if (attr.brShowControlsClick !== undefined) {
+        element.on('click', function () {
+          showControls();
+        });
+      }
+
       // is br-select attricute is present add a checkbox
       if (brSelect !== undefined) {
         if (listController.hasAccent === true) { selectClasses = 'br-accent'; }
@@ -242,7 +328,7 @@ function itemDirective ($compile, $brGesture, $$rAF, $brDialog, $timeout) {
 
         scope._checked = false;
 
-        selectTemplate = $compile('<div class="br-select"><br-checkbox ng-checked="_checked" class="' + selectClasses + '"></br-checkbox></div>')(scope);
+        selectTemplate = $compile('<div class="br-select"><br-checkbox br-no-click ng-checked="_checked" class="' + selectClasses + '"></br-checkbox></div>')(scope);
         element.append(selectTemplate);
 
         listController.add(renderCheckBox);
@@ -273,13 +359,22 @@ function itemDirective ($compile, $brGesture, $$rAF, $brDialog, $timeout) {
       }
 
 
+      if (attr.brRowSelect !== undefined) {
+        element.on('click', listener);
+
+        if (selectTemplate) {
+          selectTemplate.addClass('br-no-event');
+        }
+      }
+
 
 
       // --- Select function ----------------
 
 
-      function listener  (ev) {
+      function listener(ev) {
         scope._checked = !scope._checked;
+        element.toggleClass('br-selected', scope._checked);
 
         scope.$apply(function () {
           if (scope._checked === true) {
@@ -292,16 +387,18 @@ function itemDirective ($compile, $brGesture, $$rAF, $brDialog, $timeout) {
         });
       }
 
-      function renderCheckBox () {
+      function renderCheckBox() {
         var check = listController.checkValue(getValue());
 
         if (scope._checked !== check) {
           scope._checked = check;
         }
+
+        element.toggleClass('br-selected', scope._checked);
       }
 
 
-      function getValue () {
+      function getValue() {
         if(brSelect !== '') {
           return scope.$eval(brSelect);
         }

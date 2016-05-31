@@ -1,0 +1,93 @@
+<div ng-controller="AppCtrl" ng-cloak>
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">ng-options Select</div>
+
+    <br-select>
+      <label>Select Label</label>
+      <select ng-model="selected" ng-options="item.name for item in selectList" ng-change="seletChange()"></select>
+    </br-select>
+
+
+    <br-select>
+      <label>Group by Age</label>
+      <select ng-model="groupSelected" ng-options="item.name group by item.age for item in selectList"></select>
+    </br-select>
+  </section>
+
+
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">br-select-menu Select</div>
+
+    <br-select>
+      <label>Select Menu</label>
+      <br-select-menu ng-model="menuSelected" ng-change="menuSeletChange();" placeholder="Select...">
+        <br-option ng-value="item" ng-repeat="item in selectList">{{item.name}}</br-option>
+      </br-select-menu>
+    </br-select>
+
+
+    <br-select>
+      <label>Search</label>
+      <br-select-menu ng-model="menuSelected2" placeholder="Select...">
+        <br-select-header>
+          <input type="search" ng-model="selectFilter" placeholder="Search..." />
+        </br-select-header>
+
+        <br-option ng-value="item" ng-repeat="item in selectList | filter:selectFilter">{{item.name}}</br-option>
+      </br-select-menu>
+    </br-select>
+
+
+    <br-select>
+      <label>Multi Select</label>
+      <br-select-menu ng-model="menuSelected5" placeholder="Select..." multiple>
+        <br-option ng-value="item" ng-repeat="item in selectList">{{item.name}}</br-option>
+      </br-select-menu>
+    </br-select>
+
+
+    <br-select>
+      <label>Groups</label>
+      <br-select-menu ng-model="menuSelected3" placeholder="Select...">
+
+        <br-option-group ng-repeat="group in selectListGrouped" label="{{group.label}}">
+          <br-option ng-value="item" ng-repeat="item in group.people">{{item.name}}</br-option>
+        </br-option-group>
+      </br-select-menu>
+    </br-select>
+
+
+    <br-select>
+      <label>With Button(end)</label>
+      <br-select-menu ng-model="menuSelected4">
+        <br-select-header>
+          <input type="search" ng-model="selectFilter2" placeholder="Search..." />
+        </br-select-header>
+
+        <br-option-group ng-repeat="group in selectListGrouped" label="{{group.label}}" ng-if="(group.people | filter:selectFilter2).length">
+          <br-option ng-value="item" ng-repeat="item in group.people | filter:selectFilter2">{{item.name}}</br-option>
+        </br-option-group>
+
+        <br-button class="br-primary" ng-click="vm.selectButtonTest();">Create New</br-button>
+      </br-select-menu>
+    </br-select>
+  </section>
+
+
+
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">standard HTML Select</div>
+
+    <div layout="column" style="padding-top: 22px;">
+      <div layout="column">
+        <select ng-model="selectedNoStyle" ng-options="item.name for item in selectList" placeholder="Select..."></select>
+        <label>Select Label</label>
+      </div>
+
+      <div style="padding-top: 22px;" layout="column">
+        <label>No Style</label>
+        <select ng-model="groupSelectedNoStyle" br-no-style ng-options="item.name group by item.age for item in selectList"></select>
+      </div>
+    </div>
+  </section>
+</div>

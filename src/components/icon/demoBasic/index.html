@@ -1,0 +1,29 @@
+<div ng-controller="AppCtrl" ng-cloak>
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Color</div>
+
+    <br-icon br-size="56" br-font-icon="account_box"></br-icon>
+    <br-icon class="br-primary" br-size="56" br-font-icon="account_box"></br-icon>
+    <br-icon br-color="#a1da54" br-size="56" br-font-icon="account_box"></br-icon>
+    <br-icon br-color="#da54c1" br-size="56" br-font-icon="account_box"></br-icon>
+  </section>
+
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Size</div>
+
+    <br-icon br-size="120" br-font-icon="local_cafe"></br-icon>
+    <br-icon br-size="80" br-font-icon="local_cafe"></br-icon>
+    <br-icon br-size="56" br-font-icon="local_cafe"></br-icon>
+    <br-icon br-size="32" br-font-icon="local_cafe"></br-icon>
+  </section>
+
+
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Available Icons</div>
+
+    <div ng-repeat="icon in iconList" layout="column" layout-align="center center" style="height:100px; width: 180px;">
+      <br-icon br-font-icon="{{icon}}"></br-icon>
+      <span>{{icon}}</span>
+    </div>
+  </section>
+</div>

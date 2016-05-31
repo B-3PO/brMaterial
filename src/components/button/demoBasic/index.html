@@ -1,0 +1,45 @@
+<div ng-controller="AppCtrl" ng-cloak>
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Flat</div>
+
+    <br-button>Button</br-button>
+    <br-button ng-disabled="true">Disabled</br-button>
+    <br-button class="br-primary">Primary</br-button>
+    <br-button class="br-accent">Accent</br-button>
+    <br-button class="br-warn">Warn</br-button>
+  </section>
+
+
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Raised</div>
+
+    <br-button class="br-raised">Button</br-button>
+    <br-button class="br-raised" ng-disabled="true">Disabled</br-button>
+    <br-button class="br-raised br-primary">Primary</br-button>
+    <br-button class="br-raised br-accent">Accent</br-button>
+    <br-button class="br-raised br-warn">Warn</br-button>
+    <br-button class="br-raised br-primary"><br-icon br-font-icon="cloud_download"></br-icon> Icon</br-button>
+  </section>
+
+
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Circle with Icons</div>
+
+    <br-button class="br-circle br-accent"><br-icon br-font-icon="flag"></br-icon></br-button>
+    <br-button class="br-circle" ng-disabled="true"><br-icon br-font-icon="alarm"></br-icon></br-button>
+    <br-button class="br-raised br-primary br-circle"><br-icon br-font-icon="person"></br-icon></br-button>
+    <br-button class="br-raised br-warn br-circle br-small"><br-icon br-font-icon="cancel"></br-icon></br-button>
+  </section>
+
+
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Standard HTML Buttons</div>
+
+    <button class="br-raised">Button</button>
+    <button class="br-raised" ng-disabled="true">Disabled</button>
+    <button class="br-raised br-accent">Accent</button>
+    <button class="br-raised br-warn">Warn</button>
+    <button class="br-raised br-primary"><br-icon br-font-icon="cloud_download"></br-icon> Icon</button>
+    <button br-no-style class="br-raised br-primary">No Style</button>
+  </section>
+</div>

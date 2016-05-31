@@ -1,6 +1,9 @@
 br-switch.br-THEME_NAME-theme .br-thumb {
-  background-color: '{{background-3}}';
+  background-color: '{{background-1}}';
 }
+/*br-switch.br-THEME_NAME-theme.br-checked.br-primary .br-bar {
+  background-color: '{{primary-light-3}}';
+}*/
 
 br-switch.br-THEME_NAME-theme.br-primary .br-thumb {
   background-color: '{{primary-light-1}}';
@@ -14,6 +17,21 @@ br-switch.br-THEME_NAME-theme.br-warn .br-thumb {
   background-color: '{{warn-light-1}}';
 }
 
+br-switch.br-THEME_NAME-theme .br-check {
+  border-color: #FFF;
+}
+
+br-switch.br-THEME_NAME-theme.br-primary .br-check {
+  border-color: '{{primary-light-6}}';
+}
+
+br-switch.br-THEME_NAME-theme.br-accent .br-check {
+  border-color: '{{accent-light-6}}';
+}
+
+br-switch.br-THEME_NAME-theme.br-warn .br-check {
+  border-color: '{{warn-light-6}}';
+}
 
 
 /*br-switch.br-THEME_NAME-theme .br-bar {
@@ -21,6 +39,9 @@ br-switch.br-THEME_NAME-theme.br-warn .br-thumb {
 }*/
 
 br-switch.br-THEME_NAME-theme.br-checked .br-thumb {
+  background-color: #FFF;
+}
+br-switch.br-THEME_NAME-theme.br-checked .br-bar {
   background-color: '{{background-1}}';
 }
 br-switch.br-THEME_NAME-theme.br-checked.br-primary .br-thumb {

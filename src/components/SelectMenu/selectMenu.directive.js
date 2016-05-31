@@ -3,12 +3,44 @@ angular
   .directive('brSelectMenu', selectMenuDirective)
   .directive('brOptionGroup', optionGroupDirective)
   .directive('brOption', optionDirective)
-  .directive('brSelectHeader', selectHeader);
+  .directive('brSelectHeader', selectHeader)
+  .directive('brSelectOptionsWrapper', brSelectOptionsWrapper);
 
 
 var selectNextId = 0;
 
-
+/**
+  * @ngdoc directive
+  * @name brSelectMenu
+  * @module select
+  *
+  * @description
+  * `<br-select-menu>` is used in place of `<select>`. It it gives the flexibility for searching multiple groupings and buttons
+  *
+  * @param {boolean=} multiple - Enables multi selection
+  * @param {model=} ng-model - `{@link https://docs.angularjs.org/api/ng/directive/ngModel Angular ngModel}`
+  * @param {boolean=} ng-disabled - `{@link https://docs.angularjs.org/api/ng/directive/ngChange Angular ngDisabled}`
+  * @param {function=} ng-change - `{@link https://docs.angularjs.org/api/ng/directive/ngChange Angular ngChange}`
+  * @param {string=} placeholder - Same as input palceholder
+  *
+  * @usage
+  * <hljs lang="html">
+  * <br-select>
+  *   <label>Label</label>
+  *   <br-select-menu ng-model="model" placeholder="Select">
+  *     <br-select-header>
+  *       <input type="search" ng-model="selectFilter2" placeholder="Search..." />
+  *     </br-select-header>
+  *
+  *     <br-option-group ng-repeat="group in selectListGrouped" label="{{group.label}}" ng-if="(group.people | filter:selectFilter2).length">
+  *       <br-option ng-value="item" ng-repeat="item in group.people | filter:selectFilter2">{{item.name}}</br-option>
+  *     </br-option-group>
+  *
+  *     <br-button class="br-primary" ng-click="vm.selectButtonTest();">Create New</br-button>
+  *   </br-select-menu>
+  * </br-select>
+  * </hljs>
+  */
 selectMenuDirective.$inject = ['$brUtil', '$brTheme', '$compile', '$parse', '$document', '$brBackdrop', '$animateCss', '$window', '$brConstant', '$$rAF', '$brMobile', '$interval', '$timeout'];
 function selectMenuDirective($brUtil, $brTheme, $compile, $parse, $document, $brBackdrop, $animateCss, $window, $brConstant, $$rAF, $brMobile, $interval, $timeout) {
   var driectve = {
@@ -35,7 +67,7 @@ function selectMenuDirective($brUtil, $brTheme, $compile, $parse, $document, $br
 
 
     // transplant option groups into container
-    var optiongroupsContainer = angular.element('<div class="br-optiongroups-container">').append(
+    var optiongroupsContainer = angular.element('<br-select-options-wrapper class="br-optiongroups-container">').append(
       angular.element('<div class="br-optionsgroup-scroll">').append(
         angular.element('<br-content br-scroll-fix>').append(tElement.contents())));
 
@@ -48,6 +80,9 @@ function selectMenuDirective($brUtil, $brTheme, $compile, $parse, $document, $br
     tElement.append(optiongroupsContainer);
     optiongroupsContainer[0].style.display = 'none';
 
+    var errorsSpacer = angular.element('<div class="br-errors-spacer">');
+    tElement.after(errorsSpacer);
+
 
     return postLink;
   }
@@ -59,9 +94,10 @@ function selectMenuDirective($brUtil, $brTheme, $compile, $parse, $document, $br
     var stickTopKiller;
     var isOpen = false;
     var isStickTop = false;
+    var wasAppended = false;
     var selectMenuCtrl = ctrls[0];
     var containerCtrl = ctrls[1];
-    var ngModelCtrl = ctrls[2];
+    var ngModelCtrl = ctrls[2] || $brUtil.fakeNgModel();
     var selectLabel = element[0].parentNode.querySelector('label');
     var placeholder = attr.placeholder !== undefined ? attr.placeholder : selectLabel !== null ? selectLabel.innerHTML : '';
     var isReadonly = attr.readonly !== undefined;
@@ -71,6 +107,11 @@ function selectMenuDirective($brUtil, $brTheme, $compile, $parse, $document, $br
     var contentElement = angular.element(element[0].querySelector('br-content'))[0];
     var debounceUpdatePos = $$rAF.throttle(updatePosition);
     var searchInputElement = containerElement[0].querySelector('br-select-header input');
+
+    if (searchInputElement !== null) {
+      // remvoe default styling from input
+      angular.element(searchInputElement).removeClass('br-input br-input-standard');
+    }
 
     $brTheme(containerElement);
 
@@ -103,11 +144,13 @@ function selectMenuDirective($brUtil, $brTheme, $compile, $parse, $document, $br
       valueElement.toggleClass('br-disabled', !!disabled);
 
       if (disabled === true) {
+        containerElement.off('keydown', handleKeypress);
         element
           .removeAttr('tabindex')
           .off('click', openSelect)
           .off('keydown', handleKeypress);
       } else {
+        containerElement.on('keydown', handleKeypress);
         element
           .attr({'tabindex': attr.tabindex})
           .on('click', openSelect)
@@ -118,9 +161,12 @@ function selectMenuDirective($brUtil, $brTheme, $compile, $parse, $document, $br
     if (attr.disabled === undefined && attr.ngDisabled === undefined) {
       element.on('click', openSelect);
       element.on('keydown', handleKeypress);
+      containerElement.on('keydown', handleKeypress);
     }
 
-
+    if (attr.multiple !== undefined) {
+      containerElement.addClass('br-multiple');
+    }
     var deregisterWatcher;
     attr.$observe('brMultiple', function(val) {
       if (deregisterWatcher) { deregisterWatcher(); }
@@ -132,8 +178,10 @@ function selectMenuDirective($brUtil, $brTheme, $compile, $parse, $document, $br
         if (multiple === undefined && prevVal === undefined) { return; } // assume compiler did a good job
         if (multiple) {
           element.attr('multiple', 'multiple');
+          containerElement.addClass('br-multiple');
         } else {
           element.removeAttr('multiple');
+          containerElement.removeClass('br-multiple');
         }
 
         selectMenuCtrl.setMultiple(multiple);
@@ -257,6 +305,13 @@ function selectMenuDirective($brUtil, $brTheme, $compile, $parse, $document, $br
         angular.element(searchInputElement)
           .on('focus', stickSelect)
           .on('blur', unstickSelect);
+      }
+
+
+      // add menu to body if not added yet
+      if (wasAppended === false) {
+        $document.find('body').eq(0).append(containerElement);
+        wasAppended = true;
       }
 
 
@@ -476,9 +531,7 @@ function selectMenuDirective($brUtil, $brTheme, $compile, $parse, $document, $br
         position.left = $window.scrollX + (($window.innerWidth / 2) - (containerNode.offsetWidth / 2));
       }
 
-
       clamp(position);
-
       var scaleX = Math.round(100 * Math.min(originNodeRect.width / containerNode.offsetWidth, 1.0)) / 100;
       var scaleY = Math.round(100 * Math.min(originNodeRect.height / containerNode.offsetHeight, 1.0)) / 100;
 
@@ -787,7 +840,33 @@ function selectMenuDirective($brUtil, $brTheme, $compile, $parse, $document, $br
 
 // ---- Group Directive ---------------------
 
-
+/**
+  * @ngdoc directive
+  * @name brOptionGroup
+  * @module select
+  *
+  * @description
+  * `<br-option-group>` is used to create groupings of `<br-option>`
+  *
+  * @param {string} [ng-repeat]
+  * @param {string} [ng-label]
+  *
+  * @example
+  * <br-select>
+  *   <label>Label</label>
+  *   <br-select-menu ng-model="model" placeholder="Select">
+  *     <br-select-header>
+  *       <input type="search" ng-model="selectFilter2" placeholder="Search..." />
+  *     </br-select-header>
+  *
+  *     <br-option-group ng-repeat="group in selectListGrouped" label="{{group.label}}" ng-if="(group.people | filter:selectFilter2).length">
+  *       <br-option ng-value="item" ng-repeat="item in group.people | filter:selectFilter2">{{item.name}}</br-option>
+  *     </br-option-group>
+  *
+  *     <br-button class="br-primary" ng-click="vm.selectButtonTest();">Create New</br-button>
+  *   </br-select-menu>
+  * </br-select>
+  */
 function optionGroupDirective() {
   var directive = {
     restrict: 'E',
@@ -818,10 +897,37 @@ function optionGroupDirective() {
 
 var CHECKBOX_SELECTION_INDICATOR = angular.element('<div class="br-select-icon-container"><div class="br-select-menu-icon"></div></div>');
 
+/**
+  * @ngdoc directive
+  * @name brOption
+  * @module select
+  *
+  * @description
+  * `<br-option>` is the containing element for selecting
+  *
+  * @param {string} [ng-repeat]
+  * @param {any} [ng-value]
+  *
+  * @example
+  * <br-select>
+  *   <label>Label</label>
+  *   <br-select-menu ng-model="model" placeholder="Select">
+  *     <br-select-header>
+  *       <input type="search" ng-model="selectFilter2" placeholder="Search..." />
+  *     </br-select-header>
+  *
+  *     <br-option-group ng-repeat="group in selectListGrouped" label="{{group.label}}" ng-if="(group.people | filter:selectFilter2).length">
+  *       <br-option ng-value="item" ng-repeat="item in group.people | filter:selectFilter2">{{item.name}}</br-option>
+  *     </br-option-group>
+  *
+  *     <br-button class="br-primary" ng-click="vm.selectButtonTest();">Create New</br-button>
+  *   </br-select-menu>
+  * </br-select>
+  */
 function optionDirective() {
   var directive = {
     restrict: 'E',
-    require: ['brOption', '^^brSelectMenu'],
+    require: ['brOption', '^^brSelectOptionsWrapper'],
     compile: compile,
     controller: ['$element', OptionController]
   };
@@ -836,7 +942,7 @@ function optionDirective() {
 
   function postLink(scope, element, attrs, ctrls) {
     var optionCtrl = ctrls[0];
-    var selectCtrl = ctrls[1];
+    var selectCtrl = ctrls[1].selectController;
 
     if (selectCtrl.isMultiple === true) {
       element.addClass('br-select-checkbox-enabled');
@@ -934,10 +1040,56 @@ function optionDirective() {
 
 
 
-
+/**
+  * @ngdoc directive
+  * @name brSelectHeader
+  * @module select
+  *
+  * @description
+  * `<br-select-header>` is the containing element for search input
+  *
+  * @example
+  * <br-select>
+  *   <label>Label</label>
+  *   <br-select-menu ng-model="model" placeholder="Select">
+  *     <br-select-header>
+  *       <input type="search" ng-model="selectFilter2" placeholder="Search..." />
+  *     </br-select-header>
+  *
+  *     <br-option-group ng-repeat="group in selectListGrouped" label="{{group.label}}" ng-if="(group.people | filter:selectFilter2).length">
+  *       <br-option ng-value="item" ng-repeat="item in group.people | filter:selectFilter2">{{item.name}}</br-option>
+  *     </br-option-group>
+  *
+  *     <br-button class="br-primary" ng-click="vm.selectButtonTest();">Create New</br-button>
+  *   </br-select-menu>
+  * </br-select>
+  */
 function selectHeader() {
   var directive = {
     restrict: 'E'
   };
   return directive;
+}
+
+
+function brSelectOptionsWrapper() {
+  var directive = {
+    restrict: 'E',
+    require: ['brSelectOptionsWrapper', '^^brSelectMenu'],
+    link: link,
+    controller: controller
+  };
+  return directive;
+
+
+  function link(scope, element, attrs, ctrls) {
+    ctrls[0].selectController = ctrls[1];
+  }
+
+  function controller() {
+    /* jshint validthis: true */
+    var vm = this;
+
+    vm.selectController = undefined;
+  }
 }

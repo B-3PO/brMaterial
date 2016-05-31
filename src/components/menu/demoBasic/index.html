@@ -1,0 +1,57 @@
+<div ng-controller="AppCtrl" ng-cloak>
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Multiple Positions</div>
+
+
+    <br-menu>
+      <br-button class="br-primary" ng-click="$brOpenMenu($event)">Default Align</br-button>
+      <br-menu-content>
+        <br-menu-item>
+          <br-button><br-icon br-font-icon="edit" br-size="20"></br-icon>Change Somthing</br-button>
+        </br-menu-item>
+        <br-menu-item>
+          <br-button><br-icon br-font-icon="add" br-size="20"></br-icon>Add Somthing</br-button>
+        </br-menu-item>
+      </br-menu-content>
+    </br-menu>
+
+    <br-menu br-position-mode="left bottom">
+      <br-button class="br-primary br-raised" ng-click="$brOpenMenu($event)">Left Bottom Align</br-button>
+      <br-menu-content>
+        <br-menu-item>
+          <br-button><br-icon br-font-icon="edit" br-size="20"></br-icon>Change Somthing</br-button>
+        </br-menu-item>
+        <br-menu-item>
+          <br-button><br-icon br-font-icon="add" br-size="20"></br-icon>Add Somthing</br-button>
+        </br-menu-item>
+      </br-menu-content>
+    </br-menu>
+
+    <br-menu br-position-mode="right top">
+      <br-button class="br-primary br-raised" ng-click="$brOpenMenu($event)">Righ Top Align</br-button>
+      <br-menu-content>
+        <br-menu-item>
+          <br-button><br-icon br-font-icon="edit" br-size="20"></br-icon>Change Somthing</br-button>
+        </br-menu-item>
+        <br-menu-item>
+          <br-button><br-icon br-font-icon="add" br-size="20"></br-icon>Add Somthing</br-button>
+        </br-menu-item>
+      </br-menu-content>
+    </br-menu>
+
+
+
+    <br-menu>
+      <br-button ng-click="$brOpenMenu($event)" class="br-no-margin br-circle br-small"><br-icon br-font-icon="more_vert"></br-icon></br-button>
+      <br-menu-content>
+        <br-menu-item>
+          <br-button><br-icon br-font-icon="edit" br-size="20"></br-icon>Change Somthing</br-button>
+        </br-menu-item>
+        <br-menu-item>
+          <br-button><br-icon br-font-icon="add" br-size="20"></br-icon>Add Somthing</br-button>
+        </br-menu-item>
+      </br-menu-content>
+    </br-menu>
+
+  </section>
+</div>

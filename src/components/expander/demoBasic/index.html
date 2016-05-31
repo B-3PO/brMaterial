@@ -1,0 +1,95 @@
+<div ng-controller="AppCtrl" ng-cloak>
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Set Height</div>
+
+    <br-expander br-height="200">
+      <br-expander-header>
+        <div style="padding-left: 12px">Expander Title</div>
+      </br-expander-header>
+
+      <br-expander-content>
+        <div style="padding: 20px; background: #FFF;">
+          <h3>Expander Content</h3>
+
+          <div layout="column">
+            <h4>Message</h4>
+
+            <p>
+              You can give the exapnder a set height and it will scroll for any content longer than the heigt
+            </p>
+            <p>
+              Look some content below
+            </p>
+
+            <div style="padding: 12px;">
+              <p>
+                Hello!
+              </p>
+            </div>
+          </div>
+        </div>
+      </br-expander-content>
+    </br-expander>
+  </section>
+
+
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Auto Height</div>
+
+    <br-expander>
+      <br-expander-header>
+        <div style="padding-left: 12px">Expander Title</div>
+      </br-expander-header>
+
+      <br-expander-content>
+        <div style="padding: 20px; background: #FFF;">
+          <h3>Expander Content</h3>
+
+          <div ng-repeat="item in list">
+            {{item.label}}
+          </div>
+        </div>
+      </br-expander-content>
+    </br-expander>
+  </section>
+
+
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">No Header</div>
+
+    <div layout="column">
+      <br-button class="br-raised br-primary" ng-click="isOpen = !isOpen">{{!isOpen ? 'Click to open' : 'Click to close'}}</br-button>
+      <br-expander br-open="isOpen">
+        <br-expander-content>
+          <div style="padding: 20px; background: #FFF;">
+            <h3>Expander Content</h3>
+
+            <div ng-repeat="item in list">
+              {{item.label}}
+            </div>
+          </div>
+        </br-expander-content>
+      </br-expander>
+    </div>
+  </section>
+
+
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Expand from service</div>
+
+    <div layout="column">
+      <br-button class="br-raised br-primary" ng-click="openFromService()">Toggle</br-button>
+      <br-expander br-component-id="expanderConponentId">
+        <br-expander-content>
+          <div style="padding: 20px; background: #FFF;">
+            <h3>Expander Content</h3>
+
+            <div ng-repeat="item in list">
+              {{item.label}}
+            </div>
+          </div>
+        </br-expander-content>
+      </br-expander>
+    </div>
+  </section>
+</div>

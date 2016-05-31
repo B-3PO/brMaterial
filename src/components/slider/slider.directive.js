@@ -1,3 +1,7 @@
+/**
+ * @ngdoc module
+ * @name slider
+ */
 angular
   .module('brMaterial')
 	.directive('brSlider', brSliderDirective);
@@ -6,20 +10,22 @@ angular
 
 
 /**
+  * @ngdoc directive
   * @name brSlider
-  * @module brSlider
+  * @module slider
   *
   *
   * @description
-  * <br-slider> is a animated slider that can be used with or without a percentage
+  * `<br-slider>` is a animated slider that can be used with or without a percentage
   *
-  * @param {number} [min=0] - the minimum value
-	* @param {number} [max=100] - the maximum value
-	* @param {number} [step] - step the value by
+  * @param {number=} min=0 - The minimum value
+	* @param {number=} max=100 - The maximum value
+	* @param {number=} step - Ttep the value by
   *
-  * @example
+  * @usage
+  * <hljs lang="html">
   * <br-slider min="0" max="100" ng-model="info.slider" id="slider"></br-slider>
-  *
+  * </hljs>
   */
 
 brSliderDirective.$inject = ['$window', '$brUtil', '$brConstant', '$brTheme', '$parse', '$brGesture', '$$rAF', '$timeout'];

@@ -58,7 +58,7 @@ br-dialog .br-dialog-content {
 	box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.35);
 	border-radius: 4px;
 	transform: translate(-50%, -50%);
-	transform-origin: 'center center';
+	transform-origin: center top;
 }
 
 

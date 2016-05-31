@@ -1,3 +1,7 @@
+/**
+ * @ngdoc module
+ * @name mobile
+ */
 angular
   .module('brMaterial')
   .factory('$brMobile', brMobileService);
@@ -6,22 +10,20 @@ angular
 
 
 /**
- * @name brButton
- * @module brButton
- *
+ * @ngdoc service
+ * @name $brMobile
+ * @module mobile
  *
  * @description
- * $brMobile has variables to let you know if the device is android, ios, or mobile
+ * `$brMobile` has variables to let you know if the device is android, ios, or mobile
  *
- *
- * @example
- * $brMobile.isMobile;
- * $brMobile.isAndroid;
- * $brMobile.isIos;
- *
+ * @usage
+ * <hljs lang="html">
+ * var isMobile = $brMobile.isMobile;
+ * var isAndroid = $brMobile.isAndroid;
+ * var isIos = $brMobile.isIos;
+ *</hljs>
  */
-
-
 function brMobileService () {
   var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 

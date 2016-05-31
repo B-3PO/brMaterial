@@ -1,0 +1,45 @@
+<br-expansion-card>
+  <br-collapsed-content>
+    <div layout="column">
+      <div class="expand-header">Menu</div>
+      <div class="expand-title">{{vm.menu.name}}</div>
+    </div>
+  </br-collapsed-content>
+
+  <br-expanded-content>
+    <h2>{{vm.menu.name}}</h2>
+    <h3>Edit you fool!</h3>
+
+    <div style="padding-top:24px;"></div>
+
+    <div layout="column">
+      <form name="menuForm">
+        <div layout="row">
+          <br-input style="width: 100%; max-width: 320px;">
+            <label>Menu Name</label>
+            <input name="name" ng-model="vm.menu.name" required/>
+            <div ng-messages="menuForm.name.$error">
+              <div ng-message="requried">Required</div>
+            </div>
+          </br-input>
+        </div>
+      </form>
+    </div>
+
+
+    <div>
+      <h5>Items</h5>
+      <br-list>
+        <br-item ng-repeat="item in vm.menu.items" ng-click="vm.openItem(Menu)" style="cursor: pointer;">
+          <br-item-content>
+            <div layout="row">
+              <div style="width: 220px;">{{item.name}}</div>
+              <div>{{item.price | currency}}</div>
+            </div>
+          </br-item-content>
+        </br-item>
+      </br-list>
+    </div>
+  </div>
+  </br-expanded-content>
+</br-expansion-card>

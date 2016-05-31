@@ -1,0 +1,42 @@
+<div ng-controller="AppCtrl" ng-cloak>
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Form with Validation</div>
+
+    <div layout="column">
+      <form name="exampleForm">
+        <div layout="row" layout-wrap>
+          <br-input>
+            <label>Name</label>
+            <input name="name" ng-model="nameModel" placeholer="Enter Name" required />
+            <div ng-messages="exampleForm.name.$error">
+              <div ng-message="required">required</div>
+            </div>
+          </br-input>
+
+          <br-input>
+            <label>Email</label>
+            <input type="email" name="email" ng-model="emailModel" placeholer="Enter Email" required />
+            <div ng-messages="exampleForm.email.$error">
+              <div ng-message="required">required</div>
+              <div ng-message="email">invalid email</div>
+            </div>
+          </br-input>
+        </div>
+
+        <br-input>
+          <label>Phone</label>
+          <input type="number" name="phone" ng-model="phoneModel" placeholer="Enter Phone" required />
+          <div ng-messages="exampleForm.phone.$error">
+            <div ng-message="required">required</div>
+            <div ng-message="number">invalid phone</div>
+          </div>
+        </br-input>
+
+        <div layout="row" layout-align="center center">
+          <br-button class="br-warn" ng-click="clearForm()">Clear</br-button>
+          <br-button class="br-accent" ng-disabled="exampleForm.$invalid" ng-click="saveForm()">Save</br-button>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>

@@ -1,3 +1,7 @@
+/**
+ * @ngdoc module
+ * @name menu
+ */
 angular
   .module('brMaterial')
   .directive('brMenu', brMenuDirective);
@@ -5,15 +9,30 @@ angular
 
 
 /**
+ * @ngdoc directive
  * @name brMenu
- * @module brMenu
+ * @module menu
  *
+ * @param {string=} br-position-mode - A space seperated string to declare what the origin for the animation is
+ *
+ * - "target target"
+ * - "right top"
+ * - "left top"
+ * - "target top"
+ * - "right bottom"
+ * - "left bottom"
+ * - "target bottom"
+ * - "left target"
+ * - "right target"
+ *
+ * @param {string=} br-offset - A space seperated string to declare what the menu offsets are in pixels
  *
  * @description
- * The <br-menu> directive provides a popout menu
- * You can call "$brOpenMenu()" inside the directive. you have the option of passing in "$event" to have the menu align to current target
+ * The `<br-menu>` directive provides a popout menu
+ * You can call `$brOpenMenu()` inside the directive. you have the option of passing in `$event` to have the menu align to current target
  *
- * @example
+ * @usage
+ * <hljs lang="html">
  * <br-menu br-position-mode="right target">
  *   <br-button ng-click="$brOpenMenu($event)" class="br-no-margin br-circle br-small"><br-icon br-font-icon="more_vert"></br-icon></br-button>
  *   <br-menu-content>
@@ -25,7 +44,7 @@ angular
  *     </br-menu-item>
  *   </br-menu-content>
  * </br-menu>
- *
+ * </hljs>
  */
 brMenuDirective.$inject = ['$document', '$brTheme', '$brBackdrop', '$animateCss', '$brUtil', '$window'];
 function brMenuDirective ($document, $brTheme, $brBackdrop, $animateCss, $brUtil, $window) {

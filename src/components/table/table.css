@@ -120,11 +120,12 @@ br-td {
   display: table-cell;
   font-size: 13px;
   vertical-align: middle;
+  overflow: hidden;
 }
 
 br-th,
 br-td {
-  direction: rtl;
+  text-align: right;
   padding-left: 24px;
   padding-right: 0;
   flex: 1;
@@ -132,19 +133,19 @@ br-td {
 }
 br-th:first-of-type,
 br-td:first-of-type {
-  direction: ltr;
+  text-align: left;
   padding-left: 0;
   padding-right: 54px;
 }
 br-th.br-align-right,
 br-td.br-align-right {
-  direction: rtl;
+  text-align: right;
   padding-left: 24px;
   padding-right: 0;
 }
 br-th.br-align-left,
 br-td.br-align-left {
-  direction: ltr;
+  text-align: left;
   padding-left: 0;
   padding-right: 24px;
 }

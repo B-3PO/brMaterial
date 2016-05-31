@@ -5,12 +5,12 @@
 }
 
 .br-expander.br-THEME_NAME-theme .br-expander-icon {
-  color: '{{font-light-2}}';
+  color: '{{font-light-5}}';
 }
 
 
-.br-expander.br-THEME_NAME-theme .br-expander-content {
-  border-color: '{{background-1}}';
+.br-expander.br-THEME_NAME-theme br-expander-content {
+  border-color: '{{foreground-dark-4}}';
 }
 
 

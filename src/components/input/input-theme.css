@@ -1,26 +1,36 @@
+input.br-input-standard,
 br-input.br-THEME_NAME-theme .br-input {
   color: '{{font-default}}';
-  border-color: '{{background-2}}';
+  border-color: '{{foreground-dark-4}}';
 }
 
+input.br-input-standard ::placeholder,
 br-input.br-THEME_NAME-theme ::placeholder {
   color: '{{font-light-5}}';
 }
 
+input.br-input-standard + label,
 br-input.br-THEME_NAME-theme label,
 br-input.br-THEME_NAME-theme .br-placeholder {
-  color: '{{font-light-4}}';
+  color: '{{font-light-2}}';
 }
 
+/*br-input.br-THEME_NAME-theme label {
+  color: '{{font-light-2}}';
+}*/
+
+input.br-input-standard.ng-not-empty + label,
 br-input.br-THEME_NAME-theme:not(.br-input-invalid).br-input-has-value label {
   color: '{{font-light-3}}';
 }
 
+input.br-input-standard:focus,
 br-input.br-THEME_NAME-theme:not(.br-input-invalid).br-input-focused .br-input:not([readonly]) {
   border-color: '{{primary-default}}';
 }
 
 
+input.br-input-standard:focus + label
 br-input.br-THEME_NAME-theme:not(.br-input-invalid).br-input-focused label {
   color: '{{primary-default}}';
 }
@@ -39,9 +49,12 @@ br-input.br-THEME_NAME-theme:not(.br-input-invalid).br-input-focused.br-warn lab
   color: '{{warn-default}}';
 }
 
+input.br-input-standard.ng-invalid.ng-touched,
 br-input.br-THEME_NAME-theme.br-input-invalid .br-input {
   border-color: '{{warn-default}}';
 }
+
+input.br-input-standard.ng-invalid.ng-touched + label,
 br-input.br-THEME_NAME-theme.br-input-invalid label {
   color: '{{warn-default}}';
 }
@@ -65,19 +78,22 @@ br-input.br-THEME_NAME-theme.br-input-invalid [data-ng-message],
 br-input.br-THEME_NAME-theme.br-input-invalid [x-ng-message] {
   color: '{{warn-default}}';
 }
+
+input[disabled].br-input-standard,
 br-input.br-THEME_NAME-theme .br-input[disabled] {
-  border-bottom-color: transparent;
+  border-color: transparent;
   color: '{{foreground-light-2}}';
   background-image: linear-gradient(to right, '{{foreground-light-3}}' 0%, '{{foreground-light-3}}' 33%, transparent 0%);
 }
 
-
+input[readonly].br-input-standard,
 br-input.br-THEME_NAME-theme .br-input[readonly] {
   color: '{{font-light-2}}';
   background-color: '{{foreground-light-3}}';
   border-color: '{{foreground-light-3}}';
 }
 
+input[readonly=readonly].br-input-standard,
 br-input.br-THEME_NAME-theme .br-input[readonly=readonly] {
   color: '{{font-light-2}}';
   background-color: '{{foreground-light-3}}';

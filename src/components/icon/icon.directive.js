@@ -1,3 +1,8 @@
+/**
+ * @ngdoc module
+ * @name icon
+ */
+
 angular
   .module('brMaterial')
   .directive('brIcon', brIconDirective);
@@ -5,126 +10,106 @@ angular
 
 
 /**
+  * @ngdoc directive
   * @name brIcon
-  * @module brIcon
-  *
+  * @module icon
   *
   * @description
-  * <br-icon> will dispaly svg and font iconService
-  * you can add more font icons by using icomoon.io and creating a font
+  * `<br-icon>` will dispaly font icons.
+  * You can add more font icons by using icomoon.io and creating a font icon set
   *
-  * list of included font icons:
+  * @param {pixels=} br-size - The size in pixels
+  * @param {HEX=} br-color - The color. If you place icons in button they will inherit the buttons color
+  * @param {string} br-font-icon - The values you can use
   *
+  * - alarm
+  * - schedule
+  * - account_box
+  * - add
+  * - add_a_photo
+  * - alarm_add
+  * - add_alert
+  * - add_box
+  * - add_circle
+  * - add_shopping_cart
+  * - alarm_off
+  * - announcement
+  * - arrow_back
+  * - arrow_downward
+  * - arrow_forward
+  * - arrow_upward
+  * - close
+  * - poll
+  * - flag
+  * - attach_file
+  * - cloud_upload
+  * - battery_alert
+  * - battery_charging_full
+  * - battery_std
+  * - battery_unknown
+  * - block
+  * - turned_in
+  * - phone
+  * - cancel
+  * - chat
+  * - chat_bubble
+  * - cloud_download
+  * - photo_library
+  * - edit
+  * - payment
+  * - crop
+  * - crop_rotate
+  * - dehaze
+  * - not_interested
+  * - done_all
+  * - error
+  * - event_available
+  * - event_busy
+  * - event_note
+  * - favorite
+  * - favorite_border
+  * - filter_list
+  * - question_answer
+  * - forward
+  * - help
+  * - photo
+  * - keyboard_arrow_down
+  * - keyboard_arrow_left
+  * - keyboard_arrow_right
+  * - keyboard_arrow_up
+  * - linear_scale
+  * - local_bar
+  * - local_cafe
+  * - restaurant_menu
+  * - local_drink
+  * - shopping_cart
+  * - local_offer
+  * - room
+  * - more_horiz
+  * - more_vert
+  * - notifications
+  * - notifications_active
+  * - notifications_none
+  * - notifications_off
+  * - notifications_paused
+  * - pause
+  * - play_arrow
+  * - power_settings_new
+  * - priority_high
+  * - refresh
+  * - search
+  * - settings
+  * - sort_by_alpha
+  * - swap_horiz
+  * - swap_vert
+  * - zoom_in
+  * - zoom_out
+  * - zoom_out_map
   *
-  * @param {any} [br-size] - the size in pixels
-  * @param {any} [br-color] - the color
-  * @param {any} [br-font-icon] - the name of the icon to use
-  *
-  * alarm
-  * schedule
-  * account_box
-  * add
-  * add_a_photo
-  * alarm_add
-  * add_alert
-  * add_box
-  * add_circle
-  * add_location
-  * add_shopping_cart
-  * alarm_off
-  * announcement
-  * arrow_back
-  * arrow_downward
-  * arrow_forward
-  * arrow_upward
-  * close
-  * poll
-  * assignment
-  * assignment_late
-  * assignment_turned_in
-  * flag
-  * attach_file
-  * attach_money
-  * autorenew
-  * cloud_upload
-  * battery_alert
-  * battery_charging_full
-  * battery_std
-  * battery_unknown
-  * block
-  * turned_in
-  * phone
-  * cancel
-  * chat
-  * chat_bubble
-  * check
-  * cloud_download
-  * photo_library
-  * mode_edit
-  * payment
-  * crop
-  * crop_rotate
-  * dehaze
-  * not_interested
-  * done_all
-  * error
-  * insert_invitation
-  * event_available
-  * event_busy
-  * event_note
-  * favorite
-  * favorite_border
-  * get_app
-  * file_upload
-  * filter_list
-  * question_answer
-  * forward
-  * help
-  * photo
-  * keyboard_arrow_down
-  * keyboard_arrow_left
-  * keyboard_arrow_right
-  * keyboard_arrow_up
-  * linear_scale
-  * local_bar
-  * local_cafe
-  * restaurant_menu
-  * local_drink
-  * shopping_cart
-  * local_offer
-  * location_off
-  * room
-  * more_horiz
-  * more_vert
-  * notifications
-  * notifications_active
-  * notifications_none
-  * notifications_off
-  * notifications_paused
-  * pause
-  * play_arrow
-  * playlist_add
-  * playlist_add_check
-  * polymer
-  * power_settings_new
-  * priority_high
-  * refresh
-  * remove_shopping_cart
-  * search
-  * settings
-  * sort_by_alpha
-  * swap_horiz
-  * swap_vert
-  * vpn_key
-  * work
-  * wrap_text
-  * zoom_in
-  * zoom_out
-  * zoom_out_map
-  *
-  * @example
-  * <br-icon br-size="32" br-color="#666" br-font-icon="image"></br-icon>
-  *
+  * @usage
+  * <hljs lang="html">
+  *   <br-icon br-size="32" br-color="#666" br-font-icon="image"></br-icon>
+  * </hljs>
   */
 brIconDirective.$inject = ['iconService', '$brTheme'];
 function brIconDirective (iconService, $brTheme) {

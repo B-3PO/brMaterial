@@ -1,0 +1,49 @@
+br-autocomplete {
+  display: block;
+  position: absolute;
+  top: 48px;
+}
+
+.br-autocomplete-container {
+  border-style: solid;
+  border-width: 0 1px 1px 1px;
+  overflow-y: auto;
+  min-width: 160px;
+  max-height: 304px;
+  min-height: 48px;
+  opacity: 1;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,0.16),
+              0 2px 2px 0 rgba(0,0,0,0.12),
+              0 1px 5px 0 rgba(0,0,0,0.12);
+}
+
+.br-autocomplete-container.ng-enter {
+  opacity: 0;
+  transition: opacity 0.12s linear;
+}
+
+.br-autocomplete-container.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+
+.br-autocomplete-repeater {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width:100%;
+  cursor: pointer;
+  white-space: nowrap;
+  min-height: 48px;
+  line-height: 48px;
+
+  text-align: left;
+  outline: none;
+  box-sizing: border-box;
+  padding: 8px 12px 8px 12px;
+  transition: background .12s linear;
+}
+
+.br-autocomplete-repeater:not([disabled]):focus,
+.br-autocomplete-repeater:not([disabled]):hover {
+  background: rgb(238,238,238);
+}

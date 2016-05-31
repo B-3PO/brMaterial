@@ -1,3 +1,7 @@
+/**
+ * @ngdoc module
+ * @name select
+ */
 angular
   .module('brMaterial')
   .directive('select', selectAugmentDirective)
@@ -5,24 +9,6 @@ angular
 
 
 
-
-
-/**
-  * @name select
-  * @module select
-  *
-  *
-  * @description
-  * <select>
-  *
-  * @param {strng} [placeholder]
-  * @param {model} [ng-model]
-  * @param {strng} [ng-options]
-  *
-  * @example
-  * <br-select ng-model="info" br-list="list" br-key="name" placeholder="Select Value..."></br-select>
-  *
-  */
 selectAugmentDirective.$inject = ['$brUtil', '$compile'];
 function selectAugmentDirective($brUtil, $compile) {
   var directive = {
@@ -44,7 +30,14 @@ function selectAugmentDirective($brUtil, $compile) {
       attr.$set('tabindex', 0);
     }
 
-    if ( !containerCtrl ) return;
+    if ( !containerCtrl ) {
+      if (attr.brNoStyle === undefined) { element.addClass('br-select-standard'); }
+      return;
+    }
+
+    var errorsSpacer = angular.element('<div class="br-errors-spacer">');
+    element.after(errorsSpacer);
+
     containerCtrl.selectElement = element;
 
     var ngOptionsHelper = $brUtil.ngOptionsHelper(attr.ngOptions, scope);
@@ -60,9 +53,6 @@ function selectAugmentDirective($brUtil, $compile) {
       placeholder = containerCtrl.label;
     }
 
-
-    var errorsSpacer = angular.element('<div class="br-errors-spacer">');
-    element.after(errorsSpacer);
 
     var valueElement = $compile('<div class="br-select-content"><span>{{selectText}}</span><div class="br-select-icon"></div></div>')(scope);
     element.after(valueElement);
@@ -124,19 +114,21 @@ function selectAugmentDirective($brUtil, $compile) {
 
 
 /**
+  * @ngdoc directive
   * @name brSelect
-  * @module brSelect
-  *
+  * @module select
   *
   * @description
-  * <br-select> drop down. this used native methods
+  * `<br-select>` is a wrapper for selects and select menus
   *
-  *
-  * @example
-  * <br-select ng-model="info" br-list="list" br-key="name" placeholder="Select Value..."></br-select>
-  *
+  * @usage
+  * <hljs lang="html">
+  * <br-select>
+  *   <label>Label</label>
+  *   <select ng-model="model" ng-options="item.name for item in list"></select>
+  * </br-select>
+  * </hljs>
   */
-
 selectDirective.$inject = ['$brTheme'];
 function selectDirective ($brTheme) {
 
@@ -181,6 +173,7 @@ function selectDirective ($brTheme) {
       setTimeout(function () {
         angular.element(labelElement).attr('for', vm.selectElement.attr('id'));
       }, 0);
+      // $element.addClass('br-has-label');
     }
 
 

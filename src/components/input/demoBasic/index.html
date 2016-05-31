@@ -1,0 +1,61 @@
+<div ng-controller="AppCtrl" ng-cloak>
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Component</div>
+
+    <br-input>
+      <label>With Label</label>
+      <input ng-model="withLabelModel" />
+    </br-input>
+
+    <br-input>
+      <input ng-model="withPlaceholderModel" placeholder="With Placeholder..." />
+    </br-input>
+
+    <br-input>
+      <label>With Both</label>
+      <input ng-model="withBothModel" placeholder="With Both..." />
+    </br-input>
+
+    <br-input>
+      <label>With Clear</label>
+      <input ng-model="withBothModel" placeholder="Enter Text..." br-x />
+    </br-input>
+
+
+    <form name="errorForm" layout="row" layout-align="center center" layout-wrap>
+      <br-input>
+        <label>With Error</label>
+        <input name="required" ng-model="errorModel" required />
+        <div ng-messages="errorForm.required.$error">
+          <div ng-message="required">required message</div>
+        </div>
+      </br-input>
+
+      <br-input>
+        <label>With Error 2</label>
+        <input type="email" name="email" ng-model="errorModel2" required />
+        <div ng-messages="errorForm.email.$error">
+          <div ng-message="required">required message</div>
+          <div ng-message="email">invalid email</div>
+        </div>
+      </br-input>
+    </form>
+  </section>
+
+
+  <section layout="row" layout-align="center center" layout-wrap>
+    <div class="section-label">Standard HTML input</div>
+
+    <div layout="column" style="padding-top: 22px;">
+      <div layout="column">
+        <input ng-model="standardInput" placeholder="Placeholder..." required />
+        <label>Standard Label</label>
+      </div>
+
+      <div style="padding-top: 22px;" layout="column">
+        <label>No Style</label>
+        <input ng-model="standardInputNoStyle" placeholder="Placeholder..." br-no-style />
+      </div>
+    </div>
+  </section>
+</div>

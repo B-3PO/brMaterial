@@ -3,6 +3,8 @@ angular
   .directive('brDialog', brDialogDirective)
   .run(['$rootScope', '$brDialog', function ($rootScope, $brDialog) {
     $rootScope.$on( "$locationChangeStart", function (event, next, current) {
+      if (next === current) { return; }
+
       if ($brDialog.canRemove() === true) {
         event.preventDefault();
         $brDialog.remove();
@@ -56,8 +58,12 @@ function brDialogDirective ($brTheme, $brDialog, $$rAF, $window, $brUtil, $brMob
         });
     };
 
-    scope.$continue = function (){
-      if (typeof scope.continue === 'function') { scope.continue(); }
+    scope.$continue = function () {
+      $brDialog
+        .remove()
+        .then(function () {
+          if (typeof scope.continue === 'function') { scope.continue(); }
+        });
     };
 
     scope.scrollToBottom = function (){
@@ -69,11 +75,11 @@ function brDialogDirective ($brTheme, $brDialog, $$rAF, $window, $brUtil, $brMob
     };
 
     scope.lock = function () {
-      angular.element(containerElement).addClass('no-event');
+      angular.element(containerElement).addClass('br-no-event');
     };
 
     scope.unlock = function () {
-      angular.element(containerElement).removeClass('no-event');
+      angular.element(containerElement).removeClass('br-no-event');
     };
 
 

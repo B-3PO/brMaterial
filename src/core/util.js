@@ -1,20 +1,50 @@
+/**
+ * @ngdoc module
+ * @name util
+ */
 angular
   .module('brMaterial')
   .factory('$brUtil', brUtilService);
 
 
-
-/**
-  * @name $brUtil
-  * @module $brUtil
-  *
-  *
-  * @description
-  * %brUtil contains a variety of helpful function for use inside and out of brMaterial
-  *
-  */
-brUtilService.$inject = ['$brMobile', '$timeout', '$rootScope', '$brConstant', '$document', '$parse'];
-function brUtilService ($brMobile, $timeout, $rootScope, $brConstant, $document, $parse) {
+  /**
+   * @ngdoc service
+   * @name $brUtil
+   * @module util
+   *
+   * @description
+   * `$brUtil` has varios helpful functions
+   *
+   * @usage
+   * ### Debounce
+   * <hljs lang="js">
+   * var debounceFunc = $brUtil.debounce(func, 1000);
+   * function func() {
+   *  // do stuff
+   * }
+   *
+   * // function is called every 100ms but only executes every seconds
+   * $setInterval(function () {
+   *  debounceFunc();
+   * }, 100);
+   * </hljs>
+   *
+   *
+   * ### Throttle
+   * <hljs lang="js">
+   * var throttleFunc = $brUtil.throttle(func, 1000);
+   * function func() {
+   *  // do stuff
+   * }
+   *
+   * // function is called every 100ms but only executes every seconds
+   * $setInterval(function () {
+   *  throttleFunc();
+   * }, 100);
+   * </hljs>
+   */
+brUtilService.$inject = ['$brMobile', '$timeout', '$rootScope', '$brConstant', '$document', '$parse', '$templateRequest', '$templateCache'];
+function brUtilService ($brMobile, $timeout, $rootScope, $brConstant, $document, $parse, $templateRequest, $templateCache) {
   var nextUniqueId = [];
   var now = window.performance ?
       angular.bind(window.performance, window.performance.now) :
@@ -35,10 +65,31 @@ function brUtilService ($brMobile, $timeout, $rootScope, $brConstant, $document,
     clientRect: clientRect,
     nodesToArray: nodesToArray,
     getClosest: getClosest,
+    getNode: getNode,
     parseAttributeBoolean: parseAttributeBoolean,
-    scrollbarWidth: getScrollbarWidth()
+    scrollbarWidth: getScrollbarWidth(),
+    getTemplateFromUrl: getTemplateFromUrl
   };
   return service;
+
+
+
+
+
+
+  function getTemplateFromUrl(templateUrl, callback) {
+    var template;
+
+    template = $templateCache.get(templateUrl);
+    if (template === undefined) {
+      $templateRequest(templateUrl).then(function (_template) {
+        callback(_template);
+      });
+    } else {
+      // fix for template cache cahcing the entire response not just the string
+      callback(template);
+    }
+  }
 
 
 
@@ -64,7 +115,7 @@ function brUtilService ($brMobile, $timeout, $rootScope, $brConstant, $document,
         return el;
       }
       el = el.parentNode;
-    } while (el !== undefined);
+    } while (el !== null);
     return null;
   }
 
@@ -80,17 +131,6 @@ function brUtilService ($brMobile, $timeout, $rootScope, $brConstant, $document,
   }
 
 
-
-  /**
-   * @name valueToCss
-   * @function
-   *
-   * @description
-   * Convert number to string with 'px'
-   *
-   * @param {any} value
-   *
-   */
   function valueToCss(value) {
     if (value === undefined) { return undefined; }
     if (isNaN(value)) { return value; }
@@ -98,17 +138,6 @@ function brUtilService ($brMobile, $timeout, $rootScope, $brConstant, $document,
   }
 
 
-
-  /**
-   * @name toCss
-   * @function
-   *
-   * @description
-   * format and prefix css. This will add 'px' to the aproppriate numbers
-   *
-   * @param {object} raw - Object with the key representing the css property and corrasponding property.
-   *
-   */
   function toCss (raw) {
     var css = { };
     var lookups = 'left top right bottom width height x y min-width min-height max-width max-height';
@@ -144,19 +173,6 @@ function brUtilService ($brMobile, $timeout, $rootScope, $brConstant, $document,
     }
   }
 
-
-
-  /**
-   * @name nextTick
-   * @function
-   *
-   * @description
-   * Queue function to be called on timeout.
-   *
-   * @param {function} callback
-   * @param {boolean} [digest=true] - run digest on next tick
-   *
-   */
   function nextTick (callback, digest) {
 		var timeout = service.nextTick.timeout;
 		var queue = service.nextTick.queue || [];
@@ -195,20 +211,6 @@ function brUtilService ($brMobile, $timeout, $rootScope, $brConstant, $document,
 	}
 
 
-
-
-  /**
-   * @name valueOnUse
-   * @function
-   *
-   * @description
-   * set scope proprty when called for
-   *
-   * @param {scope} scope
-   * @param {string} key
-   * @param {function} getter
-   *
-   */
   function valueOnUse (scope, key, getter) {
     var value = null, args = Array.prototype.slice.call(arguments);
     var params = (args.length > 3) ? args.slice(3) : [ ];
@@ -229,6 +231,7 @@ function brUtilService ($brMobile, $timeout, $rootScope, $brConstant, $document,
 			$parsers: [],
 			$formatters: [],
 			$viewChangeListeners: [],
+      $validators: {},
 			$render: angular.noop,
 
 			$setViewValue: function(value) {
@@ -245,21 +248,23 @@ function brUtilService ($brMobile, $timeout, $rootScope, $brConstant, $document,
 
 
   /**
-   * @name debounce
+   * @ngdoc method
+   * @name $brUtil#debounce
    * @function
    *
    * @description
-   * Limits a function to only be called once every (x) amount of seconds no matter how many times it is called
+   * Limits a function to only be called once every (x) amount of ms no matter how many times it is called
    * The function will be called at the end of the time given.
+   * This differs from Throttle because throttle will not make the last call
    *
    * @param {function} func - function to be called
-   * @param {number} wait - millaseconds
-   * @param {scope} [scope] - apply this object
-   * @param {boolean} [invokeApply] - skips dirty cheking if false
+   * @param {number} wait - milliseconds
+   * @param {scope=} scope - apply this object
+   * @param {boolean=} invokeApply - skips dirty cheking if false
    *
-   * @return {function}
+   * @return {function} - you call this function inplace of the original function
    */
-  function debounce (func, wait, scope, invokeApply) {
+  function debounce(func, wait, scope, invokeApply) {
 		var timer;
 
 		return function debounced () {
@@ -277,19 +282,21 @@ function brUtilService ($brMobile, $timeout, $rootScope, $brConstant, $document,
 
 
   /**
-   * @name debounce
+   * @ngdoc method
+   * @name $brUtil#throttle
    * @function
    *
    * @description
    * Limits a function to only be called once every (x) amount of seconds
-   * the function will only be called if no function has been called wihtin the delay
+   * The function will only be called if no function has been called wihtin the delay
+   * This differes from debounced because bebounced will always execute one last call
    *
    * @param {function} func - function to be called
-   * @param {number} delay - millaseconds
+   * @param {number} delay - milliseconds
    *
    * @return {function}
    */
-  function throttle (func, delay) {
+  function throttle(func, delay) {
       var recent;
 
       return function throttled () {
@@ -307,16 +314,16 @@ function brUtilService ($brMobile, $timeout, $rootScope, $brConstant, $document,
 
 
   /**
-   * @name nextUid
+   * @ngdoc method
+   * @name $brUtil#nextUid
    * @function
    *
    * @description
    * Genreates a unique uid
    *
    * @return {string}
-   *
    */
-  function nextUid () {
+  function nextUid() {
 		var index = nextUniqueId.length;
 		var digit;
 
@@ -364,6 +371,7 @@ function brUtilService ($brMobile, $timeout, $rootScope, $brConstant, $document,
 	}
 
   function getNode(el) {
+    if (el === undefined) { return undefined; }
     return el[0] || el;
   }
 

@@ -1,0 +1,44 @@
+<div ng-controller="AppCtrl" ng-cloak>
+  <section>
+    <div class="section-label">Controls (slide row)</div>
+
+    <br-list>
+      <br-item ng-repeat="item in list">
+        <br-item-controls>
+          <br-button ng-click="edit(item)" class="br-raised br-primary">Edit</br-button>
+          <br-button ng-click="delete(item)" class="br-raised br-warn">Delete</br-button>
+        </br-item-controls>
+
+        <br-item-content>
+          <div flex class="br-item-title">{{item.name}}</div>
+          <div layout="row" layout-fill class="br-item-sub-title">
+            <div style="padding-right: 20px;"><b>Email:</b> {{item.email}}</div>
+            <div><b>Phone:</b> {{item.phone}}</div>
+          </div>
+        </br-item-content>
+      </br-item>
+    </br-list>
+  </section>
+
+
+  <section>
+    <div class="section-label">Controls (show on row click)</div>
+
+    <br-list>
+      <br-item ng-repeat="item in list" br-show-controls-click>
+        <br-item-controls>
+          <br-button ng-click="edit(item)" class="br-raised br-primary">Edit</br-button>
+          <br-button ng-click="delete(item)" class="br-raised br-warn">Delete</br-button>
+        </br-item-controls>
+
+        <br-item-content>
+          <div flex class="br-item-title">{{item.name}}</div>
+          <div layout="row" layout-fill class="br-item-sub-title">
+            <div style="padding-right: 20px;"><b>Email:</b> {{item.email}}</div>
+            <div><b>Phone:</b> {{item.phone}}</div>
+          </div>
+        </br-item-content>
+      </br-item>
+    </br-list>
+  </section>
+</div>

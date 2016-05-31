@@ -1,0 +1,31 @@
+<div class="doc-demo-content doc-content">
+  <div flex layout="column" style="z-index:1">
+
+    <div class="doc-description" ng-bind-html="demoCtrl.demoDescription.contents | toHtml"></div>
+
+    <div ng-transclude></div>
+
+    <section class="demo-container"
+      ng-class="{'show-source': demoCtrl.$showSource}" >
+
+      <div style="padding: 12px; background: #f5f5f5;" layout="row">
+        <h3 flex>{{demoCtrl.demoTitle}}</h3>
+        <br-button ng-class="{ active: demoCtrl.$showSource }" ng-click="demoCtrl.$showSource = !demoCtrl.$showSource">{{!demoCtrl.$showSource ? 'View Source' : 'Hide Source'}}</br-button>
+        <br-button ng-hide="{{exampleNotEditable}}" ng-click="demoCtrl.editOnCodepen()">Edit on CodePen</br-button>
+      </div>
+
+      <br-expander br-open="demoCtrl.$showSource">
+        <br-expander-content>
+          <div ng-repeat="file in demoCtrl.orderedFiles">
+            <hljs class="no-header" code="file.contentsPromise" lang="{{file.fileType}}" should-interpolate="demoCtrl.interpolateCode"></hljs>
+          </div>
+        </br-expander-content>
+      </br-expander>
+
+      <!-- Live Demos -->
+      <demo-include files="demoCtrl.files" module="demoCtrl.demoModule" class="{{demoCtrl.demoId}}">
+      </demo-include>
+    </section>
+
+  </div>
+</div>

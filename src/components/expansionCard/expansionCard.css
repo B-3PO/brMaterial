@@ -1,0 +1,95 @@
+br-expansion-card {
+  display: block;
+  backface-visibility: hidden;
+}
+
+
+/* --- header --- */
+br-collapsed-content {
+  backface-visibility: hidden;
+  display: block;
+  position: relative;
+}
+.br-collapsed-content {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 12px;
+  margin: 16px;
+  margin-bottom: 0;
+  margin-top: 0;
+  background: #FFF;
+  border-radius: 0;
+  opacity: 1;
+  cursor: pointer;
+  box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24)
+}
+.br-collapsed-content.br-show {
+  transition: all 0.1s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+
+/* --- footer --- */
+br-expanded-content {
+  backface-visibility: hidden;
+  display: block;
+  position: relative;
+}
+.br-expanded-content {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  display: block;
+  padding: 12px;
+  margin-left: 16px;
+  margin-right: 16px;
+  margin-bottom: 16px;
+  margin-top: 0;
+  background: #FFF;
+  border-radius: 2px;
+  opacity: 1;
+  display: none;
+  border-top: 1px solid #EAEAEA;
+  transform-origin: center top;
+  transform: translate3d(0,0,0);
+  box-shadow: 0 0 4px 0 rgba(0,0,0,.14),
+              0 1px 1px 0 rgba(0,0,0,.14),
+              0 2px 1px -1px rgba(0,0,0,.12);
+}
+.br-expanded-content.br-show:not(br-hide) {
+  display: block;
+  transition: all 0.16s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.br-expanded-content.br-hide {
+  display: block;
+  transition: all 0.12s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.br-expanded-content.br-overflow {
+  overflow: hidden;
+}
+
+
+
+
+@keyframes flash-animation {
+  0% { background: rgb(255, 255, 255, 0); }
+  50% { background: rgba(154, 231, 255, 0.2); }
+  100% { background: rgba(255, 255, 255, 0); }
+}
+
+.br-collapsed-content.br-flash:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  animation-name: flash-animation;
+  animation-duration: 600ms;
+  animation-iteration-count: 2;
+  animation-timing-function: ease-in-out;
+}

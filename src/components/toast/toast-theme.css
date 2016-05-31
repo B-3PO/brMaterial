@@ -1,0 +1,11 @@
+br-toast.br-THEME_NAME-theme.br-warn {
+  background: '{{warn-default}}';
+}
+
+br-toast.br-THEME_NAME-theme.br-primary {
+  background: '{{primary-default}}';
+}
+
+br-toast.br-THEME_NAME-theme.br-accent {
+  background: '{{accent-default}}';
+}

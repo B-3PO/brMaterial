@@ -17,7 +17,8 @@ br-spinner {
   overflow: hidden;
 }
 br-spinner:not(.br-has-value) .br-spinner-container {
-  animation: rotate-full 1.6s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+  animation: rotate-full 0.8s linear infinite;
+  /*animation: rotate-full 1.6s cubic-bezier(0.35, 0, 0.25, 1) infinite;*/
 }
 
 .br-spinner-inner {
@@ -26,7 +27,8 @@ br-spinner:not(.br-has-value) .br-spinner-container {
   position: relative;
 }
 br-spinner:not(.br-has-value) .br-spinner-inner {
-  animation: rotate-full 1s linear infinite;
+  /*animation: rotate-full 1.6s cubic-bezier(0.35, 0, 0.25, 1) infinite;*/
+  /*animation: rotate-full 1s linear infinite;*/
 }
 
 .br-half-circle {
@@ -94,5 +96,6 @@ br-spinner:not(.br-has-value) .br-spinner-right .br-half-circle  {
 
 @keyframes rotate-full {
  0% { transform: rotate(0deg); }
+ 80% { transform: rotate(270deg); }
  100% { transform: rotate(360deg); }
 }
